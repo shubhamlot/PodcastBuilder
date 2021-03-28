@@ -1,52 +1,68 @@
+// This part is of the Room module done by shubham on 28.03.2021
+
+const e = require('express');
 const express = require('express')
-const { v4: uuidv4 } = require('uuid');
 const app = express()
+const { v4: uuidv4 } = require('uuid');
+const PORT = 8080
 
-
-const port = 3000
-
-
-let UserList = []
-
-class Room {
-    
-    constructor(roomid,roomName,guests){
-        this.roomid = roomid
+class Room{
+    constructor(id,roomName,creator){
+        this.id = id
         this.roomName = roomName
-        this.guests=[]
-        this.guests.push(guests)
-
+        this.creator = creator
+        this.date = new Date().toISOString()
+        this.guestList=[]
     }
+
+    addguest(guestid){
+        this.guestList.push(guestid)
+    }
+
 
 }
 
-class User {
-    constructor(username){
-        this.username = username
-    }
-}
 
-// app.get(`/`,(req,res)=>{
-//     res.redirect(`/username=Raj&${uuidv4()}`)
-// })
+let roomdb=[]
 
 
-
-app.get(`/username=:username&:room&roomname=:roomname`,(req,res)=>{
-    
-    let user = new User(req.params.username)
-    if(UserList.find(roomid)=== roomid){
-      
-    }
-    else{
-    let room = new Room(req.params.room,req.params.roomname,user)
-    }
-    // console.log("user join")
-
-
-   
-    UserList.push(room)
-    console.log(UserList)
+app.get(`/CreateRoom/roomId=:roomId&roomName=:roomName&creator=:creator`,(req,res)=>{
+   let room = new Room(req.params.roomId,req.params.roomName,req.params.creator)
+   roomdb.push(room)
+   console.log(roomdb)
 })
 
-app.listen(port)
+function check(roomid){
+
+    var obj = null
+    roomdb.forEach(element=>{
+        if(element.id === roomid){
+             obj = element
+        }
+        
+    })    
+
+ 
+    return obj
+}
+
+
+app.get(`/JoinRoom/roomId=:roomId&roomName=:roomName&guest=:guest`,(req,res)=>{
+    
+    let values = check(req.params.roomId)
+    values.addguest(req.params.guest)
+    console.log(values)
+      
+})
+
+
+app.get(`/`,(req,res)=>{
+    // res.send(`the server is running on ${PORT}`)
+
+    let roomName = "podcast"
+    res.redirect(`/CreateRoom/roomId=${uuidv4()}&roomName=${roomName}&creator=${uuidv4()}`)
+})
+
+app.listen(PORT,()=>{
+    console.log("Server started")
+})
