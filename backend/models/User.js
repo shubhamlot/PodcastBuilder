@@ -8,6 +8,21 @@ const UserSchema = new Schema({
     username:{
         type:String,
         required:true
+    },
+
+    email:{
+        type:String,
+        require:true
+    },
+
+    password:{
+        type:String,
+        require:true
+    },
+
+    isGuest:{
+        type:Boolean,
+        require:true
     }
 })
 
