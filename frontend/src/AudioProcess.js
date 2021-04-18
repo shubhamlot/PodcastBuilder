@@ -1,81 +1,30 @@
-import MicRecorder from 'mic-recorder-to-mp3';
-import React, { useState } from 'react'
+import React from 'react'
+import { userMutation, gql, useMutation } from '@apollo/client'
 
-const Mp3Recorder = new MicRecorder({ bitRate: 128 });
-class AudioProcess extends React.Component{
-    constructor(props){
-        super(props)
-        
-        this.state = {
-            isRecording: false,
-            blobURL: '',
-            blobURLprev: '',
-            blob:'',
-            isBlocked: false,
-          }
-    }
-    componentDidMount(){
-        navigator.getUserMedia({ audio: true },
-            () => {
-              console.log('Permission Granted');
-              this.setState({ isBlocked: false });
-            },
-            () => {
-              console.log('Permission Denied');
-              this.setState({ isBlocked: true })
-            },
-          );
-          
-    }
 
-    
-
-    start = () => {
-        if (this.state.isBlocked) {
-          console.log('Permission Denied');
-        } else {
-          Mp3Recorder
-            .start()
-            .then(() => {
-              this.setState({ isRecording: true });
-            }).catch((e) => console.error(e));
-        }
-      };
-
-      stop = () => {
-        Mp3Recorder
-          .stop()
-          .getMp3()
-          .then(([buffer, blob]) => {
-              console.log(blob)
-              
-            const blobURL = URL.createObjectURL(blob)
-            this.setState({ blobURL, isRecording: false, blob });
-          }).catch((e) => console.log(e));
-      };
-      stplayprev=()=>{
-          console.log(this.state.blob)
-        const blobURLprev = URL.createObjectURL(this.state.blob)
-        this.setState({blobURLprev})
+const UPLOAD_FILE = gql`
+  mutation UploadFile($file:Upload!){
+      UploadFile(file:$file){
+        url
       }
-    render(){
-        return(
-            <div>
-                <button onClick={this.start} disabled={this.state.isRecording}>
-  Record
-</button>
-<button onClick={this.stop} disabled={!this.state.isRecording}>
-  Stop
-</button>
-<audio src={this.state.blobURL} controls="controls" />
-<button onClick={this.stplayprev} >
+  }
+`
 
- ply prev
-</button>
-<audio src={this.state.blobURLprev} controls="controls" />
-            </div>
-        )
+export default function AudioProcess(){
+
+    const[uploadFile] = useMutation(UPLOAD_FILE,{
+      onCompleted: data => console.log(data),
+    })
+
+    const handlefileChange = (e) =>{
+      const file = e.target.files[0]
+      if(!file) return
+      uploadFile({ variables: { file } })
     }
+    return(
+      <div>
+        <h1>upload file</h1>
+        <input type="file" onChange={handlefileChange} />
+      </div>
+    )
 }
-
-export default AudioProcess
