@@ -22,17 +22,17 @@ const typeDefs = gql`
   }
 
   type Query {
-    hello: String!
+    files: [String!]
   }
 
   type Mutation {
     UploadFile(file: Upload!): File!
   }
 `;
-
+const files = []
 const resolvers = {
   Query: {
-    hello: () => "hello",
+    files: () => files,
   },
   Mutation: {
     UploadFile: async (parent, {file}) => {
@@ -42,6 +42,7 @@ const resolvers = {
         const stream = createReadStream()
         const pathName = path.join(__dirname, `/public/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
+        files.push(randomName)
         return {
             url:`http://localhost:4000/${randomName}`,
         }

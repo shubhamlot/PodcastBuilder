@@ -3,6 +3,7 @@ import './App.css';
 import AudioProcess from './AudioProcess'
 import { ApolloProvider,ApolloClient, InMemoryCache } from '@apollo/client'
 import {createUploadLink} from 'apollo-upload-client'
+import FS from './Files'
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -15,6 +16,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <AudioProcess/>
+      <FS/>
     </ApolloProvider>
   );
 }
