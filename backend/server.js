@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
+// const mongoose = require('mongoose')
 
 function generateRandomString(length) {
     var result           = [];
@@ -17,12 +18,15 @@ function generateRandomString(length) {
 
 
 const typeDefs = gql`
+
+  
+
   type File {
-    url:String!
+    url:[String!]
   }
 
   type Query {
-    hello: String!
+    files:[String]
   }
 
   type Mutation {
@@ -30,9 +34,11 @@ const typeDefs = gql`
   }
 `;
 
+const files = []
+
 const resolvers = {
   Query: {
-    hello: () => "hello",
+    files:()=>files
   },
   Mutation: {
     UploadFile: async (parent, {file}) => {
@@ -42,8 +48,9 @@ const resolvers = {
         const stream = createReadStream()
         const pathName = path.join(__dirname, `/public/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
+        files.push(randomName)
         return {
-            url:`http://localhost:4000/${randomName}`,
+            url:`http://localhost:4000/${randomName}`
         }
       }
     },
@@ -58,6 +65,10 @@ const app = express()
 server.applyMiddleware({app})
 app.use(express.static('public'))
 app.use(cors())
+// mongoose.connect('mongodb://localhost/PodcastBuilderdb').then(
 app.listen({ port:4000 },()=>{
     console.log("server on 4000")
 })
+// )
+
+

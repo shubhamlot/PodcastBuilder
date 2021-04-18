@@ -1,5 +1,5 @@
 import React from 'react'
-import { userMutation, gql, useMutation } from '@apollo/client'
+import {  gql, useMutation } from '@apollo/client'
 
 
 const UPLOAD_FILE = gql`
@@ -28,3 +28,4 @@ export default function AudioProcess(){
       </div>
     )
 }
+
