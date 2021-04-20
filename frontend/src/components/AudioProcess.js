@@ -3,8 +3,8 @@ import { userMutation, gql, useMutation } from '@apollo/client'
 
 
 const UPLOAD_FILE = gql`
-  mutation UploadFile($file:Upload!){
-      UploadFile(file:$file){
+  mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
+      UploadFile(file:$file,roomid:$roomid,speaker:$speaker){
         url
       }
   }
@@ -18,8 +18,10 @@ export default function AudioProcess(){
 
     const handlefileChange = (e) =>{
       const file = e.target.files[0]
+      let roomid = "a887d8ae-3c6b-413f-a7fc-0ae0c8311dbe"
+      let speaker = "606406cfee3c6c24f4e5a42e"
       if(!file) return
-      uploadFile({ variables: { file } })
+      uploadFile({ variables: { file,roomid:roomid,speaker:speaker } })
     }
     return(
       <div>

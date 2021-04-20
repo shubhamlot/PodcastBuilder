@@ -6,9 +6,15 @@ const Schema = mongoose.Schema
 
 const RoomSchema = new Schema({
 
+
+    roomID:{
+        type:String,
+        // required:true
+    },
+
     roomname:{
         type:String,
-        required:true
+        // required:true
     },
 
     creator:{
@@ -19,7 +25,20 @@ const RoomSchema = new Schema({
     guestList:[{
         type:Schema.Types.ObjectId,
         ref:User
-    }]
+    }],
+
+    Audio:[
+        {
+            speaker:{
+            type:Schema.Types.ObjectId,
+            ref:User
+            },
+            file:{
+            type:String,
+            // required:true,
+            }
+        }
+    ]
 })
 
 module.exports = mongoose.model('Room',RoomSchema)

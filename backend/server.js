@@ -3,6 +3,9 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
+const mongoose = require('mongoose');
+const Room = require('./models/Room');
+const {  v4 : uuidv4 } = require("uuid")
 
 function generateRandomString(length) {
     var result           = [];
@@ -18,34 +21,83 @@ function generateRandomString(length) {
 
 const typeDefs = gql`
   type File {
-    url:String!
+    _id:ID
+   speaker:String
+   file:String
   }
 
   type Query {
-    files: [String!]
+    files(roomid:String): [File!]
   }
 
   type Mutation {
-    UploadFile(file: Upload!): File!
+    UploadFile(file: Upload!,roomid:String,speaker:String): String!
+    createRoom(roomname:String,creator:String):String!
   }
 `;
-const files = []
+
 const resolvers = {
   Query: {
-    files: () => files,
+    files: async  (parent,{ roomid }) =>{
+  
+       return await Room.find({roomID:roomid}).then(async room=>{
+          return await room.map(async value=>{
+           return await value.Audio.map(async content=>{
+              return await {
+                _id:content.id,
+                speaker:content.speaker,
+                file:content.file
+              }
+            })
+          })
+        })
+      },
   },
+  
   Mutation: {
-    UploadFile: async (parent, {file}) => {
+    UploadFile: async (parent, {file , roomid ,speaker}) => {
      const { createReadStream, filename, mimetype, encoding } = await file
      const {ext,name} = path.parse(filename)
      const randomName = generateRandomString(12)+ext
         const stream = createReadStream()
-        const pathName = path.join(__dirname, `/public/${randomName}`)
+        const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
-        files.push(randomName)
-        return {
-            url:`http://localhost:4000/${randomName}`,
+     
+        
+        // return {
+        //     url:`http://localhost:4000/Audio/${randomName}`,
+        // }
+        
+      //  console.log(arg)
+      
+       Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName}] }}).then(
+         room=>{
+           console.log(room)
+         }
+       )
+      
+         
+          return {
+            url:`http://localhost:4000/Audio/${randomName}`,
         }
+
+        // })
+
+       
+      },
+
+      createRoom:(parent,args)=>{
+
+        const room = new Room({
+           roomID:uuidv4(),
+           roomname:args.roomname,
+           creator:args.creator,
+        })
+
+        room.save()
+
+        return room.roomID
+        
       }
     },
   }
@@ -59,6 +111,11 @@ const app = express()
 server.applyMiddleware({app})
 app.use(express.static('public'))
 app.use(cors())
-app.listen({ port:4000 },()=>{
+
+
+mongoose.connect('mongodb://localhost/PodcastBuilderdb')
+.then(
+  app.listen({ port:4000 },()=>{
     console.log("server on 4000")
 })
+)

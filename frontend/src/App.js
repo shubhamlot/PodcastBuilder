@@ -1,9 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import AudioProcess from './AudioProcess'
+import AudioProcess from './components/AudioProcess'
 import { ApolloProvider,ApolloClient, InMemoryCache } from '@apollo/client'
 import {createUploadLink} from 'apollo-upload-client'
-import FS from './Files'
+import FS from './components/Files'
 
 const client = new ApolloClient({
   link: createUploadLink({
