@@ -21,7 +21,7 @@ export default function AudioProcess(){
     const handlefileChange = (e) =>{
       const file = e.target.files[0]
       let roomid = "a887d8ae-3c6b-413f-a7fc-0ae0c8311dbe"
-      let speaker = "606406cfee3c6c24f4e5a42e"
+      let speaker = "606b367f6a34b008e829d1f4"
       if(!file) return
       uploadFile({ variables: { file,roomid:roomid,speaker:speaker } })
     }

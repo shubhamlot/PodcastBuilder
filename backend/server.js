@@ -5,7 +5,8 @@ const path = require('path')
 const fs = require('fs')
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
-const {  v4 : uuidv4 } = require("uuid")
+const {  v4 : uuidv4 } = require("uuid");
+const User = require('./models/User');
 
 function generateRandomString(length) {
     var result           = [];
@@ -26,8 +27,16 @@ const typeDefs = gql`
    file:String
   }
 
+  type User {
+    _id:ID
+    username:String
+    email:String
+    isGuest:String
+  }
+
   type Query {
     files(roomid:String): [File!]
+    finduser(ids:[String]): [User]
   }
 
   type Mutation {
@@ -67,11 +76,36 @@ const resolvers = {
        let audiomap
        doc.map(audio=>{
            audiomap=audio.Audio
+           
        })
+
+       
        return audiomap
     })
       
       },
+
+
+      finduser:async(parent,arg)=>{
+
+        //  console.log(arg)
+         return await arg.ids.map(async id=>{
+       
+         return await User.findOne({_id:id}).then(async data=>{
+          
+            return{
+            _id:data._id,
+            username:data.username,
+            email:data.email,
+            isGuest:data.isGuest
+           }
+          
+         })
+        
+       })
+       
+        
+      }
   },
   
   Mutation: {

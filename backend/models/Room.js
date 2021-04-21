@@ -35,7 +35,7 @@ const RoomSchema = new Schema({
             },
             file:{
             type:String,
-            // required:true,
+            required:true,
             }
         }
     ]
