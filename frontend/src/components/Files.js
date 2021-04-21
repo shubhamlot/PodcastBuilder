@@ -23,16 +23,16 @@ export default function FS(){
     if (loading) return null
      
     let audio = []
-    console.log(data)
-    // data.files.map((voice)=>{
-
-    //     audio.push(
-    //         <audio key={voice} controls>
-    //       <source  src={`http://localhost:4000/Audio/${voice}`} type="audio/mpeg"></source>
-    //     </audio>
-    //     )
-    //     }
-    // )
+    // console.log(data.files)
+    data.files.map((voice)=>{
+      // console.log(voice.file)
+        audio.push(
+            <audio key={voice._id} controls>
+          <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/mpeg"></source>
+        </audio>
+        )
+        }
+    )
     
   
 

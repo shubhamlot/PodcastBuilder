@@ -5,7 +5,9 @@ import { userMutation, gql, useMutation } from '@apollo/client'
 const UPLOAD_FILE = gql`
   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
       UploadFile(file:$file,roomid:$roomid,speaker:$speaker){
-        url
+        _id
+        speaker
+        file
       }
   }
 `

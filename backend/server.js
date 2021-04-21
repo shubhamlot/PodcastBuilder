@@ -31,7 +31,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    UploadFile(file: Upload!,roomid:String,speaker:String): String!
+    UploadFile(file: Upload!,roomid:String,speaker:String): File!
     createRoom(roomname:String,creator:String):String!
   }
 `;
@@ -40,17 +40,37 @@ const resolvers = {
   Query: {
     files: async  (parent,{ roomid }) =>{
   
-       return await Room.find({roomID:roomid}).then(async room=>{
-          return await room.map(async value=>{
-           return await value.Audio.map(async content=>{
-              return await {
-                _id:content.id,
-                speaker:content.speaker,
-                file:content.file
-              }
-            })
-          })
-        })
+      //  return await Room.find({roomID:roomid}).then(async room=>{
+      //     return await room.map(async value=>{
+      //      return await value.Audio.map(async content=>{
+      //         return await {
+      //           _id:content.id,
+      //           speaker:content.speaker,
+      //           file:content.file
+      //         }
+      //       })
+      //     })
+      //   })
+      // console.log(roomid)
+    //  Room.find({roomID:roomid},function (err,doc){
+    //     var audiomap = []
+    //     return doc.map(function(data){
+    //       return data.Audio.map((audio,index)=>{
+    //         audiomap[index]=audio
+    //       })
+        
+    //     })
+       
+    //   })
+
+     return Room.find({roomID:roomid}).then(doc=>{
+       let audiomap
+       doc.map(audio=>{
+           audiomap=audio.Audio
+       })
+       return audiomap
+    })
+      
       },
   },
   
@@ -77,9 +97,8 @@ const resolvers = {
        )
       
          
-          return {
-            url:`http://localhost:4000/Audio/${randomName}`,
-        }
+          return `http://localhost:4000/Audio/${randomName}`
+        
 
         // })
 
