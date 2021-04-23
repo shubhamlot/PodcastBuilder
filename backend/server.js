@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const Room = require('./models/Room');
 const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
+const bcrypt = require('bcrypt')
+
 
 function generateRandomString(length) {
     var result           = [];
@@ -31,7 +33,7 @@ const typeDefs = gql`
     _id:ID
     username:String
     email:String
-    isGuest:String
+    isGuest:Boolean
   }
 
   type Room{
@@ -48,6 +50,8 @@ const typeDefs = gql`
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
+    addUser(username:String,password:String,email:String):User
+    addToRoom(userId:String):String
   }
 `;
 
@@ -161,8 +165,36 @@ const resolvers = {
           creator:room.creator
         }
         
+      },
+      addUser:(parent,args)=>{
+        return User.findOne({email:args.email,username:args.username})
+        .then(user=>{
+          if(user){
+            console.log("user already exists")
+          }
+          return bcrypt.hash(args.password,12)
+        }).then(hashedpassword=>{
+          const user = new User({
+            username:args.username,
+            email:args.email,
+            password:hashedpassword,
+            isGuest:true
+          })
+          return user.save()
+        })
+       
+      },
+
+      addToRoom:(parent,{roomid,guestid})=>{
+        Room.updateOne({ roomID: roomid },{ $push: { guestList: [guestid] }}).then(
+          room=>{
+            console.log(room)
+          }
+        )
       }
     },
+
+   
   }
 
 const server = new ApolloServer({

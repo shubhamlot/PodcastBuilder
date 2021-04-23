@@ -12,6 +12,8 @@ import {
   Link
 } from "react-router-dom";
 
+import Userlogin from './components/userlogin'
+
 const client = new ApolloClient({
   link: createUploadLink({
     uri:'http://localhost:4000/graphql'
@@ -39,8 +41,11 @@ function App() {
           <FS/>
          
         </Route>
-        <Route path="/" exact>
+        <Route path="/createroom" exact>
           <CreateRoom/>
+        </Route>
+        <Route path="/" exact>
+          <Userlogin/>
         </Route>
         </ApolloProvider>
       </Switch>
