@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import {  gql, useQuery } from '@apollo/client'
 import Username from './Username'
+import { useParams } from 'react-router'
 
 const SHOW_FILE = gql`
   query file ($roomid:String){
@@ -15,10 +16,12 @@ const SHOW_FILE = gql`
   }
 `
 
-
+// a887d8ae-3c6b-413f-a7fc-0ae0c8311dbe
 export default function FS(){
+    const { room } = useParams()
+    
     const{ loading,error,data} = useQuery(SHOW_FILE,{
-      variables: {roomid:"a887d8ae-3c6b-413f-a7fc-0ae0c8311dbe"}
+      variables: {roomid:room}
     })
    
     
@@ -28,7 +31,8 @@ export default function FS(){
      
     let audio = []
     let users = []
-    // console.log(data.files)
+     console.log(data)
+    if(data.files){
     data.files.map((voice)=>{
         users.push({
           // _id:voice._id,
@@ -43,6 +47,7 @@ export default function FS(){
         }
        
     )
+      }
     
 
     return(

@@ -34,14 +34,20 @@ const typeDefs = gql`
     isGuest:String
   }
 
+  type Room{
+    roomID:String
+    roomname:String
+    creator:String
+  }
+
   type Query {
     files(roomid:String): [File!]
     finduser(ids:[String]): [User]
   }
 
   type Mutation {
-    UploadFile(file: Upload!,roomid:String,speaker:String): File!
-    createRoom(roomname:String,creator:String):String!
+    UploadFile(file: Upload!,roomid:String,speaker:String): String!
+    createRoom(roomname:String,creator:String):Room!
   }
 `;
 
@@ -149,7 +155,11 @@ const resolvers = {
 
         room.save()
 
-        return room.roomID
+        return {
+          roomID:room.roomID,
+          roomname:room.roomname,
+          creator:room.creator
+        }
         
       }
     },
