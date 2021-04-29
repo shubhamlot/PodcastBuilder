@@ -5,6 +5,8 @@ import { ApolloProvider,ApolloClient, InMemoryCache } from '@apollo/client'
 import {createUploadLink} from 'apollo-upload-client'
 import FS from './components/Files'
 import CreateRoom from './components/CreateRoom'
+import Guestlists from './components/Guestlists'
+import AuthContext from "./context/auth-context";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,6 +15,8 @@ import {
 } from "react-router-dom";
 
 import Userlogin from './components/userlogin'
+import InitJoin from './components/InitJoinRoom'
+import { useState } from 'react';
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -22,12 +26,18 @@ const client = new ApolloClient({
 
 })
 function App() {
+
+  let [state,setState] = useState({
+    username:'',
+    userId:''
+  })
+
+  let login = (userId,username)=>{
+    setState({userId:userId,username:username})
+  }
+
   return (
-    // 
-    //   <AudioProcess/>
-    //   <FS/>
-    // 
-    // <CreateRoom/>
+    
 
     <Router>
   
@@ -35,8 +45,11 @@ function App() {
       
       <Switch>
       <ApolloProvider client={client}>
+      <AuthContext.Provider value={{
+     userId:state.userId,username:state.username,
+      login:login}}>
         <Route path="/roomID=:room">
-       
+          <Guestlists/>
           <AudioProcess/>
           <FS/>
          
@@ -44,12 +57,16 @@ function App() {
         <Route path="/createroom" exact>
           <CreateRoom/>
         </Route>
+        <Route path="/initJoinRoom">
+          <InitJoin/>
+        </Route>
         <Route path="/" exact>
           <Userlogin/>
         </Route>
+        </AuthContext.Provider>
         </ApolloProvider>
       </Switch>
-
+      
   </Router>
   
   )}

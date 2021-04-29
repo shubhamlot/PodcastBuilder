@@ -45,13 +45,15 @@ const typeDefs = gql`
   type Query {
     files(roomid:String): [File!]
     finduser(ids:[String]): [User]
+    findRoom(id:String):Room
+    login(username:String,password:String):User
   }
 
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
     addUser(username:String,password:String,email:String):User
-    addToRoom(userId:String):String
+    addToRoom(guestid:String,roomid:String):String
   }
 `;
 
@@ -115,6 +117,28 @@ const resolvers = {
        })
        
         
+      },
+      findRoom:(parent,{id})=>{
+        
+        return Room.findOne({roomID:id}).then(room=>{
+         
+          if(room != null){
+          return room
+          }else{
+            return new Error("no room found")
+          }
+        })
+      },
+      login:(parent,arg)=>{
+       
+       return User.findOne({username:arg.username})
+        .then(user=>{
+         const isEqual =  bcrypt.compare(arg.password,user.password)
+         if(!isEqual){
+           return new Error("auth failed")
+         }
+         return user
+        })
       }
   },
   
@@ -171,6 +195,7 @@ const resolvers = {
         .then(user=>{
           if(user){
             console.log("user already exists")
+            return new Error("user already exists")
           }
           return bcrypt.hash(args.password,12)
         }).then(hashedpassword=>{
@@ -186,11 +211,25 @@ const resolvers = {
       },
 
       addToRoom:(parent,{roomid,guestid})=>{
-        Room.updateOne({ roomID: roomid },{ $push: { guestList: [guestid] }}).then(
-          room=>{
-            console.log(room)
+      
+      return Room.findOne({roomID:roomid}).then(room=>{
+          if(!room){
+              return new Error("no room found")
           }
-        )
+          return room.guestList
+      }).then(guest=>{
+        if(guest.includes(guestid)){
+          return guest
+        }
+        else{
+           Room.updateOne({ roomID: roomid },{ $push: { guestList: [guestid] }}).then(res=>{
+             console.log()
+           })
+           return "done"
+        }
+      })
+
+    
       }
     },
 
