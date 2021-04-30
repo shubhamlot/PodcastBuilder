@@ -44,9 +44,10 @@ const typeDefs = gql`
 
   type Query {
     files(roomid:String): [File!]
-    finduser(ids:[String]): [User]
+    finduser(id:String): User
     findRoom(id:String):Room
     login(username:String,password:String):User
+    listGuests(roomId:String):[String]
   }
 
   type Mutation {
@@ -101,9 +102,8 @@ const resolvers = {
       finduser:async(parent,arg)=>{
 
         //  console.log(arg)
-         return await arg.ids.map(async id=>{
        
-         return await User.findOne({_id:id}).then(async data=>{
+         return await User.findOne({_id:arg.id}).then(async data=>{
           
             return{
             _id:data._id,
@@ -113,9 +113,7 @@ const resolvers = {
            }
           
          })
-        
-       })
-       
+    
         
       },
       findRoom:(parent,{id})=>{
@@ -139,6 +137,17 @@ const resolvers = {
          }
          return user
         })
+      },
+
+      listGuests:(parent,arg)=>{
+         return Room.findOne({roomID:arg.roomId}).then(room=>{
+           if(room === null){
+             return []
+           }
+           else{
+             return room.guestList
+           }
+         })
       }
   },
   
@@ -190,7 +199,8 @@ const resolvers = {
         }
         
       },
-      addUser:(parent,args)=>{
+      addUser:async (parent,args)=>{
+        // console.log(args)
         return User.findOne({email:args.email,username:args.username})
         .then(user=>{
           if(user){
@@ -205,6 +215,7 @@ const resolvers = {
             password:hashedpassword,
             isGuest:true
           })
+          
           return user.save()
         })
        
@@ -218,6 +229,7 @@ const resolvers = {
           }
           return room.guestList
       }).then(guest=>{
+       
         if(guest.includes(guestid)){
           return guest
         }
@@ -247,7 +259,7 @@ app.use(express.static('public'))
 app.use(cors())
 
 
-mongoose.connect('mongodb://localhost/PodcastBuilderdb')
+mongoose.connect('mongodb://localhost/PodcastBuilderdb',{useNewUrlParser: true})
 .then(
   app.listen({ port:4000 },()=>{
     console.log("server on 4000")

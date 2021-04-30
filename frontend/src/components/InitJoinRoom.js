@@ -76,22 +76,29 @@ export default function InitJoinRoom() {
 
   const [state,setstate] = useState({
       _isRoomFound:false,
-      roomID:""
+      room:"",
+      _isSubmitted:false
   })
   const roomIDRef = React.useRef()
 
   const room = useQuery(FIND_ROOM,{
-      variables: {id:state.roomID}
-    })
-    if(room.loading) return null
-
-    const handleSubmit =(e)=>{
-        e.preventDefault()
-        setstate({roomID:roomIDRef.current.value})
-    }
+        variables: {id:state.room}
+      })
+      if(room.loading) return null
     
 
-  return (
+   
+    const handleSubmit =(e)=>{
+        e.preventDefault()
+        setstate({room:roomIDRef.current.value})
+        if(room.data){
+          setstate({_isRoomFound:true})
+        }
+    }
+    
+    if(state._isRoomFound===false){
+      return (
+   
     <ThemeProvider theme={theme}>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -114,7 +121,7 @@ export default function InitJoinRoom() {
             label="RoomId"
             type="text"
             id="roomid"
-            autoComplete="off"
+            
           />
           
           <Button
@@ -134,7 +141,11 @@ export default function InitJoinRoom() {
       </Box>
     </Container>
     </ThemeProvider>
-  );
+  )
+    }
+    else{
+      return <Redirect to={`roomID=${state.room}`}/> 
+    }
 }
 
 

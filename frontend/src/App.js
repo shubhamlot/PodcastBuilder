@@ -7,6 +7,7 @@ import FS from './components/Files'
 import CreateRoom from './components/CreateRoom'
 import Guestlists from './components/Guestlists'
 import AuthContext from "./context/auth-context";
+import Navbar from './components/Navbar'
 import {
   BrowserRouter as Router,
   Switch,
@@ -49,9 +50,7 @@ function App() {
      userId:state.userId,username:state.username,
       login:login}}>
         <Route path="/roomID=:room">
-          <Guestlists/>
-          <AudioProcess/>
-          <FS/>
+          <Navbar/>
          
         </Route>
         <Route path="/createroom" exact>
