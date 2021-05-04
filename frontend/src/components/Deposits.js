@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
 import { useParams } from 'react-router';
@@ -13,14 +13,19 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   depositContext: {
     flex: 1,
   },
-});
+  title:{
+    color:theme.palette.text.primary
+  }
+
+
+}));
 
 const SHOW_FILE = gql`
-query($id:String){
+query findroom($id:String){
   findRoom(id:$id){
     roomID
     roomname
@@ -30,19 +35,26 @@ query($id:String){
 `
 
 export default function Deposits() {
-  const classes = useStyles();
+  const theme = createMuiTheme({
+    palette: {
+      type: 'dark'
+    },
+  });
+  const classes = useStyles(theme);
   const { room } = useParams()
 
   const{ loading,error,data} = useQuery(SHOW_FILE,{
     variables: {id:room}
   })
  
-  if (loading) return null
+  if (loading ) return <p>{data}</p>
+
 
   
   return (
     <React.Fragment>
-      <Title>Room created by <AllGuests params={data.findRoom.creator}/></Title>
+      <ThemeProvider theme={theme}>
+      <Title className={classes.title}>Room created by <AllGuests params={data.findRoom.creator}/></Title>
       <Typography component="p" variant="h4">
       {data.findRoom.roomname}
       </Typography>
@@ -50,6 +62,7 @@ export default function Deposits() {
         on 15 March, 2021
       </Typography>
       <AllUsers/>
+      </ThemeProvider>
     </React.Fragment>
   );
 }

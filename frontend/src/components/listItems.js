@@ -9,7 +9,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import { Person, Deck,Pages } from '@material-ui/icons'
+import { Person, Deck,Pages,Add } from '@material-ui/icons'
 
 export const mainListItems = (
   <div>
@@ -30,6 +30,14 @@ export const mainListItems = (
         <Person />
       </ListItemIcon>
       <ListItemText primary="Profile" />
+      
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <Add/>
+      </ListItemIcon>
+      <ListItemText primary="CreateRoom" />
+      
     </ListItem>
   </div>
 );

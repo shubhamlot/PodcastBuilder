@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useState} from 'react'
-import {  gql, useQuery } from '@apollo/client'
+import {  gql, useLazyQuery, useQuery } from '@apollo/client'
 import { Redirect } from 'react-router'
 
 function Copyright() {
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 
     const FIND_ROOM = gql`
-    query($id:String){
+    query findRoom($id:String){
         findRoom(id:$id){
           roomID
           roomname
@@ -81,18 +81,20 @@ export default function InitJoinRoom() {
   })
   const roomIDRef = React.useRef()
 
-  const room = useQuery(FIND_ROOM,{
+  const [findroom ,{loading,data}] = useLazyQuery(FIND_ROOM,{
         variables: {id:state.room}
       })
-      if(room.loading) return null
+      if(loading ) return <p>loading</p>
     
 
    
     const handleSubmit =(e)=>{
         e.preventDefault()
         setstate({room:roomIDRef.current.value})
-        if(room.data){
+        findroom()
+        if(data){
           setstate({_isRoomFound:true})
+          
         }
     }
     

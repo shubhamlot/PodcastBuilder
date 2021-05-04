@@ -7,7 +7,8 @@ const mongoose = require('mongoose');
 const Room = require('./models/Room');
 const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { findOne } = require('./models/User');
 
 
 function generateRandomString(length) {
@@ -46,14 +47,14 @@ const typeDefs = gql`
     files(roomid:String): [File!]
     finduser(id:String): User
     findRoom(id:String):Room
-    login(username:String,password:String):User
+    login(email:String,password:String):User
     listGuests(roomId:String):[String]
   }
 
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
-    addUser(username:String,password:String,email:String):User
+    Signup(username:String,password:String,email:String):User
     addToRoom(guestid:String,roomid:String):String
   }
 `;
@@ -129,7 +130,7 @@ const resolvers = {
       },
       login:(parent,arg)=>{
        
-       return User.findOne({username:arg.username})
+       return User.findOne({email:arg.email})
         .then(user=>{
          const isEqual =  bcrypt.compare(arg.password,user.password)
          if(!isEqual){
@@ -199,24 +200,23 @@ const resolvers = {
         }
         
       },
-      addUser:async (parent,args)=>{
+      Signup:async (parent,args)=>{
         // console.log(args)
         return User.findOne({email:args.email,username:args.username})
         .then(user=>{
           if(user){
-            console.log("user already exists")
             return new Error("user already exists")
           }
-          return bcrypt.hash(args.password,12)
-        }).then(hashedpassword=>{
-          const user = new User({
+          hashedpassword=bcrypt.hash(args.password,12)
+          
+          const newuser = new User({
             username:args.username,
             email:args.email,
             password:hashedpassword,
             isGuest:true
           })
           
-          return user.save()
+          return newuser.save()
         })
        
       },
@@ -244,7 +244,6 @@ const resolvers = {
     
       }
     },
-
    
   }
 

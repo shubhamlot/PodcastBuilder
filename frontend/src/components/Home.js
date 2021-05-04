@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import {Person} from '@material-ui/icons'
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import {Person, PlayCircleFilledTwoTone} from '@material-ui/icons'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -20,6 +20,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems.js';
+import logo from '../logo.svg'
+import { purple } from '@material-ui/core/colors';
 // import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
@@ -58,7 +60,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor:"#000000",
+    // backgroundColor:theme.palette.primary,
+    // color:theme.palette.text.primary,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -123,6 +126,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const theme = createMuiTheme({
+    palette: {
+      type: 'light',
+   
+    },
+  });
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -134,6 +143,7 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
+    <ThemeProvider theme={theme}>
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -148,7 +158,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            PodcastBuilder Dashboard
+            PodcastBuilder
           </Typography>
           <IconButton color="inherit">
               {/* <AllGuests /> */}
@@ -177,34 +187,50 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                {/* <Chart /> */}
-                
-                <Files/>
+
+
+
+
+
+         
+        <Grid container spacing={3}>
+
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Paper className={classes.paper}>
+              <div>
+              <img src={logo}/>
+              <h3>Podcast Name</h3>
+              <p>here is the new podcast...</p>
+              </div>
               </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Deposits />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-           <Paper>
-           <Orders/>
-           </Paper>
-           </Grid>
-            
-           
-          </Grid>
+        </Grid>
+      </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
           <Box pt={4}>
             <Copyright />
           </Box>
+
+
+
+
+
+
+
         </Container>
       </main>
+      
     </div>
+    </ThemeProvider>
   );
 }

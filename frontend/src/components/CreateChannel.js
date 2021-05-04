@@ -73,17 +73,14 @@ mutation($username:String,$email:String,$password:String){
 export default function Userlogin(){
 
     
-   
+    const [createUser] = useMutation(UPLOAD_USER,{
+        onCompleted:data=>console.log(data)
+    })
  
     
     const [state, setState] = useState({
     _issubmitted:false
     });
-
-    const [createUser] = useMutation(UPLOAD_USER,{
-      onCompleted:data=>{
-      setState({_issubmitted:true})}
-  })
 
     const firstNameRef = React.useRef()
     const lastNameRef = React.useRef()
@@ -105,7 +102,7 @@ export default function Userlogin(){
            }
         else{
             createUser({variables:{username:firstName,email,password}})
-            
+            setState({_issubmitted:true})
         }
 
     }
@@ -125,37 +122,23 @@ export default function Userlogin(){
    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        
         <Typography component="h1" variant="h5">
-          Sign up
+           Create Channel
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                inputRef={firstNameRef}
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            
+            <Grid item xs={12} sm={12}>
               <TextField
                 
                 variant="outlined"
                 inputRef={lastNameRef}
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
+                id="ChannelName"
+                label="Channel Name"
+                name="ChannelName"
                 autoComplete="lname"
               />
             </Grid>
@@ -166,9 +149,9 @@ export default function Userlogin(){
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                label="Content Type"
+                name="contenttype"
+                autoComplete="off"
               />
             </Grid>
             <Grid item xs={12}>
@@ -177,15 +160,37 @@ export default function Userlogin(){
                 inputRef={emailRef}
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                name="Country"
+                label="Country"
+                id="Country"
+               
               />
             </Grid>
-            
-          </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                inputRef={emailRef}
+                required
+                fullWidth
+                name="Discription"
+                label="Discription"
+                id="Discription"
+               
+              />
+            </Grid>
+            <Grid item xs={12}>
+            <Button
+            type="Upload"
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
+             Upolad Image
+          </Button>
+            </Grid>
+            <Grid item xs={12}>
+          
           <Button
             type="submit"
             fullWidth
@@ -193,14 +198,9 @@ export default function Userlogin(){
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+             Create
           </Button>
-          <Grid container justify="">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
+          </Grid>
           </Grid>
         </form>
       </div>

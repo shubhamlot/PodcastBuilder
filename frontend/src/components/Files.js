@@ -26,17 +26,24 @@ const useStyles = makeStyles((theme) => ({
         display:'block'
       },
       tab:{
-        backgroundColor:"#eeeeee",
+       
         listStyleType:"none",
         borderRadius:"10px",
-        
+        border:"1px solid",
         margin:20,
         fontWeight:"bold",
         fontSize:"20px"
       },
       tabhead:{
-      paddingLeft:"40px"
-      }
+      paddingLeft:"40px",
+      paddingTop:"10px",
+     
+      },
+      speech:{
+        fontSize:"18px",
+        fontWeight:"100",
+      },
+
 }))
 export default function FS(){
 
@@ -45,26 +52,31 @@ export default function FS(){
 
     const { room } = useParams()
     
-    const{ loading,error,data} = useQuery(SHOW_FILE,{
+    const{ loading,err,data} = useQuery(SHOW_FILE,{
       variables: {roomid:room}
     })
    
     
    
-    if (loading) return null
+    if (loading ) return <h1>loading</h1>
 
-     
     let audio = []
  
-    if(data.files){
+      if(data === undefined || err){
+        audio = []
+      }
+      
+      else{
     data.files.map((voice)=>{
 
         audio.push(
         <li key={voice._id} className={classes.tab} >
           <div className={classes.tabhead}>
           <AllGuests params={voice.speaker}/>
+          <p className={classes.speech}>Hello Rahul this is my podcast to introduce business to the students</p>
           </div>
-        <audio key={voice._id} controls>
+          
+        <audio key={voice._id}  controls>
            <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/mpeg"></source>
         </audio>
         </li>
@@ -82,5 +94,7 @@ export default function FS(){
         </ul>
       </div>
     )
+    
 }
+
 

@@ -24,13 +24,14 @@ export default function Username(ids){
     ids.ids.map(id=>{
         speakers.push(id.speaker)
     })
-    const{ loading,error,data} = useQuery(FIND,{
+    const{ loading,err,data} = useQuery(FIND,{
         variables: {userid:speakers}
       })
       if (loading) return null
     
     // return data.finduser.username
     let users=[]
+    if(!err || data === undefined){
     data.finduser.map(user=>{
         users.push(
             <li>
@@ -38,7 +39,7 @@ export default function Username(ids){
             </li>
         )
     })
-    
+}
    
     return <div>
         <ul>

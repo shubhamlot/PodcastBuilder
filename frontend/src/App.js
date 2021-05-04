@@ -7,7 +7,10 @@ import FS from './components/Files'
 import CreateRoom from './components/CreateRoom'
 import Guestlists from './components/Guestlists'
 import AuthContext from "./context/auth-context";
-import Navbar from './components/Navbar'
+import PodcastRoom from './components/PodcastRoom';
+import Login from './components/Login';
+import Home from './components/Home';
+import CreateChannel from './components/CreateChannel'
 import {
   BrowserRouter as Router,
   Switch,
@@ -50,7 +53,7 @@ function App() {
      userId:state.userId,username:state.username,
       login:login}}>
         <Route path="/roomID=:room">
-          <Navbar/>
+          <PodcastRoom/>
          
         </Route>
         <Route path="/createroom" exact>
@@ -62,6 +65,17 @@ function App() {
         <Route path="/" exact>
           <Userlogin/>
         </Route>
+        <Route path="/login" exact>
+          <Login/>
+        </Route>
+        <Route path="/login/createChannel" exact>
+          <CreateChannel/>
+        </Route>
+        
+        <Route path="/Home" exact>
+          <Home/>
+        </Route>
+        
         </AuthContext.Provider>
         </ApolloProvider>
       </Switch>

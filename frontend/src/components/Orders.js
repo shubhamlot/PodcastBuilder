@@ -17,15 +17,20 @@ function preventDefault(event) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  Rbutton:{
-    backgroundColor:theme.palette.secondary.main,
-    borderRadius:"10px",
-    padding:"10px",
-    margin:"20px"
+  button:{
+    width:"100%",
+   
+  },
+  record:{
+    backgroundColor:theme.palette.secondary.main
+  },
+  done:{
+    backgroundColor:theme.palette.success.main
   },
   box:{
-    textAlign:"center",
-    height:"75px"
+    textAlign:"right",
+    width:"100%",
+   
   }
 }));
 
@@ -34,7 +39,10 @@ export default function Orders() {
   return (
     <React.Fragment>
       <div className={classes.box} >
-      <IconButton className={classes.Rbutton}><Mic /></IconButton>
+        <div className={classes.record}> <Button className={classes.button}>Record</Button></div>
+     
+      <div className={classes.done}><Button className={classes.button}>Done</Button></div>
+       
       </div>
     </React.Fragment>
   );
