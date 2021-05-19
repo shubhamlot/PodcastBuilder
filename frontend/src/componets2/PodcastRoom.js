@@ -19,13 +19,13 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems.js';
+import { mainListItems, secondaryListItems } from '../components/listItems.js';
 // import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
-import Files from './Files'
-import AudioProcess from './AudioProcess'
-import AllGuests from './AllGuests.js';
+import Deposits from '../components/Deposits';
+import Orders from '../components/Orders';
+import Files from '../components/Files'
+import AudioProcess from '../components/AudioProcess'
+import AllGuests from '../components/AllGuests.js';
 
 function Copyright() {
   return (
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    width: `200px`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const theme = createMuiTheme({
     palette: {
-      type: 'dark'
+      type: 'light'
     },
   });
   const classes = useStyles();
@@ -140,53 +140,15 @@ export default function Dashboard() {
   return (
     <ThemeProvider theme={theme}>
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            PodcastBuilder
-          </Typography>
-          <IconButton color="inherit">
-              {/* <AllGuests /> */}
-              <Person />
-        
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        {/* <List>{secondaryListItems}</List> */}
-      </Drawer>
+     
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+       
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
+           
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                {/* <Chart /> */}
+             
                 
                 <Files/>
               </Paper>

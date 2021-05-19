@@ -7,10 +7,11 @@ import FS from './components/Files'
 import CreateRoom from './components/CreateRoom'
 import Guestlists from './components/Guestlists'
 import AuthContext from "./context/auth-context";
-import PodcastRoom from './components/PodcastRoom';
+import PodcastPortal from './componets2/PodcastPortal';
 import Login from './components/Login';
-import Home from './components/Home';
+import Home from './componets2/Home';
 import CreateChannel from './components/CreateChannel'
+import Test from './componets2/Login' 
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,8 +19,8 @@ import {
   Link
 } from "react-router-dom";
 
-import Userlogin from './components/userlogin'
-import InitJoin from './components/InitJoinRoom'
+import Sigup from './componets2/Signup'
+import InitJoin from './componets2/InitJoinRoom'
 import { useState } from 'react';
 
 const client = new ApolloClient({
@@ -53,7 +54,7 @@ function App() {
      userId:state.userId,username:state.username,
       login:login}}>
         <Route path="/roomID=:room">
-          <PodcastRoom/>
+          <PodcastPortal/>
          
         </Route>
         <Route path="/createroom" exact>
@@ -63,7 +64,7 @@ function App() {
           <InitJoin/>
         </Route>
         <Route path="/" exact>
-          <Userlogin/>
+          <Sigup/>
         </Route>
         <Route path="/login" exact>
           <Login/>
@@ -74,6 +75,9 @@ function App() {
         
         <Route path="/Home" exact>
           <Home/>
+        </Route>
+        <Route path="/test" exact>
+          <Test/>
         </Route>
         
         </AuthContext.Provider>
