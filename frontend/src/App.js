@@ -4,14 +4,14 @@ import AudioProcess from './components/AudioProcess'
 import { ApolloProvider,ApolloClient, InMemoryCache } from '@apollo/client'
 import {createUploadLink} from 'apollo-upload-client'
 import FS from './components/Files'
-import CreateRoom from './components/CreateRoom'
+import CreateRoom from './componets2/CreateRoom'
 import Guestlists from './components/Guestlists'
 import AuthContext from "./context/auth-context";
 import PodcastPortal from './componets2/PodcastPortal';
 import Login from './components/Login';
 import Home from './componets2/Home';
 import CreateChannel from './components/CreateChannel'
-import Test from './componets2/Login' 
+// import Test from './componets2/' 
 import {
   BrowserRouter as Router,
   Switch,
@@ -77,7 +77,7 @@ function App() {
           <Home/>
         </Route>
         <Route path="/test" exact>
-          <Test/>
+          {/* <Test/> */}
         </Route>
         
         </AuthContext.Provider>

@@ -21,11 +21,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems.js';
 // import Chart from './Chart';
-import Deposits from '../components/Deposits';
-import Orders from '../components/Orders';
+import Deposits from './Deposits';
+import Orders from './Orders';
 import Files from '../components/Files'
 import AudioProcess from '../components/AudioProcess'
-import AllGuests from '../components/AllGuests.js';
+
 
 function Copyright() {
   return (

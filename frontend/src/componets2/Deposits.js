@@ -2,12 +2,13 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
+// import Title from './Title';
 import { useParams } from 'react-router';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import AllGuests from './AllGuests';
 import AllUsers from './AllUsers'
+import Title from './Title';
 
 function preventDefault(event) {
   event.preventDefault();

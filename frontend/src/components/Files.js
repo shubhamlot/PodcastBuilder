@@ -5,7 +5,7 @@ import { useState } from 'react'
 import {  gql, useQuery } from '@apollo/client'
 import Username from './Username'
 import { useParams } from 'react-router'
-import AllGuests from './AllGuests'
+import AllGuests from '../componets2/AllGuests'
 import { ValidationContext } from 'graphql'
 import { FormHelperText, makeStyles } from '@material-ui/core'
 

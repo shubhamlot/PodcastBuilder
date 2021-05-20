@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import React, { useContext } from 'react'
 import { useParams } from 'react-router'
 import AuthContext from '../context/auth-context'
-import Username from './Username'
+import Username from '../components/Username'
 
 
 

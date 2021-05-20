@@ -47,7 +47,7 @@ export default function NavBar() {
           </Button> <Button >
             <Link className={classes.button}>Channel</Link>
           </Button> <Button >
-            <Link className={classes.button} to="">Create</Link>
+            <Link className={classes.button} to="/createroom">Create</Link>
           </Button> <Button >
             <Link className={classes.button} to="/initJoinRoom">Join</Link>
           </Button> <Button >

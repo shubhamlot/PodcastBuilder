@@ -15,6 +15,8 @@ import Container from '@material-ui/core/Container';
 import {useState} from 'react'
 import {  gql, useLazyQuery, useQuery } from '@apollo/client'
 import { Redirect } from 'react-router'
+import NavBar from './Navbar';
+import { Mic } from '@material-ui/icons';
 
 function Copyright() {
   return (
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor:"#000000",
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -46,10 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#212121",
+    backgroundColor: theme.palette.secondary.main,
     '&:hover': {
-        background: "#000000",
-        color:"#00000"
+        background: theme.palette.secondary.light,
      },
   },
 }));
@@ -102,11 +103,12 @@ export default function InitJoinRoom() {
       return (
    
     <ThemeProvider theme={theme}>
+    <NavBar/>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <Mic />
         </Avatar>
         <Typography component="h1" variant="h5">
           Room ID
