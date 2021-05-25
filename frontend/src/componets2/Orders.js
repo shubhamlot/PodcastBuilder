@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -8,9 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import { Button, IconButton } from '@material-ui/core';
-import { Mic } from '@material-ui/icons'
-
-
+import { LocalConvenienceStoreOutlined, Mic } from '@material-ui/icons'
+import MicRecorder from 'mic-recorder-to-mp3'
+import {AudioProcess} from './AudioProcess'
 
 function preventDefault(event) {
   event.preventDefault();
@@ -33,13 +33,49 @@ const useStyles = makeStyles((theme) => ({
    
   }
 }));
-
+var Mp3Recorder
 export default function Orders() {
   const classes = useStyles();
+  const [state,setState] = useState({
+    _isRecording:false,
+    blob:""
+  })
+
+  
+  const startR=()=>{
+      if(!state._isRecording){
+        setState({blob:""})
+        Mp3Recorder = new MicRecorder({ bitRate: 128 });
+        Mp3Recorder.start()
+        .then(()=>{
+          setState({_isRecording:true})
+        }).catch((e) => console.error(e))
+      }
+
+  }
+  const stopR=()=>{
+
+    Mp3Recorder
+    .stop()
+    .getMp3()
+    .then(([buffer, blob]) => {
+     
+      setState({ blob, isRecording: false });
+    }).catch((e) => console.log(e));
+
+    
+  }
+
+  // if(state.blob){
+  // AudioProcess(state.blob)
+  // }
+  
   return (
     <React.Fragment>
       <div className={classes.box} >
-        <div className={classes.record}> <Button className={classes.button}>Record</Button></div>
+        <div className={classes.record}> <Button className={classes.button}
+        onClick={state._isRecording ? stopR:startR}>
+          {state._isRecording ? 'Stop':'Record'}</Button></div>
      
       <div className={classes.done}><Button className={classes.button}>Done</Button></div>
        

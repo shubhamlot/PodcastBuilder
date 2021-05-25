@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import AudioProcess from './components/AudioProcess'
+// import AudioProcess from './components/AudioProcess'
 import { ApolloProvider,ApolloClient, InMemoryCache } from '@apollo/client'
 import {createUploadLink} from 'apollo-upload-client'
 import FS from './components/Files'
@@ -11,7 +11,7 @@ import PodcastPortal from './componets2/PodcastPortal';
 import Login from './components/Login';
 import Home from './componets2/Home';
 import CreateChannel from './components/CreateChannel'
-// import Test from './componets2/' 
+import Test from './componets2/Reactmic' 
 import {
   BrowserRouter as Router,
   Switch,
@@ -77,7 +77,7 @@ function App() {
           <Home/>
         </Route>
         <Route path="/test" exact>
-          {/* <Test/> */}
+          <Test/>
         </Route>
         
         </AuthContext.Provider>

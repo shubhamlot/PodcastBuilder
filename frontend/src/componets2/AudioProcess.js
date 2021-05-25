@@ -1,5 +1,5 @@
 import React from 'react'
-import { userMutation, gql, useMutation } from '@apollo/client'
+import { userMutation, gql, useMutation, ApolloConsumer } from '@apollo/client'
 import { useParams } from 'react-router'
 
 
@@ -9,26 +9,27 @@ const UPLOAD_FILE = gql`
   }
 `
 
-export default function AudioProcess(){
+export function AudioProcess(param){
 
     const[uploadFile] = useMutation(UPLOAD_FILE,{
       onCompleted: data => console.log(data),
     })
 
-    const {room}=useParams(0)
-    // console.log(room)
-
-    const handlefileChange = (e) =>{
-      const file = e.target.files[0]
+      const {room}="aee04343-1c85-41cb-b375-2493a8efa2b0"//useParams(0)
+      // console.log(param)
+      const file = param
       
       let speaker = "606b367f6a34b008e829d1f4"
       if(!file) return
       uploadFile({ variables: { file,roomid:room,speaker:speaker } })
-    }
-    return(
-      <div>
-        <h1>upload file</h1>
-        <input type="file" onChange={handlefileChange} />
-      </div>
-    )
+  
+      return(
+        
+        <ApolloConsumer>
+        
+        {client=>(
+        <h1>file</h1>)}
+        </ApolloConsumer>
+      )
+  
 }

@@ -154,9 +154,11 @@ const resolvers = {
   
   Mutation: {
     UploadFile: async (parent, {file , roomid ,speaker}) => {
+      console.log(file)
+      
      const { createReadStream, filename, mimetype, encoding } = await file
      const {ext,name} = path.parse(filename)
-     const randomName = generateRandomString(12)+ext
+     const randomName = generateRandomString(12)+".wav"
         const stream = createReadStream()
         const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
@@ -178,7 +180,7 @@ const resolvers = {
           return `http://localhost:4000/Audio/${randomName}`
         
 
-        // })
+      //   // })
 
        
       },
