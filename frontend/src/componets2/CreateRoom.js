@@ -2,10 +2,10 @@ import { useMutation } from "@apollo/client";
 import { Avatar, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from "@material-ui/core";
 import { Lock, Mic } from "@material-ui/icons";
 import gql from "graphql-tag";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect } from "react-router";
 import NavBar from "./Navbar";
-import Navbar from './Navbar'
+import AuthContext from '../context/auth-context'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -47,6 +47,8 @@ mutation($roomname:String,$creator:String){
   
 
 export default function CreateRoom(){
+
+    const auth = useContext(AuthContext) 
     const [state, setState] = useState({
         roomID:null
         });
@@ -63,7 +65,7 @@ export default function CreateRoom(){
     const handlesubmit=(e)=>{
         e.preventDefault()
         const roomname =roomnameRef.current.value
-        const creator = "606b367f6a34b008e829d1f4"
+        const creator = auth.userId
         if(roomname.trim() === null){
             console.log("enetr the valid name")
         }

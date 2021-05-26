@@ -2,10 +2,13 @@
 import React from 'react'
 
 
-export default React.createContext({
+const AuthContext = React.createContext({
     token:null,
     userId:null,
     username:null,
-    login:(userId,username)=>{console.log(userId)},
+    login:(userId,username)=>{},
     logout:()=>{}
 })
+
+export const AuthProvider = AuthContext.Provider
+export default AuthContext 

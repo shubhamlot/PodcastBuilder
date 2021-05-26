@@ -17,6 +17,7 @@ import {  gql, useLazyQuery, useQuery } from '@apollo/client'
 import { Redirect } from 'react-router'
 import NavBar from './Navbar';
 import { Mic } from '@material-ui/icons';
+import Checkbeforjoining from './Checkbeforjoining'
 
 function Copyright() {
   return (
@@ -148,6 +149,6 @@ export default function InitJoinRoom() {
   )
     }
     else{
-      return <Redirect to={`roomID=${state.room}`}/> 
+      return <Checkbeforjoining roomid={state.room}/> 
     }
 }

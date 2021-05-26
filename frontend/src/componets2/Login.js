@@ -1,5 +1,5 @@
 import {Redirect} from 'react-router-dom'
-import React,{useState} from 'react';
+import React,{useContext, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { createMuiTheme } from '@material-ui/core/styles';
-import {login} from '../context/auth-context'
+import AuthContext, {AuthProvider} from '../context/auth-context'
 
 
 
@@ -72,41 +72,39 @@ query login($email:String,$password:String){
 `
 export default function Login(){
 
-    let [state, setState] = useState({
-        eml:"",
-        pass:""
-        })
+    const auth = useContext(AuthContext)
     const passwordRef = React.useRef()
     const emailRef = React.useRef()
  
     
     const [loginuser,{loading,data,called,err}] = useLazyQuery(LOGIN_USER,{
-        // variables:{email:"log@in",password:"login"},
-        onError:()=>{console.log(err)},
-        onCompleted:()=>{console.log(data)}
+        
+        onError:(err)=>{console.log(err)},
+        onCompleted:(data)=>{
+          // console.log(data.login)
+          auth.login(data.login._id,data.login.username)
+        }
     })
  
     
  
 
-    const handleChange=(e)=>{
-      console.log("")
-    }
+ 
     
     const handleSubmit=(e)=>{
        e.preventDefault()
      
-        const password = passwordRef.current.value
-        const email = emailRef.current.value
+        const passwordG = passwordRef.current.value
+        const emailG = emailRef.current.value
 
-        if(password.trim() === null ||
-           email.trim() === null){
+        if(passwordG.trim() === null ||
+           emailG.trim() === null){
                 console.log("enter the data")
            }
         else{
            
-            console.log(state)
-            // loginuser()
+         
+            loginuser({variables:{email:emailG,password:passwordG}})
             if(loading) return <p>loading..</p>
             
             
@@ -140,9 +138,9 @@ export default function Login(){
 
             <Grid item xs={12}>
               <TextField
-                onChange={handleChange}
+               
                 variant="outlined"
-                inputRef={passwordRef}
+                inputRef={emailRef}
                 required
                 fullWidth
                 id="email"
@@ -154,9 +152,8 @@ export default function Login(){
             </Grid>
             <Grid item xs={12}>
               <TextField
-                onChange={handleChange}
                 variant="outlined"
-                inputRef={emailRef}
+                inputRef={passwordRef}
                 required
                 fullWidth
                 name="password"
@@ -197,11 +194,8 @@ export default function Login(){
   }
 
   else{
-    return<h1>{data._id}</h1>
+    return (<Redirect to='/home' />)
   }
-  // else{
-  //   return (<Redirect to='/home' param={data}/>)
-  // }
 }
 
 

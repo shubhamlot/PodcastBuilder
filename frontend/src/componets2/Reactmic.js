@@ -1,9 +1,11 @@
 import { ReactMic } from 'react-mic';
-import React, { useEffect, useState } from 'react' 
+import React, { useContext, useEffect, useState } from 'react' 
 import {AudioProcess} from './AudioProcess'
 import {gql, useMutation} from '@apollo/client';
 import {Button, ThemeProvider} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router';
+import AuthContext from '../context/auth-context'
 
 const UPLOAD_FILE = gql`
   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
@@ -38,6 +40,7 @@ const useStyles = makeStyles((theme)=>({
 export default function Reactmic(){
 
 
+  const auth = useContext(AuthContext)
     
   
 
@@ -66,11 +69,11 @@ export default function Reactmic(){
   const stopRecording = () => {
     setState({ record: false });
   }
- 
+  const { room } = useParams()
 
   const audioProcess=(file)=>{
-    let room="aee04343-1c85-41cb-b375-2493a8efa2b0"
-    let speaker = "606b367f6a34b008e829d1f4"
+    
+    let speaker = auth.userId
     
     if(!file) return
     uploadFile({ variables: { file,roomid:room,speaker:speaker } })

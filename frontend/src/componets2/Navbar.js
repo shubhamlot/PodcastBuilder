@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Pages } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import AuthContext, { AuthProvider } from '../context/auth-context'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const classes = useStyles();
-
+  const auth = useContext(AuthContext)
+ 
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -40,6 +42,7 @@ export default function NavBar() {
          
           <Typography variant="h6" className={classes.title}>
             PodcastBuilder
+           
           </Typography>
 
           <Button >
@@ -51,7 +54,7 @@ export default function NavBar() {
           </Button> <Button >
             <Link className={classes.button} to="/initJoinRoom">Join</Link>
           </Button> <Button >
-            <Link className={classes.special}>Logout</Link>
+            <Link className={classes.special} to="/" onClick={auth.logout}>Logout</Link>
           </Button>
 
         </Toolbar>

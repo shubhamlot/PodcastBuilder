@@ -45,7 +45,8 @@ export default function Deposits() {
   const { room } = useParams()
 
   const{ loading,error,data} = useQuery(SHOW_FILE,{
-    variables: {id:room}
+    variables: {id:room},
+    
   })
  
   if (loading ) return <p>{data}</p>

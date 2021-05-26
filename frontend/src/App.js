@@ -22,6 +22,7 @@ import {
 import Sigup from './componets2/Signup'
 import InitJoin from './componets2/InitJoinRoom'
 import { useState } from 'react';
+import {AuthProvider} from './context/auth-context'
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -37,10 +38,13 @@ function App() {
     userId:''
   })
 
-  let login = (userId,username)=>{
+  const login =(userId,username)=>{
     setState({userId:userId,username:username})
   }
+  const logout =()=>{
+   setState({userId:"",username:""})
 
+  }
   return (
     
 
@@ -50,9 +54,7 @@ function App() {
       
       <Switch>
       <ApolloProvider client={client}>
-      <AuthContext.Provider value={{
-     userId:state.userId,username:state.username,
-      login:login}}>
+      <AuthProvider value={{username:state.username,userId:state.userId,login:login}}>
         <Route path="/roomID=:room">
           <PodcastPortal/>
          
@@ -80,7 +82,7 @@ function App() {
           <Test/>
         </Route>
         
-        </AuthContext.Provider>
+        </AuthProvider>
         </ApolloProvider>
       </Switch>
       

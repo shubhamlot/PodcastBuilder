@@ -233,31 +233,26 @@ const resolvers = {
        
       },
 
-      addToRoom:(parent,{roomid,guestid})=>{
-      
-      return Room.findOne({roomID:roomid}).then(room=>{
-          if(!room){
-              return new Error("no room found")
+      addToRoom:async(parent,{roomid,guestid})=>{
+        
+        await Room.findOne({roomID:roomid}).then(res=>{
+          return res.guestList
+        }).then(guestlist=>{
+          if(guestlist.includes(guestid)){
+            return "done"
           }
-          return room.guestList
-      }).then(guest=>{
-       
-        if(guest.includes(guestid)){
-          return guest
-        }
-        else{
-           Room.updateOne({ roomID: roomid },{ $push: { guestList: [guestid] }}).then(res=>{
-             console.log()
-           })
-           return "done"
-        }
-      })
-
-    
-      }
+          else{
+            Room.updateOne({roomID:roomid},{$push:{guestList:guestid}}).then(res=>{
+              console.log(res)
+              return "done"
+            })
+          }
+        })
+        
     },
    
   }
+}
 
 const server = new ApolloServer({
   typeDefs,
