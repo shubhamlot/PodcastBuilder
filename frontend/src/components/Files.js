@@ -1,8 +1,8 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 
-import {  gql, useQuery } from '@apollo/client'
+import {  gql, useLazyQuery, useQuery } from '@apollo/client'
 import Username from './Username'
 import { useParams } from 'react-router'
 import AllGuests from '../componets2/AllGuests'
@@ -15,6 +15,7 @@ const SHOW_FILE = gql`
         _id
         speaker
         file
+        speech
       }
   }
 `
@@ -47,33 +48,36 @@ const useStyles = makeStyles((theme) => ({
 }))
 export default function FS(){
 
+  
+
     const classes = useStyles();
     
 
     const { room } = useParams()
     
     const{ loading,err,data} = useQuery(SHOW_FILE,{
-      variables: {roomid:room}
+      variables: {roomid:room},
+      pollInterval: 500,
     })
    
-    
+    if(loading) return <p>loading</p>
    
-    if (loading ) return <h1>loading</h1>
+    
 
     let audio = []
  
-      if(data === undefined || err){
+      if(data === undefined || err ){
         audio = []
       }
       
       else{
     data.files.map((voice)=>{
-
+        console.log(voice)
         audio.push(
         <li key={voice._id} className={classes.tab} >
           <div className={classes.tabhead}>
           <AllGuests params={voice.speaker}/>
-          <p className={classes.speech}>Hello Rahul this is my podcast to introduce business to the students</p>
+          <p className={classes.speech}>{voice.speech}</p>
           </div>
           
         <audio key={voice._id}  controls>

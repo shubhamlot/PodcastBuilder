@@ -136,7 +136,7 @@ export default function Login(){
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                inputRef={passwordRef}
+                inputRef={emailRef}
                 required
                 fullWidth
                 id="email"
@@ -148,7 +148,7 @@ export default function Login(){
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                inputRef={emailRef}
+                inputRef={passwordRef}
                 required
                 fullWidth
                 name="password"

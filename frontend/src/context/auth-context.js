@@ -6,6 +6,6 @@ export default React.createContext({
     token:null,
     userId:null,
     username:null,
-    login:(userId,username)=>{},
+    login:(userId,username)=>{console.log(userId)},
     logout:()=>{}
 })

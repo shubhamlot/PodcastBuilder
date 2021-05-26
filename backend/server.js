@@ -28,6 +28,7 @@ const typeDefs = gql`
     _id:ID
    speaker:String
    file:String
+   speech:String
   }
 
   type User {
@@ -129,14 +130,20 @@ const resolvers = {
         })
       },
       login:(parent,arg)=>{
-       
+      
        return User.findOne({email:arg.email})
         .then(user=>{
          const isEqual =  bcrypt.compare(arg.password,user.password)
          if(!isEqual){
            return new Error("auth failed")
          }
-         return user
+         console.log(user)
+         return {
+           _id:user._id,
+           username:user.username,
+           email:user.email,
+           isGuest:user.isGuest
+         }
         })
       },
 
@@ -154,7 +161,7 @@ const resolvers = {
   
   Mutation: {
     UploadFile: async (parent, {file , roomid ,speaker}) => {
-      console.log(file)
+      
       
      const { createReadStream, filename, mimetype, encoding } = await file
      const {ext,name} = path.parse(filename)
@@ -169,8 +176,8 @@ const resolvers = {
         // }
         
       //  console.log(arg)
-      
-       Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName}] }}).then(
+      let speech = "this is test file"
+       Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
            console.log(room)
          }
@@ -203,23 +210,26 @@ const resolvers = {
         
       },
       Signup:async (parent,args)=>{
-        // console.log(args)
+      
         return User.findOne({email:args.email,username:args.username})
         .then(user=>{
           if(user){
             return new Error("user already exists")
           }
-          hashedpassword=bcrypt.hash(args.password,12)
-          
-          const newuser = new User({
-            username:args.username,
-            email:args.email,
-            password:hashedpassword,
-            isGuest:true
+          return hashedpassword=bcrypt.hash(args.password,12)})
+          .then((hashedpassword)=>{
+            const newuser = new User({
+              username:args.username,
+              email:args.email,
+              password:hashedpassword,
+              isGuest:true
+            })
+            console.log(newuser)
+            return newuser.save()
           })
           
-          return newuser.save()
-        })
+          
+        // })
        
       },
 

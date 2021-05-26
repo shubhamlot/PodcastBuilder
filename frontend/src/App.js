@@ -8,7 +8,7 @@ import CreateRoom from './componets2/CreateRoom'
 import Guestlists from './components/Guestlists'
 import AuthContext from "./context/auth-context";
 import PodcastPortal from './componets2/PodcastPortal';
-import Login from './components/Login';
+import Login from './componets2/Login';
 import Home from './componets2/Home';
 import CreateChannel from './components/CreateChannel'
 import Test from './componets2/Reactmic' 

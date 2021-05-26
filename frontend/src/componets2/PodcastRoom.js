@@ -20,8 +20,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from '../components/listItems.js';
-// import Chart from './Chart';
-import Deposits from './Deposits';
+import Reactmic from './Reactmic';
+import Deposite from './Deposits'
 import Orders from './Orders';
 import Files from '../components/Files'
 // import AudioProcess from '../components/AudioProcess'
@@ -43,6 +43,11 @@ function Copyright() {
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+  },
   root: {
     display: 'flex',
   },
@@ -117,8 +122,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 400,
+    height: 300,
   },
+  fixedHeightPortal: {
+    height: 400,
+    
+  },
+  
+
 }));
 
 export default function Dashboard() {
@@ -136,6 +147,7 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightPaperPortal = clsx(classes.paper, classes.fixedHeightPortal);
 
   return (
     <ThemeProvider theme={theme}>
@@ -147,24 +159,26 @@ export default function Dashboard() {
           <Grid container spacing={3}>
            
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-             
+              <Paper className={fixedHeightPaperPortal}>
                 
                 <Files/>
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+           
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <Deposite/>
+                
               </Paper>
-              <Grid item xs={12} md={12} lg={12}>
-              <Orders/>
+              <Paper>
+              
+              <Reactmic/>
            
-           </Grid>
+              </Paper>
+            
             </Grid>
             
-            
+           
            
           </Grid>
           <Box pt={4}>

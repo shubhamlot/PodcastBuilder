@@ -1,8 +1,9 @@
 import { ReactMic } from 'react-mic';
-import React, { useState } from 'react' 
+import React, { useEffect, useState } from 'react' 
 import {AudioProcess} from './AudioProcess'
 import {gql, useMutation} from '@apollo/client';
-
+import {Button, ThemeProvider} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 
 const UPLOAD_FILE = gql`
   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
@@ -11,11 +12,40 @@ const UPLOAD_FILE = gql`
 `
 
 
+const useStyles = makeStyles((theme)=>({
+  buttonroot:{
+    display:'flex',
+    width:'100%',
+  },
+  startbutton:{
+    flex:1,
+    color:'blue'
+  },
+  stopbutton:{
+    flex:1,
+    color:"red"
+  },
+  donebutton:{
+    flex:1,
+    color:"green"
+  },
+  soundwav:{
+    
+  }
+}))
+
+
 export default function Reactmic(){
+
+
+    
+  
+
+  const classes = useStyles();
   
     const [state,setState] = useState({
         record:false,
-        file:""
+      
     })
 
     const[uploadFile] = useMutation(UPLOAD_FILE,{
@@ -51,7 +81,7 @@ export default function Reactmic(){
     
     let file = blobToFile(recordedBlob.blob)
    
-    // setState({file})
+    
     audioProcess(file)
   
   }
@@ -62,14 +92,20 @@ export default function Reactmic(){
         
         <div>
         <ReactMic
+          width="290"
           record={state.record}
-          className="sound-wave"
+          className={classes.soundwav}
           onStop={onStop}
-          strokeColor="#000000"
-          backgroundColor="#FF4081" />
-        <button onClick={startRecording} type="button">Start</button>
-        <button onClick={stopRecording} type="button">Stop</button>
-        
+          strokeColor="#ffffff"
+          backgroundColor="#1976d2"
+          />
+        {/* <button onClick={startRecording} type="button">Start</button>
+        <button onClick={stopRecording} type="button">Stop</button> */}
+        <div className={classes.buttonroot}>
+        <Button className={classes.startbutton} onClick={startRecording}>Start</Button>
+        <Button className={classes.stopbutton} onClick={stopRecording}>Stop</Button>
+        <Button className={classes.donebutton} >Done</Button>
+        </div>
         </div>
       
     )

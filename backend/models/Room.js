@@ -36,6 +36,10 @@ const RoomSchema = new Schema({
             file:{
             type:String,
             required:true,
+            },
+            speech:{
+            type:String,
+            require:true
             }
         }
     ]

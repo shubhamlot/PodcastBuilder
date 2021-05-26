@@ -7,8 +7,8 @@ import NavBar from "./Navbar";
 
     
 
-export default function Home(){
-
+export default function Home(param){
+    console.log(param)
     return(
         <div>
         <NavBar/>

@@ -104,7 +104,8 @@ export default function Userlogin(){
                 console.log("enter the data")
            }
         else{
-            createUser({variables:{username:firstName,email,password}})
+
+            createUser({variables:{username:firstName,email:email,password:password}})
             
         }
 
@@ -162,7 +163,7 @@ export default function Userlogin(){
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                inputRef={passwordRef}
+                inputRef={emailRef}
                 required
                 fullWidth
                 id="email"
@@ -174,7 +175,7 @@ export default function Userlogin(){
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                inputRef={emailRef}
+                inputRef={passwordRef}
                 required
                 fullWidth
                 name="password"

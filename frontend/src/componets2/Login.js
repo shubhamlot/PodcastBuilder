@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { createMuiTheme } from '@material-ui/core/styles';
-
+import {login} from '../context/auth-context'
 
 
 
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LOGIN_USER = gql`
-query ($email:String,$password:String){
+query login($email:String,$password:String){
     login(email:$email,password:$password){
       _id
       username
@@ -72,39 +72,44 @@ query ($email:String,$password:String){
 `
 export default function Login(){
 
-    const [state, setState] = useState({
-        email:"",
-        password:"",
-        _issubmitted:false,
-        _isfound:false
-        });
+    let [state, setState] = useState({
+        eml:"",
+        pass:""
+        })
+    const passwordRef = React.useRef()
+    const emailRef = React.useRef()
+ 
     
-    const [loginUser,{loading,data,err}] = useLazyQuery(LOGIN_USER,{
-        variables:{email:state.email,password:state.password}
+    const [loginuser,{loading,data,called,err}] = useLazyQuery(LOGIN_USER,{
+        // variables:{email:"log@in",password:"login"},
+        onError:()=>{console.log(err)},
+        onCompleted:()=>{console.log(data)}
     })
  
     
  
 
-
-    const passwordRef = React.useRef()
-    const emailRef = React.useRef()
- 
+    const handleChange=(e)=>{
+      console.log("")
+    }
+    
     const handleSubmit=(e)=>{
        e.preventDefault()
      
         const password = passwordRef.current.value
         const email = emailRef.current.value
-        
+
         if(password.trim() === null ||
            email.trim() === null){
                 console.log("enter the data")
            }
         else{
-            setState({email:email,password:password,_issubmitted:true})
-            loginUser()
-            if(loading) return <p>loadin..</p>
-            console.log(data)
+           
+            console.log(state)
+            // loginuser()
+            if(loading) return <p>loading..</p>
+            
+            
         }
 
     }
@@ -135,6 +140,7 @@ export default function Login(){
 
             <Grid item xs={12}>
               <TextField
+                onChange={handleChange}
                 variant="outlined"
                 inputRef={passwordRef}
                 required
@@ -143,10 +149,12 @@ export default function Login(){
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={handleChange}
                 variant="outlined"
                 inputRef={emailRef}
                 required
@@ -156,6 +164,7 @@ export default function Login(){
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                
               />
             </Grid>
             
@@ -186,9 +195,13 @@ export default function Login(){
     </ThemeProvider>
   );
   }
+
   else{
-    return <Redirect to='/home'/>
+    return<h1>{data._id}</h1>
   }
+  // else{
+  //   return (<Redirect to='/home' param={data}/>)
+  // }
 }
 
 
