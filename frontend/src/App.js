@@ -12,6 +12,8 @@ import Login from './componets2/Login';
 import Home from './componets2/Home';
 import CreateChannel from './components/CreateChannel'
 import Test from './componets2/Reactmic' 
+import Editor from './componets2/Editor' 
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -55,7 +57,7 @@ function App() {
       <Switch>
       <ApolloProvider client={client}>
       <AuthProvider value={{username:state.username,userId:state.userId,login:login}}>
-        <Route path="/roomID=:room">
+        <Route path="/roomID=:room" exact>
           <PodcastPortal/>
          
         </Route>
@@ -78,6 +80,10 @@ function App() {
         <Route path="/Home" exact>
           <Home/>
         </Route>
+        <Route path="/roomID=:room/editpodcast">
+          <Editor/>
+        </Route>
+
         <Route path="/test" exact>
           <Test/>
         </Route>

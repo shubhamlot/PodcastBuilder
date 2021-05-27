@@ -15,6 +15,7 @@ import { Button, IconButton } from '@material-ui/core';
 import { LocalConvenienceStoreOutlined, Mic } from '@material-ui/icons'
 import MicRecorder from 'mic-recorder-to-mp3'
 import {AudioProcess} from './AudioProcess'
+import { Redirect } from 'react-router';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -70,6 +71,11 @@ export default function Orders() {
     
   }
 
+  const donefun=()=>{
+    console.log('clicked')
+    // return <Redirect to='/editpodcast'/>
+  }
+
   // if(state.blob){
   // AudioProcess(state.blob)
   // }
@@ -81,7 +87,8 @@ export default function Orders() {
         onClick={state._isRecording ? stopR:startR}>
           {state._isRecording ? 'Stop':'Record'}</Button></div>
      
-      <div className={classes.done}><Button className={classes.button}>Done</Button></div>
+      <div className={classes.done} ><Button className={classes.button}
+      onClick={donefun}>Done</Button></div>
        
       </div>
     </React.Fragment>

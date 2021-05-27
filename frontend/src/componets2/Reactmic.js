@@ -4,8 +4,9 @@ import {AudioProcess} from './AudioProcess'
 import {gql, useMutation} from '@apollo/client';
 import {Button, ThemeProvider} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import AuthContext from '../context/auth-context'
+import { Link } from 'react-router-dom';
 
 const UPLOAD_FILE = gql`
   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme)=>({
   },
   donebutton:{
     flex:1,
-    color:"green"
+    color:"green",
+    textDecoration:'none'
   },
   soundwav:{
     
@@ -89,7 +91,7 @@ export default function Reactmic(){
   
   }
  
-  
+
     return (
       
         
@@ -107,7 +109,9 @@ export default function Reactmic(){
         <div className={classes.buttonroot}>
         <Button className={classes.startbutton} onClick={startRecording}>Start</Button>
         <Button className={classes.stopbutton} onClick={stopRecording}>Stop</Button>
-        <Button className={classes.donebutton} >Done</Button>
+        <Button className={classes.donebutton} >
+        <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`} >Done</Link>
+        </Button>
         </div>
         </div>
       
