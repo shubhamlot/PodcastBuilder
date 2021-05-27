@@ -235,17 +235,20 @@ const resolvers = {
 
       addToRoom:async(parent,{roomid,guestid})=>{
         
-        await Room.findOne({roomID:roomid}).then(res=>{
+       return await  Room.findOne({roomID:roomid}).then(res=>{
+          
           return res.guestList
         }).then(guestlist=>{
+          
           if(guestlist.includes(guestid)){
-            return "done"
+            return new Error("already present")
           }
           else{
             Room.updateOne({roomID:roomid},{$push:{guestList:guestid}}).then(res=>{
               console.log(res)
-              return "done"
+              
             })
+            return "done"
           }
         })
         

@@ -2,14 +2,44 @@
 import { useContext, useState } from 'react'
 import {Guests} from './AllUsers'
 import AuthContext from '../context/auth-context'
+import {gql, useMutation} from '@apollo/client'
+import { Redirect } from 'react-router'
+import InitJoin from './InitJoinRoom'
+
+const ADD_GUEST = gql`
+mutation ($guestid:String,$roomid:String){
+  addToRoom(guestid:$guestid,roomid:$roomid)
+}
+`
+
 export default function Checkbeforjoining(param){
-    const [found,Setfound] = useState(true)
+   
     const auth = useContext(AuthContext)
-    let data ={
+    
+    let info ={
         room:param.roomid,
         userid:auth.userId
     }
 
-    console.log(auth.userId)
-    return(<Guests info={data}/>)
+    const [addUser,{loading,data}] = useMutation(ADD_GUEST,{
+        onCompleted:(data)=>{
+            // console.log(data)
+        },
+        onError:(error)=>{
+            console.log(error)
+        },
+    })
+
+    addUser({variables:{guestid:info.userid,roomid:info.room}})
+   
+    
+    if(loading || data===null){
+        console.log(data)
+     return <p>loading.........</p>
+    }
+    
+        return(<Redirect to={`roomID=${info.room}`}/>)
+
+    
+    
 }
