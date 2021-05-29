@@ -25,10 +25,12 @@ import Sigup from './componets2/Signup'
 import InitJoin from './componets2/InitJoinRoom'
 import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
+import CombineFile from './componets2/CombineFile';
 
 const client = new ApolloClient({
   link: createUploadLink({
-    uri:'http://localhost:4000/graphql'
+    uri:'http://localhost:4000/graphql',
+    addTypename: false
   }),
   cache: new InMemoryCache()
 
@@ -83,7 +85,7 @@ function App() {
         <Route path="/roomID=:room/editpodcast">
           <Editor/>
         </Route>
-
+        
         <Route path="/test" exact>
           <Test/>
         </Route>

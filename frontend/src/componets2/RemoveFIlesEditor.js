@@ -1,11 +1,11 @@
 
 import {gql, useQuery} from '@apollo/client';
-import { Icon, IconButton, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Button, Icon, IconButton, makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useParams } from 'react-router';
 import AllGuests from './AllGuests';
-import {Delete} from '@material-ui/icons'
+import {Delete, SettingsSharp} from '@material-ui/icons'
 
 const SHOW_FILE = gql`
   query file ($roomid:String){
@@ -63,43 +63,57 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
  
-  let initialList = []
+  
   const classes = useStyles();
-  const [state,setState] = useState(initialList)
-
+  const [list,setList] = useState([])
+  const [check,setCheck] = useState(0)
   const { room } = useParams()
+
+  const {loading,data,error} = useQuery(SHOW_FILE,{
+    variables:{roomid:room}
+  })
+
+  let audiolist =[]
+  // console.log(data)
+  if(loading) return <p>loading</p>
+  data.files.map((item,index)=>{
+    audiolist.push(item)
     
-    const{ loading,err,data} = useQuery(SHOW_FILE,{
-      variables: {roomid:room},
-    //   pollInterval: 500,
+  })
+
+  const handleRemove=(id)=>{
+    const newList = list.filter((list) => list._id !== id);
+ 
+    setList(newList);
+  }
+
+  const handleLoad=()=>{
+    let temp =[]
+    data.files.map((item,index)=>{
+      temp.push(item)
+      setList(temp)
     })
-
-    let audiolist =[]
-    if(loading) return <p>loading</p>
-    if(data){
     
-    
-    data.files.map((audio)=>{
-        audiolist.push(audio)
-    })
-   
-    
-    
+    if(list === []){
+      console.log(list)
     }
-
-    const handleRemove = (id) => {
-        audiolist.pop()
-        console.log(audiolist)
-        return audiolist
+    else{
+      setCheck(true)
     }
+    
+  }
 
-
-
+  if(!check){
+   return( <div>
+      <Button onClick={handleLoad}>Load</Button>
+    </div>)
+  }
+  else{
   return (
     <div className="App">
               <ul className={classes.ul} >
                 
-                {audiolist.map(({_id, speaker,speech,file}, index) => {
+                {list.map(({_id, speaker,speech,file}, index) => {
                   return (
                         <li className={classes.tab} >
                           <div className={classes.tabhead}>
@@ -113,7 +127,7 @@ function App() {
                             </div>
                           </div>
                           <div className={classes.icon}>
-                              <IconButton onClick={()=>{handleRemove(_id)}}>
+                              <IconButton onClick={()=>handleRemove(_id)}>
                                   <Delete/>
                               </IconButton>
                           </div>
@@ -131,6 +145,7 @@ function App() {
       
     </div>
   );
+              }
 }
 
 export default App;

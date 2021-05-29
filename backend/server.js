@@ -9,7 +9,9 @@ const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
-
+const audioconcat = require('audioconcat')
+// const ffmpeg = require('fluent-ffmpeg')
+// const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
 
 function generateRandomString(length) {
     var result           = [];
@@ -44,6 +46,8 @@ const typeDefs = gql`
     creator:String
   }
 
+
+
   type Query {
     files(roomid:String): [File!]
     finduser(id:String): User
@@ -57,6 +61,7 @@ const typeDefs = gql`
     createRoom(roomname:String,creator:String):Room!
     Signup(username:String,password:String,email:String):User
     addToRoom(guestid:String,roomid:String):String
+    CombineFiles(list:[String]):String
   }
 `;
 
@@ -165,7 +170,7 @@ const resolvers = {
       
      const { createReadStream, filename, mimetype, encoding } = await file
      const {ext,name} = path.parse(filename)
-     const randomName = generateRandomString(12)+".wav"
+     const randomName = generateRandomString(12)+".mp3"
         const stream = createReadStream()
         const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
@@ -253,6 +258,30 @@ const resolvers = {
         })
         
     },
+
+    CombineFiles:(parent,{list})=>{
+      let song =[]
+      
+      list.forEach(item=>{
+        const pathName = path.join(__dirname, `/public/Audio/${item}`)
+        song.push(pathName)
+      })
+      
+      audioconcat(song)
+      .concat('all.mp3')
+      .on('start', function (command) {
+        console.log('ffmpeg process started:', command)
+      })
+      .on('error', function (err, stdout, stderr) {
+        console.error('Error:', err)
+        console.error('ffmpeg stderr:', stderr)
+      })
+      .on('end', function (output) {
+        console.error('Audio created in:', output)
+      })
+      // console.log(song)
+      return "hi"
+    }
    
   }
 }

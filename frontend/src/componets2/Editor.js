@@ -75,25 +75,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Remove','Organize','Discription', 'Post or Download'];
+const steps = ['Remove & Organize','Discription', 'Post or Download'];
 
 function getStepContent(step,classes) {
+
+
+
   switch (step) {
+    // case 0:
+    //     return(
+    //         <Paper className={classes.paperextra}>
+    //             <RemoveFilesEditor />
+    //         </Paper>
+    //     )
     case 0:
-        return(
-            <Paper className={classes.paperextra}>
-                <RemoveFilesEditor/>
-            </Paper>
-        )
-    case 1:
         return (
-            <Paper className={classes.paperextra}>
+            
               <EditorFiles/>
-            </Paper>)
-    case 2:
+            )
+    case 1:
     //   return <Review />;
     return <p>post</p>
-    case 3:
+    case 2:
     //   return <Review />;
     return <p>post</p>
     default:

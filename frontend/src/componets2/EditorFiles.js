@@ -1,11 +1,18 @@
 
-import {gql, useQuery} from '@apollo/client';
-import { Icon, IconButton, makeStyles } from '@material-ui/core';
+import {gql, useMutation, useQuery} from '@apollo/client';
+import { Button, Icon, IconButton, makeStyles, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import AllGuests from './AllGuests';
 import {Delete} from '@material-ui/icons'
+
+
+const COMBINE = gql`
+mutation CombineFiles($list:[String]){
+  CombineFiles(list:$list)
+   }
+`
 
 const SHOW_FILE = gql`
   query file ($roomid:String){
@@ -51,12 +58,16 @@ const useStyles = makeStyles((theme) => ({
         flex:1
     },
     icon:{
+        
         cursor:"pointer",
         '&:hover':{
             color:"red"
         }
     },
-
+    paperextra:{
+      overflow:'auto',
+      height: 300,
+    },
 
 }))
 
@@ -65,14 +76,17 @@ function App() {
  
 
   const classes = useStyles();
+  const [list,setList] = useState([])
+  const [check,setCheck] = useState(0)
+
   function handleOnDragEnd(result) {
     if (!result.destination) return;
 
-    const items = audioList
+    const items = list
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
-    audioList=items
+    setList(items)
   }
 
   const { room } = useParams()
@@ -82,32 +96,67 @@ function App() {
     //   pollInterval: 500,
     })
 
+    const [combine] = useMutation(COMBINE,{
+      onCompleted:(data)=>{console.log(data)}
+    })
+
     let audioList =[]
     if(loading) return <p>loading</p>
     if(data){
     
     data.files.map((audio)=>{
-        audioList.push(audio)
+        audioList.push({_id:audio._id,speaker:audio.speaker,file:audio.file,apeech:audio.speech})
     })
     
     }
-
-    const onClick = (title) => {
-        let list = audioList
-        list.pop()
-        audioList = list
+    const handleRemove=(id)=>{
+      const newList = list.filter((list) => list._id !== id);
+      console.log(list)
+      setList(newList);
+    }
+ 
+    const handleLoad=()=>{
+      let temp =[]
+      data.files.map((item,index)=>{
+        temp.push(item)
+        setList(temp)
+      })
+      
+      if(list === []){
+        console.log(list)
+      }
+      else{
+        setCheck(true)
+      }
+      
+    }
+    const combineFunction=(e)=>{
+      let temp=[]
+      let audio = list
+      audio.forEach((item)=>{temp.push(item.file)})
+      
+      combine({variables:{list:temp}})
+      
     }
 
-
+    if(!check){
+      return( <div>
+         <Button onClick={handleLoad}>Load</Button>
+       </div>)
+     }
+     else{
 
   return (
+    <Paper className={classes.paperextra}>
+      <div>
+        <Button onClick={combineFunction}>combine</Button>
+      </div>
     <div className="App">
-
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
             {(provided) => (
               <ul className={classes.ul} {...provided.droppableProps} ref={provided.innerRef}>
-                {audioList.map(({_id, speaker,speech,file}, index) => {
+                {list.map(({_id, speaker,speech,file}, index) => {
                   return (
                     <Draggable  key={_id} draggableId={_id} index={index}>
                       {(provided) => (
@@ -115,15 +164,24 @@ function App() {
                           <div className={classes.tabhead}>
                               <div className={classes.subdiv}>
                           <AllGuests params={speaker}/>
-                          <div className={classes.speech}>
+                       
+                          {/* </div>
+                         
+                          <div className={classes.speech}> */}
                             {/* <AllGuests params={voice.speaker}/> */}
                              
                             <p >{speech}</p>
                             
                             </div>
+                            <div className={classes.icon}>
+                              <IconButton onClick={()=>handleRemove(_id)}>
+                                  <Delete/>
+                              </IconButton>
+                          </div>
+                           
                           </div>
                           
-                          </div>
+                          
                          
                         </li>
                       )}
@@ -139,8 +197,14 @@ function App() {
         
       
     </div>
+   
+    </Paper>
   );
+    }
+
 }
+
+
 
 export default App;
 
