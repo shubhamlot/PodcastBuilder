@@ -7,15 +7,48 @@ import {  gql, useMutation, useQuery } from '@apollo/client'
 import { Redirect, useParams } from 'react-router'
 import AllGuests from './AllGuests'
 
-import { FormHelperText, makeStyles } from '@material-ui/core'
-import { Add } from '@material-ui/icons'
-
+import { FormHelperText, Icon, makeStyles } from '@material-ui/core'
+import { Add, FaceSharp } from '@material-ui/icons'
 
 const useStyles = makeStyles({
-  guestlist: {
-    fontSize:"20px",
-    textAlign:"center"
+  container:{
+    display:"flex",
+    overflowY:"hidden"
   },
+
+  avatar:{
+    flex:3,
+    fontSize:"20px",
+    textAlign:"center",
+    margin:4,
+    padding:4,
+    width:40,
+    height:70,
+    borderRadius:10,
+    backgroundColor:"#fff8e1",
+  },
+  orangeAvatar:{
+    flex:3,
+    fontSize:"20px",
+    textAlign:"center",
+    margin:4,
+    padding:4,
+    width:40,
+    height:70,
+    borderRadius:10,
+    backgroundColor:"#ffe082"
+  },
+  purpleAvatar:{
+    flex:3,
+    fontSize:"20px",
+    textAlign:"center",
+    margin:4,
+    padding:4,
+    width:40,
+    height:70,
+    borderRadius:10,
+    backgroundColor:"#f8bbd0"
+  }
 });
 
 
@@ -40,10 +73,15 @@ export default function FS(){
      
     let guestList = []
    
-    
+    let classNameHolder = [classes.avatar,classes.orangeAvatar,classes.purpleAvatar]
     if(data){
       data.listGuests.map(guest=>{
-        guestList.push(<div key={guest} className={classes.guestlist}>
+        guestList.push(
+        <div key={guest} className={classNameHolder[Math.floor(Math.random()*3)]} >
+        <Icon>
+          <FaceSharp/>
+        </Icon>
+        <br></br>
         <AllGuests params={guest}/><br></br>
         </div>)
       })
@@ -51,9 +89,12 @@ export default function FS(){
     
 
     return(
-      <div >
+     <div>
+       <h3>Joined Guests</h3>
+        <div className={classes.container}>
         {guestList}
-      </div>
+         </div>
+     </div>
     )
 }
 

@@ -9,6 +9,9 @@ import { useQuery } from '@apollo/client';
 import AllGuests from './AllGuests';
 import AllUsers from './AllUsers'
 import Title from './Title';
+import { InfoSharp } from '@material-ui/icons';
+import {} from '@material-ui/icons'
+import { Button, Icon, IconButton, Popover } from '@material-ui/core';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -19,10 +22,23 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   title:{
-    color:theme.palette.text.primary
+    color:"#607d8b",
+    flex:1
+  },
+  typography: {
+    paddingLeft:10,
+    paddingRight:10,
+    
+  },
+  container:{
+    display:"flex"
+  },
+  icon:{
+    color:"#cfd8dc"
+  },
+  header:{
+    color:"#607d8b"
   }
-
-
 }));
 
 const SHOW_FILE = gql`
@@ -36,14 +52,10 @@ query findroom($id:String){
 `
 
 export default function Deposits() {
-  const theme = createMuiTheme({
-    palette: {
-      type: 'dark'
-    },
-  });
-  const classes = useStyles(theme);
-  const { room } = useParams()
 
+  const classes = useStyles();
+  const { room } = useParams()
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const{ loading,error,data} = useQuery(SHOW_FILE,{
     variables: {id:room},
     
@@ -51,20 +63,63 @@ export default function Deposits() {
  
   if (loading ) return <p>{data}</p>
 
+ 
+  
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   
   return (
     <React.Fragment>
-      <ThemeProvider theme={theme}>
-      <Title className={classes.title}>Room created by <AllGuests params={data.findRoom.creator}/></Title>
-      <Typography component="p" variant="h4">
+      <div className={classes.container}>
+
+      <div className={classes.title}>
+      <h3 className={classes.title}>
       {data.findRoom.roomname}
-      </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2021
-      </Typography>
-      <AllUsers/>
-      </ThemeProvider>
+      </h3>
+      </div>
+
+     <div>
+        <IconButton className={classes.icon}
+         aria-describedby={id}  color="primary" onClick={handleClick}>
+        <Icon>
+          <InfoSharp/>
+        </Icon>
+      </IconButton>
+      
+      <Popover
+       
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <Typography  className={classes.typography}>
+          <p className={classes.header}>created by <AllGuests params={data.findRoom.creator}/></p>
+          <p>on 15 jan 2021</p>
+        </Typography>
+      </Popover>
+      </div>
+    
+      
+    </div>
+    <AllUsers/>
     </React.Fragment>
   );
 }

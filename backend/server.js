@@ -10,6 +10,8 @@ const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
 const audioconcat = require('audioconcat')
+
+// const crunker = require('crunker')
 // const ffmpeg = require('fluent-ffmpeg')
 // const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
 
@@ -166,21 +168,21 @@ const resolvers = {
   
   Mutation: {
     UploadFile: async (parent, {file , roomid ,speaker}) => {
-      
-      
-     const { createReadStream, filename, mimetype, encoding } = await file
+       const { createReadStream, filename, mimetype, encoding } = await file
      const {ext,name} = path.parse(filename)
-     const randomName = generateRandomString(12)+".mp3"
+      console.log(mimetype)
+     const randomName = generateRandomString(12)+ext
         const stream = createReadStream()
+     
         const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
      
+    //     console.log(pathName)
+    //     // return {
+    //     //     url:`http://localhost:4000/Audio/${randomName}`,
+    //     // }
         
-        // return {
-        //     url:`http://localhost:4000/Audio/${randomName}`,
-        // }
-        
-      //  console.log(arg)
+    //   //  console.log(arg)
       let speech = "this is test file"
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
@@ -260,30 +262,19 @@ const resolvers = {
     },
 
     CombineFiles:(parent,{list})=>{
-      let song =[]
       
+      let temp =[]
       list.forEach(item=>{
         const pathName = path.join(__dirname, `/public/Audio/${item}`)
-        song.push(pathName)
+        temp.push(pathName)
       })
       
-      audioconcat(song)
-      .concat('all.mp3')
-      .on('start', function (command) {
-        console.log('ffmpeg process started:', command)
-      })
-      .on('error', function (err, stdout, stderr) {
-        console.error('Error:', err)
-        console.error('ffmpeg stderr:', stderr)
-      })
-      .on('end', function (output) {
-        console.error('Audio created in:', output)
-      })
-      // console.log(song)
-      return "hi"
-    }
+
+
+      return "combine"
    
   }
+}
 }
 
 const server = new ApolloServer({

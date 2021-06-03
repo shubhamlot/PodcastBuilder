@@ -22,6 +22,8 @@ export default function AllGuests(props){
         variables: {id:props.params}
       })
      if(loading) return null
-     else return data.finduser.username
-    
+     
+     else {
+       return data.finduser.username
+     }
 }

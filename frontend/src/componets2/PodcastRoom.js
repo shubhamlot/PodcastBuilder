@@ -128,6 +128,11 @@ const useStyles = makeStyles((theme) => ({
     height: 400,
     
   },
+
+  recordControl:{
+    marginTop:10,
+    height:90
+  }
   
 
 }));
@@ -148,7 +153,7 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaperPortal = clsx(classes.paper, classes.fixedHeightPortal);
-
+  
   return (
     <ThemeProvider theme={theme}>
     <div className={classes.root}>
@@ -158,32 +163,33 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
            
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaperPortal}>
                 
                 <Files/>
               </Paper>
             </Grid>
            
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={4} lg={4}>
+              <Grid>
               <Paper className={fixedHeightPaper}>
                 <Deposite/>
                 
               </Paper>
-              <Paper>
+            </Grid>
+            <Grid>
+            <Paper className={classes.recordControl}>
               
               <Reactmic/>
            
               </Paper>
-            
             </Grid>
-            
-           
+            </Grid>
            
           </Grid>
-          <Box pt={4}>
+          {/* <Box pt={4}>
             <Copyright />
-          </Box>
+          </Box> */}
         </Container>
       </main>
       

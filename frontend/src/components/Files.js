@@ -7,8 +7,8 @@ import Username from './Username'
 import { useParams } from 'react-router'
 import AllGuests from '../componets2/AllGuests'
 import { ValidationContext } from 'graphql'
-import { FormHelperText, makeStyles } from '@material-ui/core'
-
+import { FormHelperText, Icon, IconButton, makeStyles } from '@material-ui/core'
+import { PlayCircleFilledOutlined } from '@material-ui/icons';
 const SHOW_FILE = gql`
   query file ($roomid:String){
       files(roomid:$roomid){
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
        
         listStyleType:"none",
         borderRadius:"10px",
-        border:"1px solid",
+        backgroundColor:"#e8eaf6",
         margin:20,
         fontWeight:"bold",
         fontSize:"20px"
@@ -38,12 +38,15 @@ const useStyles = makeStyles((theme) => ({
       tabhead:{
       paddingLeft:"40px",
       paddingTop:"10px",
-     
+      flex:1
       },
       speech:{
         fontSize:"18px",
         fontWeight:"100",
       },
+      container:{
+        display:"flex"
+      }
 
 }))
 export default function FS(){
@@ -75,14 +78,22 @@ export default function FS(){
         console.log(voice)
         audio.push(
         <li key={voice._id} className={classes.tab} >
+          <div className={classes.container}>
           <div className={classes.tabhead}>
           <AllGuests params={voice.speaker}/>
           <p className={classes.speech}>{voice.speech}</p>
           </div>
-          
-        <audio key={voice._id}  controls>
+          <div>
+            <IconButton>
+              <Icon>
+                <PlayCircleFilledOutlined/>
+              </Icon>
+            </IconButton>
+        {/* <audio key={voice._id}  controls>
            <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/mpeg"></source>
-        </audio>
+        </audio> */}
+        </div>
+        </div>
         </li>
         )
         }
