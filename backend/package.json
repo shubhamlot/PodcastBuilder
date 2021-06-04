@@ -27,6 +27,7 @@
     "graphql-upload": "^11.0.0",
     "mongoose": "^5.12.2",
     "nodemon": "^2.0.7",
+    "recorder-js": "^1.0.7",
     "socket.io": "^4.0.0",
     "uuid": "^8.3.2"
   }

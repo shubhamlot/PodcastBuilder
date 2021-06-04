@@ -11,7 +11,7 @@ import PodcastPortal from './componets2/PodcastPortal';
 import Login from './componets2/Login';
 import Home from './componets2/Home';
 import CreateChannel from './components/CreateChannel'
-import Test from './componets2/Reactmic' 
+import Test from './componets2/test' 
 import Editor from './componets2/Editor' 
 
 import {

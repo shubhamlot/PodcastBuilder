@@ -9,158 +9,260 @@ import AuthContext from '../context/auth-context'
 import { Link } from 'react-router-dom';
 import {saveAs} from 'file-saver'
 import { Done, Mic, PlayArrow, Stop } from '@material-ui/icons';
+import Recorder from 'recorder-js';
+
+// var toWav = require('audiobuffer-to-wav')
+// const UPLOAD_FILE = gql`
+//   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
+//       UploadFile(file:$file,roomid:$roomid,speaker:$speaker)
+//   }
+// `
 
 
-var toWav = require('audiobuffer-to-wav')
+// const useStyles = makeStyles((theme)=>({
+//   buttonroot:{
+//     display:'flex',
+//     width:'100%',
+//   },
+//   startbutton:{
+//     flex:1,
+//     color:'blue'
+//   },
+//   stopbutton:{
+//     flex:1,
+//     color:"red"
+//   },
+//   donebutton:{
+   
+//     textDecoration:'none'
+//   },
+  
+//   container:{
+//     padding:10
+//   },
+//   control:{
+//     display:"flex"
+//   },
+//   icon:{
+//     // flex:1,
+//     textAlign:"center",
+//     color:"#000000"
+//   },
+//   iconmic:{
+//     // flex:1,
+//     textAlign:"center",
+//     color:"red"
+//   },
+//   gif:{
+//     flex:1,
+//     justifyItems:"contain"
+//   }
+
+// }))
+
+
+// export default function Reactmic(props){
+
+
+//   const auth = useContext(AuthContext)
+//   const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
+//   const recorder = new Recorder(audioContext, {
+//       // An array of 255 Numbers
+//       // You can use this to visualize the audio stream
+//       // If you use react, check out react-wave-stream
+//       // onAnalysed: data => console.log(data),
+//     });
+
+  
+
+//   const classes = useStyles();
+  
+//     const [state,setState] = useState({
+//         recording:false,
+        
+//     })
+
+//     const [file,getFile] = useState(null)
+
+//     const[uploadFile] = useMutation(UPLOAD_FILE,{
+//         onCompleted: data => console.log(data),
+//       })
+ 
+  
+  
+//   const { room } = useParams()
+
+//   navigator.mediaDevices.getUserMedia({audio: true})
+//   .then(stream => recorder.init(stream))
+//   .catch(err => console.log('Uh oh... unable to get stream...', err));
+  
+//   const onStart=()=>{
+   
+//     recorder.start()
+//     .then(() => {setState({recording:true})
+//     console.log("start")});
+    
+//   }
+//   const onStop=()=> {
+
+//     if(state.recording){
+//     recorder.stop()
+//     .then(({blob, buffer}) => {
+//       setState({recording:false});
+//       console.log(blob)
+//       getFile(blob)
+      
+//     });
+//  // if(file ===null || roomid === null || speaker === null) console.log(state.recording)
+//  let speaker=auth.userId
+//  if(!auth.userId) speaker=""
+//    uploadFile({variables:{file:file,roomid:room,speaker:speaker}})
+    
+//   }
+   
+  
+//   }
+ 
+
+//     return (
+      
+        
+//         // <div>
+       
+//         // {/* <button onClick={startRecording} type="button">Start</button>
+//         // <button onClick={stopRecording} type="button">Stop</button> */}
+//         // <div className={classes.buttonroot}>
+//         // <Button className={classes.startbutton} onClick={startRecording}>Start</Button>
+//         // <Button className={classes.stopbutton} onClick={stopRecording}>Stop</Button>
+//         // <Button className={classes.donebutton} >
+//         // <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`} >Done</Link>
+//         // </Button>
+//         // </div>
+//         // </div>
+
+//         <div className={classes.container}>
+//           <div className={classes.control}>
+//           <div className={classes.gif}>
+//           {/* <ReactMic
+//           width="250"
+//           height="50"
+//           visualSetting="frequencyBars"
+//           record={state.recording}
+//           onStop={onStop}
+//           strokeColor="#ffffff"
+//           backgroundColor="#1976d2"
+//           bitRate={256000}     
+//           sampleRate={96000}
+//           timeSlice={3000} 
+//           minetype="audio/wav"
+//           /> */}
+//           </div>
+           
+//             <Button 
+//             className={ classes.icon
+//             } 
+//             onClick={ onStart}>
+             
+//                 <Mic/>
+             
+//             </Button>
+//             <Button 
+//             className={ classes.iconmic
+//             } 
+//             onClick={onStop}>
+             
+//                 <Mic/>
+             
+//             </Button>
+//             <Button className={classes.icon}>
+//               <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}>
+             
+//                 <Done/>
+              
+//               </Link>
+//             </Button>
+            
+
+//           </div>
+//         </div>
+
+      
+//     )
+  
+// }
+
+
+
+
+
+
+
+
+
+// import { useState } from 'react';
+// import Recorder from 'recorder-js';
+
+
+
 const UPLOAD_FILE = gql`
   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
       UploadFile(file:$file,roomid:$roomid,speaker:$speaker)
   }
 `
 
+export default function Test(){
+    const auth = useContext(AuthContext)
+    const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
+    const recorder = new Recorder(audioContext, {
+        // An array of 255 Numbers
+        // You can use this to visualize the audio stream
+        // If you use react, check out react-wave-stream
+        // onAnalysed: data => console.log(data),
+      });
+        const { room } = useParams()
 
-const useStyles = makeStyles((theme)=>({
-  buttonroot:{
-    display:'flex',
-    width:'100%',
-  },
-  startbutton:{
-    flex:1,
-    color:'blue'
-  },
-  stopbutton:{
-    flex:1,
-    color:"red"
-  },
-  donebutton:{
-    flex:1,
-    color:"green",
-    textDecoration:'none'
-  },
-  
-  container:{
-    padding:10
-  },
-  control:{
-    display:"flex"
-  },
-  icon:{
-    // flex:1,
-    textAlign:"center"
-  },
-  iconmic:{
-    // flex:1,
-    textAlign:"center",
-    color:"red"
-  },
-  gif:{
-    flex:1,
-    justifyItems:"contain"
-  }
-
-}))
-
-
-export default function Reactmic(props){
-
-
-  const auth = useContext(AuthContext)
-    
-  
-
-  const classes = useStyles();
-  
-    const [state,setState] = useState({
-        record:false,
+      let isRecording = false;
       
-    })
-
-    const[uploadFile] = useMutation(UPLOAD_FILE,{
+      const [state,setState] = useState(null)
+          const[uploadFile] = useMutation(UPLOAD_FILE,{
         onCompleted: data => console.log(data),
       })
- 
-  const blobToFile=(superBlob)=>{
-    
-   
-    return superBlob;
-}
 
-  const startRecording = () => {
-    setState({ record: true });
-  }
- 
-  const stopRecording = () => {
-    setState({ record: false });
-  }
-  const { room } = useParams()
+      navigator.mediaDevices.getUserMedia({audio: true})
+  .then(stream => recorder.init(stream))
+  .catch(err => console.log('Uh oh... unable to get stream...', err));
 
-  const audioProcess=(file)=>{
-    
-    let speaker = auth.userId
-    
-    if(!file) return
-    uploadFile({ variables: { file,roomid:room,speaker:speaker } })
-    
-  }
- 
-  const onStop=(recordedBlob)=> {
-    
-    let recording = blobToFile(recordedBlob.blob)
-    
-    
-    // audioProcess(recording)
-  
-  }
- 
 
-    return (
+  const startRecording=()=>{
       
-        
-        // <div>
-       
-        // {/* <button onClick={startRecording} type="button">Start</button>
-        // <button onClick={stopRecording} type="button">Stop</button> */}
-        // <div className={classes.buttonroot}>
-        // <Button className={classes.startbutton} onClick={startRecording}>Start</Button>
-        // <Button className={classes.stopbutton} onClick={stopRecording}>Stop</Button>
-        // <Button className={classes.donebutton} >
-        // <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`} >Done</Link>
-        // </Button>
-        // </div>
-        // </div>
+    recorder.start()
+      .then(() => isRecording = true);
+      console.log("start")
+  }
 
-        <div className={classes.container}>
-          <div className={classes.control}>
-          <div className={classes.gif}>
-          <ReactMic
-          width="290"
-          height="50"
-          record={state.record}
-          onStop={onStop}
-          strokeColor="#ffffff"
-          backgroundColor="#1976d2"
-          bitRate={256000}     
-          sampleRate={96000}
-          timeSlice={3000} 
-          minetype="audio/wav"
-          />
-          </div>
-           
-            <IconButton className={classes.iconmic}>
-              <Icon>
-                <Mic/>
-              </Icon>
-            </IconButton><IconButton className={classes.icon}>
-              <Icon>
-                <Done/>
-              </Icon>
-            </IconButton>
-            
+  const stopRecording=()=>{
+    recorder.stop()
+      .then(({blob, buffer}) => {
+        setState(blob);
+        console.log("stop")
+        // buffer is an AudioBuffer
+      });
+      console.log(state)
+      uploadFile({variables:{file:state,roomid:room,speaker:auth.userId}})
+  }
+  const download=()=>{
+    console.log(state)
+    // Recorder.download(state, 'my-audio-file'); // downloads a .wav file
+    uploadFile({variables:{file:state,roomid:room,speaker:auth.userId}})
+  }
 
-          </div>
-        </div>
 
-      
-    )
-  
+  return(
+      <div>
+          <button onClick={startRecording}>start</button>
+          <button onClick={stopRecording}>stop</button>
+          <button onClick={download}>download</button>
+
+      </div>
+  )
 }

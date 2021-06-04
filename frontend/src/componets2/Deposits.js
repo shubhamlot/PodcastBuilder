@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     paddingLeft:10,
     paddingRight:10,
-    
+    fontSize:14,
+    opacity:0.5
   },
   container:{
     display:"flex"
@@ -113,6 +114,7 @@ export default function Deposits() {
         <Typography  className={classes.typography}>
           <p className={classes.header}>created by <AllGuests params={data.findRoom.creator}/></p>
           <p>on 15 jan 2021</p>
+          <p>{room}</p>
         </Typography>
       </Popover>
       </div>

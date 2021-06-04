@@ -169,20 +169,21 @@ const resolvers = {
   Mutation: {
     UploadFile: async (parent, {file , roomid ,speaker}) => {
        const { createReadStream, filename, mimetype, encoding } = await file
-     const {ext,name} = path.parse(filename)
-      console.log(mimetype)
-     const randomName = generateRandomString(12)+ext
-        const stream = createReadStream()
+      
      
+    //  const {ext,name} = path.parse(filename)
+     const randomName = generateRandomString(12)+".wav"
+        const stream = createReadStream()
+      console.log(filename)
         const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
      
-    //     console.log(pathName)
-    //     // return {
-    //     //     url:`http://localhost:4000/Audio/${randomName}`,
-    //     // }
+    // //     console.log(pathName)
+    // //     // return {
+    // //     //     url:`http://localhost:4000/Audio/${randomName}`,
+    // //     // }
         
-    //   //  console.log(arg)
+    // //   //  console.log(arg)
       let speech = "this is test file"
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{

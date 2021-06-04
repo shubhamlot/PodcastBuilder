@@ -53,7 +53,7 @@ export default function NavBar() {
  
   return (
     <div className={classes.root}>
-      <AppBar className={classes.appbar} position="static">
+      <AppBar className={classes.appbar} position="fixed">
         <Toolbar>
          
           <Typography variant="h6" className={classes.title}>

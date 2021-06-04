@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     display: 'flex',
+    marginTop:70
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed

@@ -69,7 +69,7 @@ export default function FS(){
 
     let audio = []
  
-      if(data === undefined || err ){
+      if(data === undefined || err || data === null){
         audio = []
       }
       
@@ -90,7 +90,7 @@ export default function FS(){
               </Icon>
             </IconButton>
         {/* <audio key={voice._id}  controls>
-           <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/mpeg"></source>
+           <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/wav"></source>
         </audio> */}
         </div>
         </div>

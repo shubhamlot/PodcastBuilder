@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -54,6 +55,29 @@ const useStyles = makeStyles((theme) => ({
         background: theme.palette.secondary.light,
      },
   },
+  container:{
+    display:"flex",
+    marginTop:100
+  },
+  sidepanel:{
+   backgroundColor:"#fafafa"
+  },
+  list:{
+   
+    marginTop:10,
+    padding:10,
+    listStyleType:"none",
+    borderRadius:5
+  },
+  orange:{
+    backgroundColor:"#ffccbc"
+  },
+  yellow:{
+    backgroundColor:"#fff9c4"
+  },
+  blue:{
+    backgroundColor:"#b3e5fc"
+  }
 }));
 
 
@@ -75,7 +99,7 @@ export default function InitJoinRoom() {
       type: 'light'
     },
   });
-
+  let classNameHolder = [classes.orange,classes.blue,classes.yellow]
   const [state,setstate] = useState({
       _isRoomFound:false,
       room:"",
@@ -101,12 +125,15 @@ export default function InitJoinRoom() {
     }
     
     if(state._isRoomFound===false){
+
+      
       return (
    
-    <ThemeProvider theme={theme}>
+    <div>
     <NavBar/>
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <div className={classes.container}>
+      <Container maxWidth="xs">
+     
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <Mic />
@@ -141,11 +168,25 @@ export default function InitJoinRoom() {
           
         </form>
       </div>
-      <Box mt={8}>
+      </Container>
+      {/* <Box mt={8}>
         <Copyright />
-      </Box>
-    </Container>
-    </ThemeProvider>
+      </Box> */}
+
+<div className={classes.sidepanel}>
+        <Container maxWidth="xs">
+          <h4>Created Rooms</h4>
+          <ul>
+          <li className={clsx(classes.list, classNameHolder[Math.floor(Math.random()*3)])}>aee04343-1c85-41cb-b375-2493a8efa2b0</li>
+          <li className={clsx(classes.list, classNameHolder[Math.floor(Math.random()*3)])}>aee04343-1c85-41cb-b375-2493a8efa2b0</li>
+          <li className={clsx(classes.list, classNameHolder[Math.floor(Math.random()*3)])}>aee04343-1c85-41cb-b375-2493a8efa2b0</li>
+          <li className={clsx(classes.list, classNameHolder[Math.floor(Math.random()*3)])}>aee04343-1c85-41cb-b375-2493a8efa2b0</li>
+          </ul>
+        </Container>
+    </div>
+    </div>
+    
+</div>
   )
     }
     else{
