@@ -1,11 +1,11 @@
 
 import {gql, useMutation, useQuery} from '@apollo/client';
-import { Button, Icon, IconButton, makeStyles, Paper } from '@material-ui/core';
+import { AppBar, BottomNavigation, BottomNavigationAction, Button, Icon, IconButton, makeStyles, Menu, Paper, Toolbar, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Redirect, useParams } from 'react-router';
 import AllGuests from './AllGuests';
-import {Delete} from '@material-ui/icons'
+import {Delete, Restore} from '@material-ui/icons'
 
 
 const COMBINE = gql`
@@ -68,6 +68,12 @@ const useStyles = makeStyles((theme) => ({
       overflow:'auto',
       height: 300,
     },
+    button:{
+      backgroundColor:"#b2ebf2",
+      padding:5,
+      margin:5,
+      color:"#000000"
+    }
 
 }))
 
@@ -147,10 +153,11 @@ function App() {
      else{
 
   return (
+    <Paper >
+     <Paper> 
+     <Button onClick={combineFunction} className={classes.button}>combine</Button>
+</Paper>
     <Paper className={classes.paperextra}>
-      <div>
-        <Button onClick={combineFunction}>combine</Button>
-      </div>
     <div className="App">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
@@ -197,7 +204,7 @@ function App() {
         
       
     </div>
-   
+   </Paper>
     </Paper>
   );
     }

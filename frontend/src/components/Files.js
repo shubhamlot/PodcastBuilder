@@ -9,6 +9,9 @@ import AllGuests from '../componets2/AllGuests'
 import { ValidationContext } from 'graphql'
 import { FormHelperText, Icon, IconButton, makeStyles } from '@material-ui/core'
 import { PlayCircleFilledOutlined } from '@material-ui/icons';
+import ReactAudioPlayer from 'react-audio-player';
+
+
 const SHOW_FILE = gql`
   query file ($roomid:String){
       files(roomid:$roomid){
@@ -54,7 +57,7 @@ export default function FS(){
   
 
     const classes = useStyles();
-    
+    const [src,setSrc] = useState(null)
 
     const { room } = useParams()
     
@@ -65,7 +68,7 @@ export default function FS(){
    
     if(loading) return <p>loading</p>
    
-    
+   
 
     let audio = []
  
@@ -75,7 +78,7 @@ export default function FS(){
       
       else{
     data.files.map((voice)=>{
-        console.log(voice)
+        
         audio.push(
         <li key={voice._id} className={classes.tab} >
           <div className={classes.container}>
@@ -84,14 +87,14 @@ export default function FS(){
           <p className={classes.speech}>{voice.speech}</p>
           </div>
           <div>
-            <IconButton>
+            {/* <IconButton onClick={playsaudio(voice.file)}>
               <Icon>
                 <PlayCircleFilledOutlined/>
               </Icon>
-            </IconButton>
-        {/* <audio key={voice._id}  controls>
+            </IconButton> */}
+        <audio key={voice._id}  controls>
            <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/wav"></source>
-        </audio> */}
+        </audio>
         </div>
         </div>
         </li>
@@ -102,13 +105,27 @@ export default function FS(){
       }
     
 
+
+
+
+if(data.files[0] === undefined){
+  console.log(data)
+  return(<h1>lets start.... </h1>)
+}
+
+else{
+ 
     return(
+     
       <div className={classes.box}>
         <ul>
         {audio}
         </ul>
+
+      
       </div>
     )
+}
     
 }
 

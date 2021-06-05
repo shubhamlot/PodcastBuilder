@@ -184,7 +184,7 @@ const resolvers = {
     // //     // }
         
     // //   //  console.log(arg)
-      let speech = "this is test file"
+      let speech = "this is test file2"
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
            console.log(room)
@@ -266,12 +266,12 @@ const resolvers = {
       
       let temp =[]
       list.forEach(item=>{
-        const pathName = path.join(__dirname, `/public/Audio/${item}`)
-        temp.push(pathName)
+       
+        temp.push(item)
       })
       
 
-
+      console.log(temp)
       return "combine"
    
   }
