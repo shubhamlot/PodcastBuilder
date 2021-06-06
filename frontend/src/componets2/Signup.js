@@ -1,4 +1,4 @@
-import {Redirect} from 'react-router-dom'
+import {Redirect, Switch} from 'react-router-dom'
 import React,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { createMuiTheme } from '@material-ui/core/styles';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 
 
@@ -52,12 +53,19 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#212121",
+    backgroundColor: "#000000",
     '&:hover': {
-        background: "#000000",
-        color:"#00000"
+        background: "#424242",
      },
   },
+  submitCreator:{
+    backgroundColor:"#00bcd4",
+    color:"#000000",
+    '&:hover': {
+      
+      backgroundColor:"#4dd0e1"
+   },
+  }
 }));
 
 const UPLOAD_USER = gql`
@@ -73,8 +81,11 @@ mutation($username:String,$email:String,$password:String){
 export default function Userlogin(){
 
     
-   
- 
+  const[accepted,setAccepted] = React.useState(false)
+  const handleChange = ()=>{
+    if(accepted) setAccepted(false)
+    else setAccepted(true)
+  }
     
     const [state, setState] = useState({
     _issubmitted:false
@@ -105,8 +116,8 @@ export default function Userlogin(){
                 console.log("enter the data")
            }
         else{
-
-            createUser({variables:{username:firstName,email:email,password:password}})
+            setState({_issubmitted:true})
+            // createUser({variables:{username:firstName,email:email,password:password}})
             
         }
 
@@ -187,16 +198,24 @@ export default function Userlogin(){
               />
             </Grid>
             
+            
           </Grid>
+        
+          
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
+            name="submit"
             className={classes.submit}
           >
             Sign Up
           </Button>
+          <FormControlLabel
+            control={<Checkbox onChange={handleChange}  name="accepted" value={accepted}/>}
+            label="Join as Creator"
+          />
           <Grid container justify="">
             <Grid item>
               <Link href="#" variant="body2">
@@ -214,7 +233,8 @@ export default function Userlogin(){
   );
   }
   else{
-    return <Redirect to='/initJoinRoom'/>
+    if(state._issubmitted && !accepted) return <Redirect to='/initJoinRoom'/>
+    else if(state._issubmitted && accepted) return <Redirect to="/createchannel"/>
   }
 }
 

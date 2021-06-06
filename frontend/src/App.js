@@ -10,8 +10,8 @@ import AuthContext from "./context/auth-context";
 import PodcastPortal from './componets2/PodcastPortal';
 import Login from './componets2/Login';
 import Home from './componets2/Home';
-import CreateChannel from './components/CreateChannel'
-import Test from './componets2/test' 
+
+import CreateChannel from './componets2/CreateChannel' 
 import Editor from './componets2/Editor' 
 
 import {
@@ -86,8 +86,8 @@ function App() {
           <Editor/>
         </Route>
         
-        <Route path="/test" exact>
-          <Test/>
+        <Route path="/createchannel" exact>
+          <CreateChannel/>
         </Route>
         
         </AuthProvider>
