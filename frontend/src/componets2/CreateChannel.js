@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,16 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { InputLabel, NativeSelect } from '@material-ui/core';
 import { Redirect } from 'react-router';
+import { userMutation, gql, useMutation, ApolloConsumer } from '@apollo/client'
+import defaultimage from '../default.jpg'
+import AuthContext, {AuthProvider} from '../context/auth-context'
+
+
+const CREATE_CHANNEL = gql`
+  mutation CreateChannel($file:Upload!,$channelname:String,$discription:String,$contenttype:String,$language:String,$country:String,$creator:String){
+    CreateChannel(file:$file,channelname:$channelname,discription:$discription,contenttype:$contenttype,language:$language,country:$country,creator:$creator)
+  }
+`
 
 
 
@@ -61,13 +71,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateChannel() {
+  const auth = useContext(AuthContext)
   const classes = useStyles();
+  const[createchannel] = useMutation(CREATE_CHANNEL,{
+    onCompleted: data => console.log(data),
+    onError:err=>console.log(err)
+  })
 
-  const[contenttype,setContenttype]=React.useState('')
-  const[country,setContry]=React.useState('')
-  const[language,setLanguage]=React.useState('')
+
+  const[contenttype,setContenttype]=React.useState('none')
+  const[country,setContry]=React.useState('none')
+  const[language,setLanguage]=React.useState('none')
+  const[file,setFile]=React.useState('none')
   const [state,setState] = React.useState({
-    file:null,
+    file:defaultimage,
     _issubmitted:false
   })
   const[accepted,setAccepted] = React.useState(false)
@@ -76,11 +93,10 @@ export default function CreateChannel() {
     switch(event.target.name){
       case 'contenttype':
         setContenttype({contenttype:event.target.value})
-        console.log(event.target.value)
         break
       case 'country':
         setContry({country:event.target.value})
-       
+        console.log(country)
         break
       case 'language':
         setLanguage({language:event.target.value})
@@ -94,6 +110,7 @@ export default function CreateChannel() {
       case 'file':
         let file=URL.createObjectURL(event.target.files[0])
         setState({file:file})
+        setFile(event.target.files[0])
         
         break
     }
@@ -107,13 +124,23 @@ export default function CreateChannel() {
     e.preventDefault()
     const channelname = channelNameRef.current.value
     const discription = discriptionRef.current.value
+    const filefinal = file
+    const countryfinal = country.country
+    const contenttypefinal = contenttype.contenttype
+    const languagefinal = language.language
+    console.log(file)
     if(channelname.trim() != "" || discription.trim() != ""){
       console.log("form submitted")
       setState({_issubmitted:true})
+      createchannel({variables:{file:filefinal,channelname,
+        discription,country:countryfinal,contenttype:contenttypefinal,
+        language:languagefinal,creator:auth.userId}})
     }
   }
 
-  if(!state._issubmitted){
+  
+
+  // if(!state._issubmitted){
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -153,9 +180,9 @@ export default function CreateChannel() {
           <InputLabel>Country</InputLabel>
           <NativeSelect
           id="demo-customized-select-native"
-          // value={age}
+          value={country.country}
           onChange={handleChange}
-          name="language"
+          name="country"
          
         >
           <option aria-label="None" value="" />
@@ -170,7 +197,7 @@ export default function CreateChannel() {
           <InputLabel>Language</InputLabel>
           <NativeSelect
           id="demo-customized-select-native"
-          // value={age}
+          value={language.language}
           onChange={handleChange}
           name="language"
          
@@ -186,7 +213,7 @@ export default function CreateChannel() {
           <InputLabel>Content Type</InputLabel>
           <NativeSelect
           id="demo-customized-select-native"
-          // value={age}
+          value={contenttype.contenttype}
           name="contenttype"
           onChange={handleChange}
          
@@ -201,7 +228,7 @@ export default function CreateChannel() {
           <Grid item xs={12}>
           <Button variant="contained" component="label">Add Cover Image
             <input type="file" accept="image/png, image/jpeg" hidden 
-            name="file" onChange={handleChange}></input>
+            name="file" onChange={handleChange}/>
             </Button>
           
           </Grid>
@@ -231,8 +258,8 @@ export default function CreateChannel() {
       </Grid>
     </Grid>
   );
-   }
-   else{
-     return <Redirect to="/home"/>
-   }
+  //  }
+  //  else{
+  //    return <Redirect to="/home"/>
+  //  }
 }

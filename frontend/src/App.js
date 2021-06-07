@@ -26,6 +26,7 @@ import InitJoin from './componets2/InitJoinRoom'
 import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
 import CombineFile from './componets2/CombineFile';
+import { TrainOutlined } from '@material-ui/icons';
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -39,14 +40,16 @@ function App() {
 
   let [state,setState] = useState({
     username:'',
-    userId:''
+    userId:'',
+    isGuest:true
   })
 
-  const login =(userId,username)=>{
-    setState({userId:userId,username:username})
+  const login =(userId,username,isGuest)=>{
+    setState({userId:userId,username:username,isGuest:isGuest})
+    
   }
   const logout =()=>{
-   setState({userId:"",username:""})
+   setState({userId:"",username:"",isGuest:true})
 
   }
   return (
@@ -58,7 +61,7 @@ function App() {
       
       <Switch>
       <ApolloProvider client={client}>
-      <AuthProvider value={{username:state.username,userId:state.userId,login:login}}>
+      <AuthProvider value={{username:state.username,userId:state.userId,isGuest:state.isGuest,login:login}}>
         <Route path="/roomID=:room" exact>
           <PodcastPortal/>
          

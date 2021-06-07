@@ -69,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UPLOAD_USER = gql`
-mutation($username:String,$email:String,$password:String){
-      Signup(username:$username,email:$email,password:$password){
+mutation($username:String,$email:String,$password:String,$isGuest:Boolean){
+      Signup(username:$username,email:$email,password:$password,isGuest:$isGuest){
        _id
        username
        email
@@ -108,7 +108,7 @@ export default function Userlogin(){
         const lastName = lastNameRef.current.value
         const password = passwordRef.current.value
         const email = emailRef.current.value
-        
+        const isGuest = !accepted
         if(firstName.trim() === null ||
            lastName.trim()=== null ||
            password.trim() === null ||
@@ -117,7 +117,8 @@ export default function Userlogin(){
            }
         else{
             setState({_issubmitted:true})
-            // createUser({variables:{username:firstName,email:email,password:password}})
+         
+            createUser({variables:{username:firstName,email:email,password:password,isGuest:isGuest}})
             
         }
 

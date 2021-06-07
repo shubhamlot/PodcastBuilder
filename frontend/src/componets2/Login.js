@@ -81,8 +81,8 @@ export default function Login(){
         
         onError:(err)=>{console.log(err)},
         onCompleted:(data)=>{
-          // console.log(data.login)
-          auth.login(data.login._id,data.login.username)
+          
+          auth.login(data.login._id,data.login.username,data.login.isGuest)
         }
     })
  

@@ -5,12 +5,14 @@ const path = require('path')
 const fs = require('fs')
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
+const Channel = require('./models/Channel');
+
 const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
 const audioconcat = require('audioconcat')
-
+// const defaultimage = require('./public/images/default.jpg')
 // const crunker = require('crunker')
 // const ffmpeg = require('fluent-ffmpeg')
 // const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
@@ -48,6 +50,10 @@ const typeDefs = gql`
     creator:String
   }
 
+  type Channel{
+    channelName:String
+    profileImage:String
+  }
 
 
   type Query {
@@ -56,14 +62,16 @@ const typeDefs = gql`
     findRoom(id:String):Room
     login(email:String,password:String):User
     listGuests(roomId:String):[String]
+    showChannel(userId:String):Channel
   }
 
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
-    Signup(username:String,password:String,email:String):User
+    Signup(username:String,password:String,email:String,isGuest:Boolean):User
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
+    CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
   }
 `;
 
@@ -163,6 +171,17 @@ const resolvers = {
              return room.guestList
            }
          })
+      },
+
+      showChannel:async(parent,arg)=>{
+        // console.log(arg)
+        return Channel.findOne({creatorID:arg.userId}).then(data=>{
+          if(data){
+            console.log(data.profileImage)
+            return {channelName:data.channelName,
+                    profileImage:data.profileImage}
+          }
+        })
       }
   },
   
@@ -218,7 +237,7 @@ const resolvers = {
         
       },
       Signup:async (parent,args)=>{
-      
+      console.log("in")
         return User.findOne({email:args.email,username:args.username})
         .then(user=>{
           if(user){
@@ -230,7 +249,7 @@ const resolvers = {
               username:args.username,
               email:args.email,
               password:hashedpassword,
-              isGuest:true
+              isGuest:args.isGuest
             })
             console.log(newuser)
             return newuser.save()
@@ -262,7 +281,7 @@ const resolvers = {
         
     },
 
-    CombineFiles:(parent,{list})=>{
+    CombineFiles:async(parent,{list})=>{
       
       let temp =[]
       list.forEach(item=>{
@@ -274,6 +293,52 @@ const resolvers = {
       console.log(temp)
       return "combine"
    
+  },
+
+  CreateChannel:async(parent,{file,channelname,discription,language,country,contenttype,creator})=>{
+    
+
+    return Channel.findOne({channelName:channelname})
+    .then(data=>{
+      if(data){
+        return new Error("channle name alredy taken")
+      }
+    }).then(res=>{
+        return Channel.findOne({creator:creator}).then(data=>{
+          if(data){
+            return new Error("user already have a channel")
+          }
+        })
+    }).then(async ()=>{
+      if(file !== "none"){
+      const { createReadStream, filename, mimetype } = await file
+       const {ext,name} = path.parse(filename)
+       const randomName = generateRandomString(12)+ext
+       const stream = createReadStream()
+       const pathName = path.join(__dirname,`/public/images/${randomName}`)
+       await stream.pipe(fs.createWriteStream(pathName))
+       return randomName
+      }
+      else{
+        return "default.jpg"
+      }
+    })
+    .then((filename)=>{
+      const newChannel = new Channel({
+        channelName:channelname,
+        discription:discription,
+        profileImage:filename,
+        language:language,
+        contenttype:contenttype,
+        creatorID:creator
+      })
+      newChannel.save()
+      return "saved successfully"
+    })
+    
+    
+    
+  
   }
 }
 }

@@ -6,10 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { ListItem, ListItemIcon, ListItemText, Menu, MenuItem } from '@material-ui/core';
+import { Avatar, ListItem, ListItemIcon, ListItemText, Menu, MenuItem } from '@material-ui/core';
 import { AccountCircle, Pages } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import AuthContext, { AuthProvider } from '../context/auth-context'
+import gql from 'graphql-tag';
+import { useLazyQuery, useQuery } from '@apollo/client';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,10 +40,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+const CHANNEL_INFO = gql`
+   query showChannel($userId:String){
+      showChannel(userId:$userId)
+    }
+`
+
+
 export default function NavBar() {
   const classes = useStyles();
   const auth = useContext(AuthContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const {loading,data,err} = useQuery(CHANNEL_INFO,{
+        
+    onError:(err)=>{console.log(err)},
+    variables:{userId:auth.userId},
+    onCompleted:(data)=>{
+      console.log(data)
+    },
+    // pollInterval:1000
+})
+
+ 
+  if(loading) return <p>loading..</p>
+
+  console.log(auth)
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -74,6 +98,7 @@ export default function NavBar() {
           
           
           
+          
           <div>
               <IconButton
                 aria-label="account of current user"
@@ -82,7 +107,9 @@ export default function NavBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                
+                <Avatar alt="Remy Sharp" src="" />
+                
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -99,10 +126,14 @@ export default function NavBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose} >
+                <MenuItem >Profile</MenuItem>
+                <MenuItem>
+               <Link className={classes.menu} to="/createchannel">CreateChannel</Link>
+               </MenuItem>
+                <MenuItem  >
                   <Link className={classes.menu}>Logout</Link>
                 </MenuItem>
+                
               </Menu>
             </div>
 
