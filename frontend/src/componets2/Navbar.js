@@ -41,29 +41,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CHANNEL_INFO = gql`
-   query showChannel($userId:String){
-      showChannel(userId:$userId)
-    }
-`
-
-
 export default function NavBar() {
   const classes = useStyles();
   const auth = useContext(AuthContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const {loading,data,err} = useQuery(CHANNEL_INFO,{
-        
-    onError:(err)=>{console.log(err)},
-    variables:{userId:auth.userId},
-    onCompleted:(data)=>{
-      console.log(data)
-    },
-    // pollInterval:1000
-})
+  
 
  
-  if(loading) return <p>loading..</p>
+   
 
   console.log(auth)
   const open = Boolean(anchorEl);
@@ -108,7 +93,7 @@ export default function NavBar() {
                 color="inherit"
               >
                 
-                <Avatar alt="Remy Sharp" src="" />
+               <AccountCircle/>
                 
               </IconButton>
               <Menu

@@ -25,7 +25,7 @@ import Sigup from './componets2/Signup'
 import InitJoin from './componets2/InitJoinRoom'
 import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
-import CombineFile from './componets2/CombineFile';
+// import CombineFile from './componets2/CombineFile';
 import { TrainOutlined } from '@material-ui/icons';
 
 const client = new ApolloClient({

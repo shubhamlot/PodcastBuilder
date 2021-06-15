@@ -12,6 +12,8 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import EditorFiles from './EditorFiles'
 import RemoveFilesEditor from './RemoveFIlesEditor';
+import Discription from './EditFileDiscription'
+import Review from './Review'
 // import PaymentForm from './PaymentForm';
 // import Review from './Review';
 
@@ -77,28 +79,29 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ['Remove & Organize','Discription', 'Post or Download'];
 
-function getStepContent(step,classes) {
+function GetStepContent(step,classes) {
 
 
+  const [listoutput,setListoutput] = React.useState()
+
+  const handleCallback = (childData) =>{
+    let temp = []
+    childData.forEach(element => {
+      temp.push(element)
+      // console.log(temp)
+    });
+    setListoutput(temp)
+    console.log(listoutput)
+}
 
   switch (step) {
-    // case 0:
-    //     return(
-    //         <Paper className={classes.paperextra}>
-    //             <RemoveFilesEditor />
-    //         </Paper>
-    //     )
+  
     case 0:
-        return (
-            
-              <EditorFiles/>
-            )
+        return <EditorFiles parentCallback = {handleCallback}/>
     case 1:
-    //   return <Review />;
-    return <p>post</p>
+        return <Discription/>;
     case 2:
-    //   return <Review />;
-    return <p>post</p>
+      return <Review />;
     default:
       throw new Error('Unknown step');
   }
@@ -107,6 +110,7 @@ function getStepContent(step,classes) {
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  // const [listoutput,SetListoutput] = React.useState([])
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -144,7 +148,7 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep,classes)}
+                {GetStepContent(activeStep,classes)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>

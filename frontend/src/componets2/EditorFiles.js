@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-function App() {
+function App( props ) {
  
 
   const classes = useStyles();
@@ -142,6 +142,7 @@ function App() {
       audio.forEach((item)=>{temp.push(item.file)})
       
       combine({variables:{list:temp}})
+      props.parentCallback(list);
       
     }
 

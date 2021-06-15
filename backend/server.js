@@ -152,7 +152,7 @@ const resolvers = {
          if(!isEqual){
            return new Error("auth failed")
          }
-         console.log(user)
+        //  console.log(user)
          return {
            _id:user._id,
            username:user.username,
