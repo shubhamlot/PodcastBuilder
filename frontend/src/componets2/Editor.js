@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,21 +14,11 @@ import EditorFiles from './EditorFiles'
 import RemoveFilesEditor from './RemoveFIlesEditor';
 import Discription from './EditFileDiscription'
 import Review from './Review'
+import { blue, pink, purple } from '@material-ui/core/colors';
 // import PaymentForm from './PaymentForm';
 // import Review from './Review';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const useStyles = makeStyles((theme) => ({
     '@global': {
@@ -79,6 +69,26 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ['Remove & Organize','Discription', 'Post or Download'];
 
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'light',
+    primary:{
+      // light:"#a6d4fa",
+      main:"#90caf9",
+      // dark:"#648dae"
+    },
+    secondary:{
+      main:"#f48fb1"
+    },
+    background:{
+      // default:"#121212",
+      // paper:"#303030"
+    },
+    
+  },
+});
+
 function GetStepContent(step,classes) {
 
 
@@ -122,6 +132,7 @@ export default function Checkout() {
 
   return (
     <React.Fragment>
+      <ThemeProvider theme={theme}>
       <CssBaseline />
       
       <main className={classes.layout}>
@@ -168,8 +179,9 @@ export default function Checkout() {
             )}
           </React.Fragment>
         </Paper>
-        <Copyright />
+        
       </main>
+      </ThemeProvider>
     </React.Fragment>
   );
 }

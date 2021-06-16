@@ -12,7 +12,7 @@ import Title from './Title';
 import { InfoSharp } from '@material-ui/icons';
 import {} from '@material-ui/icons'
 import { Button, Icon, IconButton, Popover } from '@material-ui/core';
-
+import Loading from './loading'
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -62,7 +62,7 @@ export default function Deposits() {
     
   })
  
-  if (loading ) return <p>{data}</p>
+  if (loading ) return <Loading/>
 
  
   

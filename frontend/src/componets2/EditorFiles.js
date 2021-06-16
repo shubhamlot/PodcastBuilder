@@ -1,12 +1,12 @@
 
 import {gql, useMutation, useQuery} from '@apollo/client';
-import { AppBar, BottomNavigation, BottomNavigationAction, Button, Icon, IconButton, makeStyles, Menu, Paper, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, BottomNavigation, BottomNavigationAction, Button, Icon, IconButton, makeStyles, Menu, Paper, Toolbar, Typography,createMuiTheme } from '@material-ui/core';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Redirect, useParams } from 'react-router';
 import AllGuests from './AllGuests';
 import {Delete, Restore} from '@material-ui/icons'
-
+import Loading from './loading'
 
 const COMBINE = gql`
 mutation CombineFiles($list:[String]){
@@ -24,6 +24,7 @@ const SHOW_FILE = gql`
       }
   }
 `
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,20 +68,22 @@ const useStyles = makeStyles((theme) => ({
     paperextra:{
       overflow:'auto',
       height: 300,
+     
     },
     button:{
-      backgroundColor:"#b2ebf2",
+     
       padding:5,
       margin:5,
-      color:"#000000"
+    
     }
 
 }))
 
 
+
 function App( props ) {
  
-
+  
   const classes = useStyles();
   const [list,setList] = useState([])
   const [check,setCheck] = useState(0)
@@ -107,7 +110,7 @@ function App( props ) {
     })
 
     let audioList =[]
-    if(loading) return <p>loading</p>
+    if(loading) return <Loading/>
     if(data){
     
     data.files.map((audio)=>{
@@ -154,11 +157,9 @@ function App( props ) {
      else{
 
   return (
-    <Paper >
-     <Paper> 
-     <Button onClick={combineFunction} className={classes.button}>combine</Button>
-</Paper>
-    <Paper className={classes.paperextra}>
+    <Paper elevation={0} >
+
+    <Paper className={classes.paperextra} elevation={0}>
     <div className="App">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="characters">
@@ -206,6 +207,7 @@ function App( props ) {
       
     </div>
    </Paper>
+   <Button onClick={combineFunction}  variant="contained" color="secondary">combine</Button>
     </Paper>
   );
     }

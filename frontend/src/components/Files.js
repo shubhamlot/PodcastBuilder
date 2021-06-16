@@ -10,7 +10,7 @@ import { ValidationContext } from 'graphql'
 import { FormHelperText, Icon, IconButton, makeStyles } from '@material-ui/core'
 import { PlayCircleFilledOutlined } from '@material-ui/icons';
 import ReactAudioPlayer from 'react-audio-player';
-
+import Loading from '../componets2/loading'
 
 const SHOW_FILE = gql`
   query file ($roomid:String){
@@ -66,7 +66,7 @@ export default function FS(){
       pollInterval: 500,
     })
    
-    if(loading) return <p>loading</p>
+    if(loading) return <Loading/>
    
    
 
