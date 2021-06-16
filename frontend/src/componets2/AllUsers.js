@@ -7,7 +7,7 @@ import {  gql, useMutation, useQuery } from '@apollo/client'
 import { Redirect, useParams } from 'react-router'
 import AllGuests from './AllGuests'
 
-import { FormHelperText, Icon, makeStyles } from '@material-ui/core'
+import { createMuiTheme, FormHelperText, Icon, makeStyles, ThemeProvider } from '@material-ui/core'
 import { Add, FaceSharp } from '@material-ui/icons'
 
 const useStyles = makeStyles({
@@ -25,7 +25,8 @@ const useStyles = makeStyles({
     width:40,
     height:70,
     borderRadius:10,
-    backgroundColor:"#fff8e1",
+    backgroundColor:"#5DB7DE",
+    color:"#000000"
   },
   orangeAvatar:{
     flex:3,
@@ -36,7 +37,8 @@ const useStyles = makeStyles({
     width:40,
     height:70,
     borderRadius:10,
-    backgroundColor:"#ffe082"
+    backgroundColor:"#FF7F11",
+    color:"#000000"
   },
   purpleAvatar:{
     flex:3,
@@ -47,7 +49,8 @@ const useStyles = makeStyles({
     width:40,
     height:70,
     borderRadius:10,
-    backgroundColor:"#f8bbd0"
+    backgroundColor:"#F08080",
+    color:"#000000"
   }
 });
 
@@ -60,6 +63,13 @@ const SHOW_FILE = gql`
  }
 `
 export default function FS(){
+
+    const theme = createMuiTheme({
+      palette:{
+        type:"dark"
+      }
+    })
+
     const classes = useStyles();
     const { room } = useParams()
     
@@ -89,12 +99,12 @@ export default function FS(){
     
 
     return(
-     <div>
+     <ThemeProvider theme={theme}>
        <h3>Joined Guests</h3>
         <div className={classes.container}>
         {guestList}
          </div>
-     </div>
+     </ThemeProvider>
     )
 }
 

@@ -354,7 +354,7 @@ app.use(express.static('public'))
 app.use(cors())
 
 
-mongoose.connect('mongodb://localhost/PodcastBuilderdb',{useNewUrlParser: true})
+mongoose.connect('mongodb://localhost/PodcastBuilderdb',{useNewUrlParser: true,useUnifiedTopology: true})
 .then(
   app.listen({ port:4000 },()=>{
     console.log("server on 4000")

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   appbar:{
-    backgroundColor:"#263238"
+    backgroundColor:"#424242"
   },
   menu:{
     color:"#263238",
@@ -61,8 +61,8 @@ export default function NavBar() {
   };
  
   return (
-    <div className={classes.root}>
-      <AppBar className={classes.appbar} position="fixed">
+    // <React.Fragment className={classes.root}>
+      <AppBar className={classes.appbar} position="static">
         <Toolbar>
          
           <Typography variant="h6" className={classes.title}>
@@ -124,6 +124,6 @@ export default function NavBar() {
 
         </Toolbar>
       </AppBar>
-    </div>
+    // </React.Fragment>
   );
 }

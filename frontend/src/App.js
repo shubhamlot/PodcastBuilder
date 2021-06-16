@@ -27,6 +27,7 @@ import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
 // import CombineFile from './componets2/CombineFile';
 import { TrainOutlined } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core';
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -36,8 +37,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 
 })
-function App() {
 
+
+
+
+function App() {
+  
   let [state,setState] = useState({
     username:'',
     userId:'',
@@ -98,6 +103,6 @@ function App() {
       </Switch>
       
   </Router>
-  
+
   )}
 export default App;

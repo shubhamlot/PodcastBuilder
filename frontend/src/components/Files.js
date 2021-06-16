@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
        
         listStyleType:"none",
         borderRadius:"10px",
-        backgroundColor:"#e8eaf6",
+        backgroundColor:"#D6D5B3",
         margin:20,
         fontWeight:"bold",
         fontSize:"20px"
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
       tabhead:{
       paddingLeft:"40px",
       paddingTop:"10px",
+      color:"#000000",
       flex:1
       },
       speech:{
@@ -49,13 +50,16 @@ const useStyles = makeStyles((theme) => ({
       },
       container:{
         display:"flex"
+      },
+      icon:{
+        color:"#000000"
       }
 
 }))
 export default function FS(){
 
   
-
+    
     const classes = useStyles();
     const [src,setSrc] = useState(null)
 
@@ -87,14 +91,14 @@ export default function FS(){
           <p className={classes.speech}>{voice.speech}</p>
           </div>
           <div>
-            {/* <IconButton onClick={playsaudio(voice.file)}>
+            <IconButton className={classes.icon}>
               <Icon>
                 <PlayCircleFilledOutlined/>
               </Icon>
-            </IconButton> */}
-        <audio key={voice._id}  controls>
+            </IconButton>
+        {/* <audio key={voice._id}  controls>
            <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/wav"></source>
-        </audio>
+        </audio> */}
         </div>
         </div>
         </li>

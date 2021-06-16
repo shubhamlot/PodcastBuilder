@@ -24,21 +24,11 @@ import Reactmic from './Reactmic';
 import Deposite from './Deposits'
 import Orders from './Orders';
 import Files from '../components/Files'
+import Copyright from './Copyright'
 // import AudioProcess from '../components/AudioProcess'
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        PodcastBuilder
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const drawerWidth = 240;
 
@@ -50,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     display: 'flex',
-    marginTop:70
+    marginTop:40,
+    backgroundColor:theme.palette.background
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -86,26 +77,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
+
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
@@ -141,17 +113,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const theme = createMuiTheme({
     palette: {
-      type: 'light'
+      type: 'dark',
+     
     },
   });
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaperPortal = clsx(classes.paper, classes.fixedHeightPortal);
   
@@ -193,8 +160,9 @@ export default function Dashboard() {
           </Box> */}
         </Container>
       </main>
-      
+     
     </div>
+    <Copyright/>
     </ThemeProvider>
   );
 }

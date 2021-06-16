@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   title:{
-    color:"#607d8b",
+    color:"#F1E9DB",
     flex:1
   },
   typography: {
