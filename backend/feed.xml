@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[W3Schools Home Page]]></title>
+        <description><![CDATA[Free web building tutorials]]></description>
+        <link>http://github.com/dylang/node-rss</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Fri, 18 Jun 2021 03:37:54 GMT</lastBuildDate>
+        <atom:link href="http://example.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[free]]></title>
+            <link>https://www.w3schools.com/xml/xml_rss.asp</link>
+            <guid isPermaLink="true">https://www.w3schools.com/xml/xml_rss.asp</guid>
+            <pubDate>Sat, 20 Jun 2020 04:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

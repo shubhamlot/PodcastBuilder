@@ -1,52 +1,34 @@
-const express = require('express')
-const { v4: uuidv4 } = require('uuid');
-const app = express()
+const fs = require('fs')
+const RSS = require('rss')
 
-
-const port = 3000
-
-
-let UserList = []
-
-class Room {
-    
-    constructor(roomid,roomName,guests){
-        this.roomid = roomid
-        this.roomName = roomName
-        this.guests=[]
-        this.guests.push(guests)
-
-    }
-
+const blog = {
+    title: "W3Schools Home Page",
+    url:"https://www.w3schools.com",
+    discription:"Free web building tutorials",
+    author:"free",
+    artcles:[{
+        title:"free",
+        url:"https://www.w3schools.com/xml/xml_rss.asp",
+        pulishedDate:"June 20, 2020 04:00:00 GMT"
+    }]
 }
 
-class User {
-    constructor(username){
-        this.username = username
-    }
-}
 
-// app.get(`/`,(req,res)=>{
-//     res.redirect(`/username=Raj&${uuidv4()}`)
-// })
+const feed = new RSS({
+    title: blog.title,
+    description: blog.discription,
+    feed_url: 'http://example.com/rss.xml',
 
-
-
-app.get(`/username=:username&:room&roomname=:roomname`,(req,res)=>{
-    
-    let user = new User(req.params.username)
-    if(UserList.find(roomid)=== roomid){
-      
-    }
-    else{
-    let room = new Room(req.params.room,req.params.roomname,user)
-    }
-    // console.log("user join")
-
-
-   
-    UserList.push(room)
-    console.log(UserList)
 })
 
-app.listen(port)
+for(const artcles of blog.artcles){
+    feed.item({
+        title:artcles.title,
+        url:artcles.url,
+        date:artcles.pulishedDate
+    })
+}
+
+
+const xml = feed.xml({indent:true})
+fs.writeFileSync("feed.xml",xml)
