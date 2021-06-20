@@ -1,14 +1,14 @@
 import { ApolloProvider,ApolloClient, InMemoryCache } from '@apollo/client'
 import {createUploadLink} from 'apollo-upload-client'
-import CreateRoom from './componets2/CreateRoom'
-import PodcastPortal from './componets2/PodcastPortal';
-import Login from './componets2/Login';
-import Home from './componets2/Home';
-import CreateChannel from './componets2/CreateChannel' 
-import Editor from './componets2/Editor' 
+import CreateRoom from './components/CreateRoom'
+import PodcastPortal from './components/PodcastPortal';
+import Login from './components/Login';
+import Home from './components/Home';
+import CreateChannel from './components/CreateChannel' 
+import Editor from './components/Editor' 
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import Sigup from './componets2/Signup'
-import InitJoin from './componets2/InitJoinRoom'
+import Sigup from './components/Signup'
+import InitJoin from './components/InitJoinRoom'
 import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
 
