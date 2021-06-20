@@ -1,10 +1,8 @@
 
-import { useContext, useState } from 'react'
-import {Guests} from './AllUsers'
+import { useContext } from 'react'
 import AuthContext from '../context/auth-context'
 import {gql, useMutation} from '@apollo/client'
 import { Redirect } from 'react-router'
-import InitJoin from './InitJoinRoom'
 
 const ADD_GUEST = gql`
 mutation ($guestid:String,$roomid:String){

@@ -1,8 +1,6 @@
 import PodcastRoom from "./PodcastRoom"
 import Navbar from './Navbar'
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core'
-import { grey } from "@material-ui/core/colors"
-import Copyright from "./Copyright"
+import {  makeStyles, ThemeProvider } from '@material-ui/core'
 
 const useStyles = makeStyles((theme)=>({
     root:{

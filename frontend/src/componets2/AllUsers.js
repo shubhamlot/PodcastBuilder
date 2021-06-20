@@ -1,14 +1,9 @@
-
 import React from 'react'
-import { useState } from 'react'
-
-import {  gql, useMutation, useQuery } from '@apollo/client'
-
-import { Redirect, useParams } from 'react-router'
+import {  gql, useQuery } from '@apollo/client'
+import { useParams } from 'react-router'
 import AllGuests from './AllGuests'
-
-import { createMuiTheme, FormHelperText, Icon, makeStyles, ThemeProvider } from '@material-ui/core'
-import { Add, FaceSharp } from '@material-ui/icons'
+import { createMuiTheme, Icon, makeStyles, ThemeProvider } from '@material-ui/core'
+import {  FaceSharp } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   container:{
@@ -73,7 +68,7 @@ export default function FS(){
     const classes = useStyles();
     const { room } = useParams()
     
-    const{ loading,error,data} = useQuery(SHOW_FILE,{
+    const{ loading,data} = useQuery(SHOW_FILE,{
       variables: {roomId:room},
       pollInterval:500,
     })

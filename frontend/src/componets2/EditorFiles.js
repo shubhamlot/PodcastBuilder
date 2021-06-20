@@ -1,11 +1,11 @@
 
 import {gql, useMutation, useQuery} from '@apollo/client';
-import { AppBar, BottomNavigation, BottomNavigationAction, Button, Icon, IconButton, makeStyles, Menu, Paper, Toolbar, Typography,createMuiTheme } from '@material-ui/core';
+import { Button, IconButton, makeStyles, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Redirect, useParams } from 'react-router';
+import {  useParams } from 'react-router';
 import AllGuests from './AllGuests';
-import {Delete, Restore} from '@material-ui/icons'
+import {Delete} from '@material-ui/icons'
 import Loading from './loading'
 
 const COMBINE = gql`
@@ -100,7 +100,7 @@ function App( props ) {
 
   const { room } = useParams()
     
-    const{ loading,err,data} = useQuery(SHOW_FILE,{
+    const{ loading,data} = useQuery(SHOW_FILE,{
       variables: {roomid:room},
     //   pollInterval: 500,
     })

@@ -1,16 +1,15 @@
 
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React from 'react'
 
-import {  gql, useLazyQuery, useQuery } from '@apollo/client'
-import Username from './Username'
+import {  gql, useQuery } from '@apollo/client'
+
 import { useParams } from 'react-router'
-import AllGuests from '../componets2/AllGuests'
-import { ValidationContext } from 'graphql'
-import { FormHelperText, Icon, IconButton, makeStyles } from '@material-ui/core'
+import AllGuests from './AllGuests'
+
+import { Icon, IconButton, makeStyles } from '@material-ui/core'
 import { PlayCircleFilledOutlined } from '@material-ui/icons';
-import ReactAudioPlayer from 'react-audio-player';
-import Loading from '../componets2/loading'
+
+import Loading from './loading'
 
 const SHOW_FILE = gql`
   query file ($roomid:String){
@@ -23,7 +22,7 @@ const SHOW_FILE = gql`
   }
 `
 
-// a887d8ae-3c6b-413f-a7fc-0ae0c8311dbe
+
 
 const useStyles = makeStyles((theme) => ({
       box:{
@@ -61,7 +60,7 @@ export default function FS(){
   
     
     const classes = useStyles();
-    const [src,setSrc] = useState(null)
+    
 
     const { room } = useParams()
     

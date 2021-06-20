@@ -1,22 +1,14 @@
-import { ReactMic } from 'react-mic';
-import React, { useContext, useEffect, useState } from 'react' 
-import {AudioProcess} from './AudioProcess'
+
+import React, { useContext,useState } from 'react' 
+
 import {gql, useMutation} from '@apollo/client';
-import {Button, Container, Grid, Icon, IconButton, ThemeProvider} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
-import { Redirect, useParams } from 'react-router';
+import { IconButton, makeStyles} from '@material-ui/core'
+import { useParams } from 'react-router';
 import AuthContext from '../context/auth-context'
-import { Link } from 'react-router-dom';
-import {saveAs} from 'file-saver'
-import { Done, KeyboardArrowLeft, KeyboardArrowRight, Mic, PlayArrow, Stop } from '@material-ui/icons';
+import {  KeyboardArrowRight, Mic } from '@material-ui/icons';
 import Recorder from 'recorder-js';
 import Gif from './Gif'
-// var toWav = require('audiobuffer-to-wav')
-// const UPLOAD_FILE = gql`
-//   mutation UploadFile($file:Upload!,$roomid:String,$speaker:String){
-//       UploadFile(file:$file,roomid:$roomid,speaker:$speaker)
-//   }
-// `
+
 
 
 const useStyles = makeStyles((theme)=>({

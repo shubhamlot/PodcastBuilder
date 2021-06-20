@@ -1,37 +1,11 @@
-import React from 'react'
+import React,{useState} from 'react'
 import clsx from 'clsx';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {useState} from 'react'
-import {  gql, useLazyQuery, useQuery } from '@apollo/client'
-import { Redirect } from 'react-router'
+import {Avatar, Button,Container,TextField, Typography, makeStyles} from '@material-ui/core';
+import {  gql, useLazyQuery } from '@apollo/client'
 import NavBar from './Navbar';
 import { Mic } from '@material-ui/icons';
 import Checkbeforjoining from './Checkbeforjoining'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        PodcastBuilder
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -94,11 +68,7 @@ const useStyles = makeStyles((theme) => ({
 export default function InitJoinRoom() {
   const classes = useStyles();
 
-  const theme = createMuiTheme({
-    palette: {
-      type: 'light'
-    },
-  });
+
   let classNameHolder = [classes.orange,classes.blue,classes.yellow]
   const [state,setstate] = useState({
       _isRoomFound:false,
