@@ -11,7 +11,8 @@ const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
-const audioconcat = require('audioconcat')
+
+const {dataConvertion} = require('./pythonBridge/files')
 // const defaultimage = require('./public/images/default.jpg')
 // const crunker = require('crunker')
 // const ffmpeg = require('fluent-ffmpeg')
@@ -193,7 +194,7 @@ const resolvers = {
     //  const {ext,name} = path.parse(filename)
      const randomName = generateRandomString(12)+".wav"
         const stream = createReadStream()
-      console.log(filename)
+      // console.log(filename)
         const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
      
@@ -203,7 +204,7 @@ const resolvers = {
     // //     // }
         
     // //   //  console.log(arg)
-      let speech = "this is test file2"
+      let speech = await dataConvertion(randomName)
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
            console.log(room)

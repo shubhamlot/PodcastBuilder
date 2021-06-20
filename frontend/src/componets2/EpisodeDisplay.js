@@ -27,7 +27,7 @@ export default function EpisodeDisplay(){
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <Paper className={classes.paper}>
             <div>
-            <img src={logo}/>
+            <img src={logo} alt="pic"/>
             <h3>Podcast Name</h3>
             <p>here is the new podcast...</p>
             </div>
@@ -37,7 +37,7 @@ export default function EpisodeDisplay(){
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <Paper className={classes.paper}>
             <div>
-            <img src={logo}/>
+            <img src={logo} alt="pic"/>
             <h3>Podcast Name</h3>
             <p>here is the new podcast...</p>
             </div>
@@ -45,7 +45,7 @@ export default function EpisodeDisplay(){
       </Grid> <Grid item xs={12} sm={6} md={4} lg={3}>
         <Paper className={classes.paper}>
             <div>
-            <img src={logo}/>
+            <img src={logo} alt="pic"/>
             <h3>Podcast Name</h3>
             <p>here is the new podcast...</p>
             </div>

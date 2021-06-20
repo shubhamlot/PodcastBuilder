@@ -1,5 +1,4 @@
-import { Container, Grid, makeStyles, Paper } from "@material-ui/core";
-import logo from '../logo.svg'
+import {  makeStyles } from "@material-ui/core";
 import EpisodeDisplay from "./EpisodeDisplay";
 import NavBar from "./Navbar";
 import AuthContext from '../context/auth-context'

@@ -1,11 +1,10 @@
 
 import {gql, useQuery} from '@apollo/client';
-import { Button, Icon, IconButton, makeStyles } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Button, IconButton, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import AllGuests from './AllGuests';
-import {Delete, SettingsSharp} from '@material-ui/icons'
+import {Delete} from '@material-ui/icons'
 
 const SHOW_FILE = gql`
   query file ($roomid:String){
@@ -69,7 +68,7 @@ function App() {
   const [check,setCheck] = useState(0)
   const { room } = useParams()
 
-  const {loading,data,error} = useQuery(SHOW_FILE,{
+  const {loading,data} = useQuery(SHOW_FILE,{
     variables:{roomid:room}
   })
 

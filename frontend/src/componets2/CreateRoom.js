@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { Avatar, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from "@material-ui/core";
-import { Lock, Mic } from "@material-ui/icons";
+import { Mic } from "@material-ui/icons";
 import gql from "graphql-tag";
 import React, { useContext, useState } from "react";
 import { Redirect } from "react-router";

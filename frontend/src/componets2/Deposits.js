@@ -1,21 +1,12 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-// import Title from './Title';
 import { useParams } from 'react-router';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import AllGuests from './AllGuests';
 import AllUsers from './AllUsers'
-import Title from './Title';
 import { InfoSharp } from '@material-ui/icons';
-import {} from '@material-ui/icons'
-import { Button, Icon, IconButton, Popover } from '@material-ui/core';
+import { Icon, IconButton, Popover,Typography,makeStyles } from '@material-ui/core';
 import Loading from './loading'
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
   depositContext: {
@@ -57,7 +48,7 @@ export default function Deposits() {
   const classes = useStyles();
   const { room } = useParams()
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const{ loading,error,data} = useQuery(SHOW_FILE,{
+  const{ loading,data} = useQuery(SHOW_FILE,{
     variables: {id:room},
     
   })

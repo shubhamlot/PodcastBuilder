@@ -30,7 +30,7 @@ export default function Review(){
             <Grid container className={classes.root}>
                 <Grid item className={classes.item}>
                     <div>
-                    <img className={classes.img} src={logo} alt="image"/>
+                    <img className={classes.img} src={logo} alt="pic"/>
                     </div>
                     <div>
                         <p>participants</p>

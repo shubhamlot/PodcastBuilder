@@ -1,6 +1,6 @@
 import React from 'react'
-import { userMutation, gql, useMutation, ApolloConsumer } from '@apollo/client'
-import { useParams } from 'react-router'
+import { gql, useMutation, ApolloConsumer } from '@apollo/client'
+
 
 
 const UPLOAD_FILE = gql`
