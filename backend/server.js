@@ -204,7 +204,7 @@ const resolvers = {
     // //     // }
         
     // //   //  console.log(arg)
-      let speech = await dataConvertion(randomName)
+      let speech = "text output here"//await dataConvertion(randomName)
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
            console.log(room)
