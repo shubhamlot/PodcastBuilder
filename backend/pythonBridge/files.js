@@ -17,11 +17,7 @@ const path = require('path')
     })   
 }
 
-function showdata(data){
-    
-    datatoSend = data
-    return data
-}
+
 
 module.exports = {
     dataConvertion
