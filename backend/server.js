@@ -12,7 +12,7 @@ const User = require('./models/User');
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
 
-const {dataConvertion} = require('./pythonBridge/files')
+const {dataConvertion,combineFiles} = require('./pythonBridge/files')
 // const defaultimage = require('./public/images/default.jpg')
 // const crunker = require('crunker')
 // const ffmpeg = require('fluent-ffmpeg')
@@ -290,9 +290,8 @@ const resolvers = {
         temp.push(item)
       })
       
-
-      console.log(temp)
-      return "combine"
+      let final = combineFiles(temp)
+      return final
    
   },
 

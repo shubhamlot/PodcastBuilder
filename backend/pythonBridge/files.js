@@ -13,9 +13,30 @@ childPython.stdout.on('data', (data) => {
 console.log(dataToSend)
 await snooze(20000)//delay of 20s
 return dataToSend.text
+}
 
+
+
+
+
+
+
+
+async function combineFiles(data){
+    let output={
+        value:""
+    }
+    const python = spawn('python', [path.join(__dirname,'python/combine.py')]);
+     python.stdout.on('data',async function(data){
+        output.value = data.toString()
+    })
+    python.on('close',(code)=>{
+       
+    })   
+    await snooze(1000)//delay of 20s
+    return output.value
 }
 
 module.exports = {
-    dataConvertion
+    dataConvertion,combineFiles
 }
