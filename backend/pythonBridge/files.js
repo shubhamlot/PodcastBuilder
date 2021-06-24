@@ -16,12 +16,6 @@ return dataToSend.text
 }
 
 
-
-
-
-
-
-
 async function combineFiles(data){
     let output={
         value:""
@@ -36,6 +30,7 @@ async function combineFiles(data){
     await snooze(1000)//delay of 20s
     return output.value
 }
+
 
 module.exports = {
     dataConvertion,combineFiles
