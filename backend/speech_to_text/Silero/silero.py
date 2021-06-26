@@ -14,7 +14,7 @@ model, decoder, utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
 # download a single file, any format compatible with TorchAudio
 #torch.hub.download_url_to_file('https://opus-codec.org/static/examples/samples/speech_orig.wav',
                                #dst ='speech_orig.wav', progress=True)
-test_files = glob('test4.wav')
+test_files = glob('right.wav')
 batches = split_into_batches(test_files, batch_size=10)
 input = prepare_model_input(read_batch(batches[0]),
                             device=device)
