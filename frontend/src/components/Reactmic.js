@@ -81,12 +81,7 @@ export default function Test(){
     const classes = useStyles();
     const auth = useContext(AuthContext)
     const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
-    const recorder = new Recorder(audioContext, {
-        // An array of 255 Numbers
-        // You can use this to visualize the audio stream
-        // If you use react, check out react-wave-stream
-        // onAnalysed: data => console.log(data),
-      });
+    const recorder = new Recorder(audioContext);
         const { room } = useParams()
 
       
@@ -115,7 +110,7 @@ export default function Test(){
       .then(({blob, buffer}) => {
         setRecording(false)
         setFile(blob);
-        
+        console.log(blob)
       });
       if(file != null){
         let speaker = auth.userId
@@ -126,7 +121,7 @@ export default function Test(){
  
   
 
-  if(!recording){
+  // if(!recording){
 
   return(
              
@@ -141,6 +136,13 @@ export default function Test(){
             <IconButton
             className={ classes.icon} 
             onClick={ startRecording }>
+            
+                <Mic/>
+             
+            </IconButton>
+            <IconButton
+            className={ classes.icon} 
+            onClick={ stopRecording }>
             
                 <Mic/>
              
@@ -165,44 +167,44 @@ export default function Test(){
           </div>
         </div>
   )
-          }
+//           }
 
-          else{
-      return(                   
+//           else{
+//       return(                   
 
-        <div className={classes.container}>
-        <div className={classes.control}>
-        <div className={classes.gif}>
-          <Gif/>
-        </div>
+//         <div className={classes.container}>
+//         <div className={classes.control}>
+//         <div className={classes.gif}>
+//           <Gif/>
+//         </div>
          
          
-          <IconButton
-          className={ classes.iconClick} 
-          onClick={ stopRecording }>
+//           <IconButton
+//           className={ classes.iconClick} 
+//           onClick={ stopRecording }>
           
-              <Mic/>
+//               <Mic/>
            
-          </IconButton>
-          {/* <Button 
-          className={ classes.iconmic
-          } 
-          onClick={ stopRecording }>
+//           </IconButton>
+//           {/* <Button 
+//           className={ classes.iconmic
+//           } 
+//           onClick={ stopRecording }>
            
               
            
-          </Button> */}
-          <IconButton className={classes.iconnext} disabled>
-            {/* <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> */}
+//           </Button> */}
+//           <IconButton className={classes.iconnext} disabled>
+//             {/* <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> */}
            
-              <KeyboardArrowRight/>
+//               <KeyboardArrowRight/>
             
-            {/* </Link> */}
-          </IconButton>
+//             {/* </Link> */}
+//           </IconButton>
           
 
-        </div>
-      </div>
-)
-          }
+//         </div>
+//       </div>
+// )
+//           }
 }

@@ -2,15 +2,19 @@ const { spawn } = require('child_process');
 const path = require('path')
 const snooze = ms=> new Promise(resolve =>setTimeout(resolve,ms))
 
-async function dataConvertion(filepath,filename){
-inputAudioFile = path.join(filepath,"/public/pythonAudio/right.wav")
+async function dataConvertion(filename){
+// inputAudioFile = path.join(filepath,"/public/pythonAudio/right.wav")
 const dataToSend = {text:""}
-const childPython = spawn('python', [path.join(__dirname,'python/script.py'), inputAudioFile]);
+const childPython = spawn('python', [path.join(__dirname,'python/script.py'),filename]);
 
-childPython.stdout.on('data', (data) => {
-    dataToSend.text = data
+childPython.stdout.on('data',async(data) => {
+    console.log(data.toString())
+    dataToSend.text = data.toString()
 });
-console.log(dataToSend)
+childPython.stderr.on('error', (data) => {
+    console.log(data.toString())
+});
+
 await snooze(20000)//delay of 20s
 return dataToSend.text
 }
@@ -24,7 +28,7 @@ async function combineFiles(data){
      python.stdout.on('data',async function(data){
         output.value = data.toString()
     })
-    python.on('close',(code)=>{
+    python.on('close',(data)=>{
        
     })   
     await snooze(1000)//delay of 20s

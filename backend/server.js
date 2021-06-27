@@ -195,7 +195,7 @@ const resolvers = {
      const randomName = generateRandomString(12)+".wav"
         const stream = createReadStream()
       // console.log(filename)
-        const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
+        const pathName = path.join(__dirname, `/public/audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
      
     // //     console.log(pathName)
@@ -204,7 +204,7 @@ const resolvers = {
     // //     // }
         
     // //   //  console.log(arg)
-      let speech = await dataConvertion(__dirname,randomName)
+      let speech = await dataConvertion(randomName)
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
            console.log(room)
@@ -212,7 +212,7 @@ const resolvers = {
        )
       
          
-          return `http://localhost:4000/Audio/${randomName}`
+          return `http://localhost:4000/audio/${randomName}`
         
 
       //   // })

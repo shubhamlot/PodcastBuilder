@@ -90,14 +90,14 @@ export default function FS(){
           <p className={classes.speech}>{voice.speech}</p>
           </div>
           <div>
-            <IconButton className={classes.icon}>
+            {/* <IconButton className={classes.icon}>
               <Icon>
                 <PlayCircleFilledOutlined/>
               </Icon>
-            </IconButton>
-        {/* <audio key={voice._id}  controls>
-           <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/wav"></source>
-        </audio> */}
+            </IconButton> */}
+        <audio key={voice._id}  controls>
+           <source  src={`http://localhost:4000/audio/${voice.file}`} type="audio/wav"></source>
+        </audio>
         </div>
         </div>
         </li>
