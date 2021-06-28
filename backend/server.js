@@ -194,7 +194,7 @@ const resolvers = {
     //  const {ext,name} = path.parse(filename)
      const randomName = generateRandomString(12)+".wav"
         const stream = createReadStream()
-      // console.log(filename)
+      console.log(filename)
         const pathName = path.join(__dirname, `/public/audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
      

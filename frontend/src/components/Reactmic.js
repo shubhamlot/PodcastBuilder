@@ -2,8 +2,8 @@
 import React, { useContext,useState } from 'react' 
 
 import {gql, useMutation} from '@apollo/client';
-import { IconButton, makeStyles} from '@material-ui/core'
-import { useParams } from 'react-router';
+import { IconButton,Button, makeStyles} from '@material-ui/core'
+import { useParams,Link } from 'react-router-dom';
 import AuthContext from '../context/auth-context'
 import {  KeyboardArrowRight, Mic } from '@material-ui/icons';
 import Recorder from 'recorder-js';
@@ -99,17 +99,19 @@ export default function Test(){
 
   const startRecording=()=>{
       
+
     recorder.start()
       .then(() => setRecording(true));
-      console.log("start")
+      console.log(recording)
   }
 
   const stopRecording=()=>{
-    console.log("stop")
+    
     recorder.stop()
       .then(({blob, buffer}) => {
         setRecording(false)
         setFile(blob);
+        console.log(recording)
         console.log(blob)
       });
       if(file != null){
@@ -129,38 +131,20 @@ export default function Test(){
         <div className={classes.container}>
           <div className={classes.control}>
           <div className={classes.gif}>
-            {/* <Gif/> */}
+            
           </div>
            
            
-            <IconButton
-            className={ classes.icon} 
-            onClick={ startRecording }>
-            
-                <Mic/>
-             
-            </IconButton>
-            <IconButton
-            className={ classes.icon} 
-            onClick={ stopRecording }>
-            
-                <Mic/>
-             
-            </IconButton>
-            {/* <Button 
-            className={ classes.iconmic
-            } 
-            onClick={ stopRecording }>
-             
-                
-             
-            </Button> */}
+            <Button color="" onClick={startRecording}>Record</Button>
+            <Button color="secondary" onClick={stopRecording}>Stop</Button>
+
+
             <IconButton className={classes.iconnext}>
-            {/* <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> */}
+            <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> 
            
               <KeyboardArrowRight/>
             
-            {/* </Link> */}
+            </Link>
           </IconButton>
             
 

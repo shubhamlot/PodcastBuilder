@@ -90,7 +90,7 @@ function GetStepContent(step,classes) {
       // console.log(temp)
     });
     setListoutput(temp)
-    console.log(listoutput)
+    
 }
 
   switch (step) {

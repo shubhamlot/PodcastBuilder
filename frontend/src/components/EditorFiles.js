@@ -106,7 +106,7 @@ function App( props ) {
     })
 
     const [combine] = useMutation(COMBINE,{
-      onCompleted:(data)=>{console.log(data)}
+      onCompleted:(data)=>{props.parentCallback(data)}
     })
 
     let audioList =[]
@@ -145,7 +145,7 @@ function App( props ) {
       audio.forEach((item)=>{temp.push(item.file)})
       
       combine({variables:{list:temp}})
-      props.parentCallback(list);
+      
       
     }
 

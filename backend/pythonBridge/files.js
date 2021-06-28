@@ -24,14 +24,16 @@ async function combineFiles(data){
     let output={
         value:""
     }
-    const python = spawn('python', [path.join(__dirname,'python/combine.py')]);
+    const python = spawn('python', [path.join(__dirname,'python/combine.py'),JSON.stringify(data)]);
      python.stdout.on('data',async function(data){
         output.value = data.toString()
+        // console.log(output.value)
     })
-    python.on('close',(data)=>{
-       
-    })   
-    await snooze(1000)//delay of 20s
+    python.stderr.on('error',(data)=>{
+       // console.log(output.value)
+    }) 
+  
+    await snooze(10000)//delay of 20s
     return output.value
 }
 
