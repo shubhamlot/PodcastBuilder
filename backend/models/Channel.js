@@ -31,12 +31,13 @@ const ChannelSchema = new Schema({
     ref:User,
     required:true
    },
-   episodes:[
-       { 
-           type:Schema.Types.ObjectId,
-           ref:Episode
-       }
-   ]
+
+   episodesList:[{
+    type:Schema.Types.ObjectId,
+    ref:Episode,
+    required:true
+   }]
+  
 })
 
 module.exports = mongoose.model('Channel',ChannelSchema)

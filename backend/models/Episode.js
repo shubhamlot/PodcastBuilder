@@ -1,7 +1,4 @@
 const mongoose = require('mongoose')
-
-
-
 const Schema = mongoose.Schema
 
 
@@ -20,9 +17,7 @@ const EpisodeSchema = new Schema({
   audiofile:{
       type:String
   },
-  textFile:{
-      type:String
-  }
+  
 })
 
 module.exports = mongoose.model('Episode',EpisodeSchema)

@@ -9,6 +9,7 @@ const Channel = require('./models/Channel');
 
 const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
+const Episode = require('./models/Episode')
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
 
@@ -64,6 +65,7 @@ const typeDefs = gql`
     login(email:String,password:String):User
     listGuests(roomId:String):[String]
     showChannel(userId:String):Channel
+
   }
 
   type Mutation {
@@ -73,6 +75,7 @@ const typeDefs = gql`
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
     CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
+    CreateEpisodes(userId:String!,EpisodeName:String!,discription:String!,profileImage:Upload!,audioFile:String!):String
   }
 `;
 
@@ -290,7 +293,7 @@ const resolvers = {
         temp.push(item)
       })
       
-      let final = combineFiles(temp)
+      let final = await combineFiles(temp)
       return final
    
   },
@@ -333,13 +336,40 @@ const resolvers = {
         creatorID:creator
       })
       newChannel.save()
+      console.log(newChannel)
       return "saved successfully"
     })
     
-    
-    
-  
+  },
+
+
+  CreateEpisodes:async(parent,{userId,EpisodeName,discription,profileImage,audioFile})=>{
+
+       const { createReadStream, filename, mimetype } = await profileImage
+       const {ext,name} = path.parse(filename)
+       const randomName = generateRandomString(12)+ext
+       const stream = createReadStream()
+       const pathName = path.join(__dirname,`/public/images/${randomName}`)
+       await stream.pipe(fs.createWriteStream(pathName))
+      
+
+      const newEpisode = new Episode({
+          EpisodeName:EpisodeName,
+          discription:discription,
+          audiofile:audioFile,
+          profileImage:randomName
+        })
+
+       
+        newEpisode.save()
+
+        Channel.UpdateOne({creatorID:userId},{$push:{episodeList:newEpisode._id}}).then(channel=>{
+
+        })
+      return "done" 
+
   }
+
 }
 }
 

@@ -127,6 +127,7 @@ export default function CreateChannel() {
     if(channelname.trim() !== "" || discription.trim() !== ""){
       console.log("form submitted")
       setState({_issubmitted:true})
+      console.log(auth.userId)
       createchannel({variables:{file:filefinal,channelname,
         discription,country:countryfinal,contenttype:contenttypefinal,
         language:languagefinal,creator:auth.userId}})
@@ -222,8 +223,7 @@ export default function CreateChannel() {
 
           <Grid item xs={12}>
           <Button variant="contained" component="label">Add Cover Image
-            <input type="file" accept="image/png, image/jpeg" hidden 
-            name="file" onChange={handleChange}/>
+            <input type="file" accept="image/png, image/jpeg" hidden name="file" onChange={handleChange}/>
             </Button>
           
           </Grid>

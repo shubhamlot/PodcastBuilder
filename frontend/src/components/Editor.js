@@ -81,15 +81,10 @@ const theme = createMuiTheme({
 function GetStepContent(step,classes) {
 
 
-  const [listoutput,setListoutput] = React.useState()
+  const [listoutput ,setListoutput] = React.useState()
 
   const handleCallback = (childData) =>{
-    let temp = []
-    childData.forEach(element => {
-      temp.push(element)
-      // console.log(temp)
-    });
-    setListoutput(temp)
+    setListoutput(childData)
     
 }
 
@@ -98,7 +93,7 @@ function GetStepContent(step,classes) {
     case 0:
         return <EditorFiles parentCallback = {handleCallback}/>
     case 1:
-        return <Discription/>;
+        return <Discription param={listoutput}/>;
     case 2:
       return <Review />;
     default:
