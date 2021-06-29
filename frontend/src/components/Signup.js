@@ -191,10 +191,7 @@ export default function Userlogin(){
           >
             Sign Up
           </Button>
-          <FormControlLabel
-            control={<Checkbox onChange={handleChange}  name="accepted" value={accepted}/>}
-            label="Join as Creator"
-          />
+          
           <Grid container justify="">
             <Grid item>
               <Link href="#" variant="body2">
@@ -210,8 +207,7 @@ export default function Userlogin(){
   );
   }
   else{
-    if(state._issubmitted && !accepted) return <Redirect to='/initJoinRoom'/>
-    else if(state._issubmitted && accepted) return <Redirect to="/createchannel"/>
+    if(state._issubmitted) return <Redirect to='/login'/>
   }
 }
 

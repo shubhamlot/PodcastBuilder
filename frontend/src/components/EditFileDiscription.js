@@ -32,7 +32,8 @@ export default function Discription(param){
     const classes = useStyles();
 
     const[createepisode] = useMutation(CREATE_EPISODE,{
-    onCompleted: data => console.log(data),
+    onCompleted: data => {param.parentCallback(data) 
+        console.log(data)},
     onError:err=>console.log(err)
   })
      const episodeNameRef = React.useRef()

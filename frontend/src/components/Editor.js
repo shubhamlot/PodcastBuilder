@@ -82,20 +82,24 @@ function GetStepContent(step,classes) {
 
 
   const [listoutput ,setListoutput] = React.useState()
-
+  const [id,setId] = React.useState()
   const handleCallback = (childData) =>{
     setListoutput(childData)
-    
 }
+
+  const handleParentCallback = (childData)=>{
+    console.log(childData.CreateEpisodes)
+    setId(childData.CreateEpisodes)
+  }
 
   switch (step) {
   
     case 0:
         return <EditorFiles parentCallback = {handleCallback}/>
     case 1:
-        return <Discription param={listoutput}/>;
+        return <Discription param={listoutput} parentCallback={handleParentCallback}/>;
     case 2:
-      return <Review />;
+      return <Review param={id}/>;
     default:
       throw new Error('Unknown step');
   }
@@ -110,9 +114,7 @@ export default function Checkout() {
     setActiveStep(activeStep + 1);
   };
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
+ 
 
   return (
     <React.Fragment>
@@ -145,11 +147,7 @@ export default function Checkout() {
               <React.Fragment>
                 {GetStepContent(activeStep,classes)}
                 <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
-                  )}
+                  
                   <Button
                     variant="contained"
                     color="primary"

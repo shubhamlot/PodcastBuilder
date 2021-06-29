@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { InputLabel, NativeSelect } from '@material-ui/core';
+import { InputLabel, NativeSelect,createMuiTheme,ThemeProvider } from '@material-ui/core';
 import {  gql, useMutation } from '@apollo/client'
 import defaultimage from '../default.jpg'
 import AuthContext from '../context/auth-context'
@@ -58,9 +58,11 @@ const useStyles = makeStyles((theme) => ({
   form:{
     marginTop:20,
     width:"100%",
+
   },
   textfield:{
-    width:"100%"
+    width:"100%",
+
   },
   
 }));
@@ -73,6 +75,12 @@ export default function CreateChannel() {
     onError:err=>console.log(err)
   })
 
+  const theme = createMuiTheme({
+    palette: {
+      type: 'dark',
+     
+    },
+  });
 
   const[contenttype,setContenttype]=React.useState('none')
   const[country,setContry]=React.useState('none')
@@ -138,6 +146,7 @@ export default function CreateChannel() {
 
   // if(!state._issubmitted){
   return (
+    <ThemeProvider theme={theme}>
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={5}  >
@@ -252,6 +261,7 @@ export default function CreateChannel() {
         </div>
       </Grid>
     </Grid>
+    </ThemeProvider>
   );
   //  }
   //  else{

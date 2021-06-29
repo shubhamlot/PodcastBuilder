@@ -57,6 +57,11 @@ const typeDefs = gql`
     profileImage:String
   }
 
+  type Episode {
+    EpisodeName:String
+    discription:String
+    audioFile:String
+  }
 
   type Query {
     files(roomid:String): [File!]
@@ -65,6 +70,7 @@ const typeDefs = gql`
     login(email:String,password:String):User
     listGuests(roomId:String):[String]
     showChannel(userId:String):Channel
+    reviewEpisode(EpisodeID:String):Episode
 
   }
 
@@ -184,6 +190,16 @@ const resolvers = {
             console.log(data.profileImage)
             return {channelName:data.channelName,
                     profileImage:data.profileImage}
+          }
+        })
+      },
+
+      reviewEpisode:async(parent,{EpisodeID})=>{
+        return Episode.findOne({_id:EpisodeID}).then(res=>{
+          return{
+            EpisodeName:res.EpisodeName,
+            discription:res.discription,
+            audioFile:res.audiofile
           }
         })
       }
@@ -361,12 +377,15 @@ const resolvers = {
         })
 
        
-        newEpisode.save()
-
-        Channel.UpdateOne({creatorID:userId},{$push:{episodeList:newEpisode._id}}).then(channel=>{
-
+        return newEpisode.save().then(data=>{
+          return Channel.updateOne({creatorID:userId},{$push:{episodesList:data._id}}).then(res=>{
+            console.log(res)
+            return data._id
+          })
         })
-      return "done" 
+       
+
+     
 
   }
 

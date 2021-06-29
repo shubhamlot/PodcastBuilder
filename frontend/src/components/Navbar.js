@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:"#424242"
   },
   menu:{
-    color:"#263238",
+    color:"#ffffff",
     textDecoration:"none"
   }
 }));
@@ -105,7 +105,7 @@ export default function NavBar() {
               >
                 <MenuItem >Profile</MenuItem>
                 <MenuItem>
-               <Link className={classes.menu} to="/createchannel">CreateChannel</Link>
+               <Link className={classes.menu} to="/createChannel">CreateChannel</Link>
                </MenuItem>
                 <MenuItem  >
                   <Link className={classes.menu}>Logout</Link>
