@@ -12,6 +12,7 @@ import { InputLabel, NativeSelect,createMuiTheme,ThemeProvider } from '@material
 import {  gql, useMutation } from '@apollo/client'
 import defaultimage from '../default.jpg'
 import AuthContext from '../context/auth-context'
+import {Redirect} from 'react-router-dom'
 
 
 const CREATE_CHANNEL = gql`
@@ -71,7 +72,7 @@ export default function CreateChannel() {
   const auth = useContext(AuthContext)
   const classes = useStyles();
   const[createchannel] = useMutation(CREATE_CHANNEL,{
-    onCompleted: data => console.log(data),
+    onCompleted: data => setState({_issubmitted:true}),
     onError:err=>console.log(err)
   })
 
@@ -144,7 +145,7 @@ export default function CreateChannel() {
 
   
 
-  // if(!state._issubmitted){
+  if(!state._issubmitted){
   return (
     <ThemeProvider theme={theme}>
     <Grid container component="main" className={classes.root}>
@@ -263,8 +264,8 @@ export default function CreateChannel() {
     </Grid>
     </ThemeProvider>
   );
-  //  }
-  //  else{
-  //    return <Redirect to="/home"/>
-  //  }
+   }
+   else{
+     return <Redirect to="/home"/>
+   }
 }

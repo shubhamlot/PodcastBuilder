@@ -61,6 +61,7 @@ const typeDefs = gql`
     EpisodeName:String
     discription:String
     audioFile:String
+    img:String
   }
 
   type Query {
@@ -71,7 +72,7 @@ const typeDefs = gql`
     listGuests(roomId:String):[String]
     showChannel(userId:String):Channel
     reviewEpisode(EpisodeID:String):Episode
-
+    displayEpisode(userId:String):[String]
   }
 
   type Mutation {
@@ -199,10 +200,22 @@ const resolvers = {
           return{
             EpisodeName:res.EpisodeName,
             discription:res.discription,
-            audioFile:res.audiofile
+            audioFile:res.audiofile,
+            img:res.profileImage
           }
         })
-      }
+      },
+       displayEpisode:async(parent,{userId})=>{
+
+          return await Channel.findOne({creatorID:userId}).then(async res=>{
+            return await res.episodesList
+          }).then(async list=>{
+             return list
+                
+              })
+              
+            
+       }
   },
   
   Mutation: {

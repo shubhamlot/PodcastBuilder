@@ -66,9 +66,10 @@ export default function NavBar() {
             <Link className={classes.button} to="/home">Home</Link>
           </Button> <Button >
             <Link className={classes.button}>Channel</Link>
-          </Button> <Button >
-            <Link className={classes.button} to="/createroom">Create</Link>
-          </Button> <Button >
+          </Button> 
+          {!auth.isGuest? <Button ><Link className={classes.button} to="/createroom">Create</Link></Button>:
+           <Button disabled><Link className={classes.button} to="/createroom" >Create</Link></Button>}
+          <Button >
             <Link className={classes.button} to="/initJoinRoom">Join</Link>
           </Button> 
           
