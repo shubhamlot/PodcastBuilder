@@ -4,13 +4,24 @@
         <description><![CDATA[Free web building tutorials]]></description>
         <link>http://github.com/dylang/node-rss</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 18 Jun 2021 03:37:54 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 30 Jun 2021 22:49:29 GMT</lastBuildDate>
         <atom:link href="http://example.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <author><![CDATA[free]]></author>
         <item>
-            <title><![CDATA[free]]></title>
+            <title><![CDATA[Episode1]]></title>
+            <description><![CDATA[Based on true story....!!]]></description>
             <link>https://www.w3schools.com/xml/xml_rss.asp</link>
             <guid isPermaLink="true">https://www.w3schools.com/xml/xml_rss.asp</guid>
+            <dc:creator><![CDATA[free]]></dc:creator>
             <pubDate>Sat, 20 Jun 2020 04:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Episode2]]></title>
+            <description><![CDATA[Welcome to starting a Podcast]]></description>
+            <link>https://www.w3schools.com/xml/xml_rss.asp</link>
+            <guid isPermaLink="true">https://www.w3schools.com/xml/xml_rss.asp</guid>
+            <dc:creator><![CDATA[free]]></dc:creator>
+            <pubDate>Thu, 25 Jun 2020 04:00:00 GMT</pubDate>
         </item>
     </channel>
 </rss>
