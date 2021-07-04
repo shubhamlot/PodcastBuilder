@@ -108,13 +108,14 @@ export default function Dashboard() {
   });
   const classes = useStyles();
     const { room } = useParams()
- 
+
   const{ loading,data} = useQuery(SHOW_FILE,{
     variables: {id:room},
     
   })
  
   if (loading ) return <Loading/>
+     console.log(data)
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaperPortal = clsx(classes.paper, classes.fixedHeightPortal);
   

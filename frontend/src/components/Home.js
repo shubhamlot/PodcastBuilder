@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme)=>({
 export default function Home(param){
   const classes = useStyles()
   const auth = useContext(AuthContext)
-  console.log(auth)
+  // console.log(auth)
     return(
         <div className={classes.root}>
         <NavBar username={auth.username}/>

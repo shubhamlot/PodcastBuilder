@@ -42,11 +42,15 @@ export default function NavBar() {
  
    
 
-  console.log(auth)
+  // console.log(auth)
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const logout=()=>{
+    auth.logout()
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -108,8 +112,8 @@ export default function NavBar() {
                 <MenuItem>
                <Link className={classes.menu} to="/createChannel">CreateChannel</Link>
                </MenuItem>
-                <MenuItem  >
-                  <Link className={classes.menu} to="/login">Logout</Link>
+                <MenuItem>
+                  <Link className={classes.menu} to="/login" onClick={logout}>Logout</Link>
                 </MenuItem>
                 
               </Menu>

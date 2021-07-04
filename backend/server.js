@@ -6,18 +6,20 @@ const fs = require('fs')
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
 const Channel = require('./models/Channel');
-
+const jwt = require('jsonwebtoken')
 const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
 const Episode = require('./models/Episode')
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
-
+const isAuth = require('./middleware/is-auth')
 const {dataConvertion,combineFiles} = require('./pythonBridge/files')
 // const defaultimage = require('./public/images/default.jpg')
 // const crunker = require('crunker')
 // const ffmpeg = require('fluent-ffmpeg')
 // const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
+
+
 
 function generateRandomString(length) {
     var result           = [];
@@ -43,6 +45,8 @@ const typeDefs = gql`
     _id:ID
     username:String
     email:String
+    token:String
+    tokenExpiration:String
     isGuest:Boolean
   }
 
@@ -164,12 +168,18 @@ const resolvers = {
          if(!isEqual){
            return new Error("auth failed")
          }
+         const token = jwt.sign({ userId : user.id, email: user.email }, 'secretkey!@#', {
+        expiresIn: '1h'
+      })
         //  console.log(user)
          return {
            _id:user._id,
            username:user.username,
            email:user.email,
-           isGuest:user.isGuest
+           isGuest:user.isGuest,
+           token:token,
+           tokenExpiration:1
+
          }
         })
       },
@@ -423,10 +433,21 @@ server.applyMiddleware({app})
 app.use(express.static('public'))
 app.use(cors())
 
+app.use((req, res, next)=>{
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Methods','POST,GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+  if(req.method == "OPTIONS"){
+    return res.sendStatus(200)
+  }
+  next()
+})
 
+app.use(isAuth);
 mongoose.connect('mongodb://localhost/PodcastBuilderdb',{useNewUrlParser: true,useUnifiedTopology: true})
 .then(
   app.listen({ port:4000 },()=>{
     console.log("server on 4000")
 })
 )
+
