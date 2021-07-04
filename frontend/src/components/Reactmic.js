@@ -2,8 +2,8 @@
 import React, { useContext,useState } from 'react' 
 
 import {gql, useMutation} from '@apollo/client';
-import { IconButton, makeStyles} from '@material-ui/core'
-import { useParams } from 'react-router';
+import { IconButton,Button, makeStyles} from '@material-ui/core'
+import { useParams,Link } from 'react-router-dom';
 import AuthContext from '../context/auth-context'
 import {  KeyboardArrowRight, Mic } from '@material-ui/icons';
 import Recorder from 'recorder-js';
@@ -64,6 +64,10 @@ const useStyles = makeStyles((theme)=>({
   },
   iconnext:{
     color:"lightgreen"
+  },
+  donebutton:{
+    color:"#ffffff",
+    justifyItems:"center"
   }
 
 }))
@@ -77,18 +81,13 @@ const UPLOAD_FILE = gql`
   }
 `
 
-export default function Test(){
+export default function Test(param){
     const classes = useStyles();
     const auth = useContext(AuthContext)
     const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
-    const recorder = new Recorder(audioContext, {
-        // An array of 255 Numbers
-        // You can use this to visualize the audio stream
-        // If you use react, check out react-wave-stream
-        // onAnalysed: data => console.log(data),
-      });
+    const recorder = new Recorder(audioContext);
         const { room } = useParams()
-
+console.log(param)
       
       const [recording,setRecording] = useState(false)
       const [file,setFile] = useState(null)
@@ -104,18 +103,20 @@ export default function Test(){
 
   const startRecording=()=>{
       
+
     recorder.start()
       .then(() => setRecording(true));
-      console.log("start")
+      console.log(recording)
   }
 
   const stopRecording=()=>{
-    console.log("stop")
+    
     recorder.stop()
       .then(({blob, buffer}) => {
         setRecording(false)
         setFile(blob);
-        
+        console.log(recording)
+        console.log(blob)
       });
       if(file != null){
         let speaker = auth.userId
@@ -126,7 +127,7 @@ export default function Test(){
  
   
 
-  if(!recording){
+  // if(!recording){
 
   return(
              
@@ -134,75 +135,66 @@ export default function Test(){
         <div className={classes.container}>
           <div className={classes.control}>
           <div className={classes.gif}>
-            {/* <Gif/> */}
+            {recording?<Gif/>:<p/>}
           </div>
            
            
-            <IconButton
-            className={ classes.icon} 
-            onClick={ startRecording }>
-            
-                <Mic/>
-             
-            </IconButton>
-            {/* <Button 
-            className={ classes.iconmic
-            } 
-            onClick={ stopRecording }>
-             
-                
-             
-            </Button> */}
-            <IconButton className={classes.iconnext}>
-            {/* <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> */}
+            <Button color="" onClick={startRecording}>Record</Button>
+            <Button color="secondary" onClick={stopRecording}>Stop</Button>
+
+
            
-              <KeyboardArrowRight/>
+
+            {(param.creator === auth.userId)? <IconButton className={classes.iconnext}><Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> <KeyboardArrowRight/>
             
-            {/* </Link> */}
-          </IconButton>
+            </Link></IconButton> :<p/> }
+            
+           
+             
+         
             
 
           </div>
         </div>
   )
-          }
+//           }
 
-          else{
-      return(                   
+//           else{
+//       return(                   
 
-        <div className={classes.container}>
-        <div className={classes.control}>
-        <div className={classes.gif}>
-          <Gif/>
-        </div>
+//         <div className={classes.container}>
+//         <div className={classes.control}>
+//         <div className={classes.gif}>
+//           <Gif/>
+//         </div>
          
          
-          <IconButton
-          className={ classes.iconClick} 
-          onClick={ stopRecording }>
+//           <IconButton
+//           className={ classes.iconClick} 
+//           onClick={ stopRecording }>
           
-              <Mic/>
+//               <Mic/>
            
-          </IconButton>
-          {/* <Button 
-          className={ classes.iconmic
-          } 
-          onClick={ stopRecording }>
+//           </IconButton>
+//           {/* <Button 
+//           className={ classes.iconmic
+//           } 
+//           onClick={ stopRecording }>
            
               
            
-          </Button> */}
-          <IconButton className={classes.iconnext} disabled>
-            {/* <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> */}
+//           </Button> */}
+//           <IconButton className={classes.iconnext} disabled>
+//             {/* <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> */}
            
-              <KeyboardArrowRight/>
+//               <KeyboardArrowRight/>
             
-            {/* </Link> */}
-          </IconButton>
+//             {/* </Link> */}
+//           </IconButton>
           
 
-        </div>
-      </div>
-)
-          }
+//         </div>
+//       </div>
+// )
+//           }
 }

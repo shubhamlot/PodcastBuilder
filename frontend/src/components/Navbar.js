@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:"#424242"
   },
   menu:{
-    color:"#263238",
+    color:"#ffffff",
     textDecoration:"none"
   }
 }));
@@ -42,11 +42,15 @@ export default function NavBar() {
  
    
 
-  console.log(auth)
+  // console.log(auth)
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const logout=()=>{
+    auth.logout()
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -66,9 +70,10 @@ export default function NavBar() {
             <Link className={classes.button} to="/home">Home</Link>
           </Button> <Button >
             <Link className={classes.button}>Channel</Link>
-          </Button> <Button >
-            <Link className={classes.button} to="/createroom">Create</Link>
-          </Button> <Button >
+          </Button> 
+          {auth.isGuest ? <Button disabled ><Link className={classes.button} to="/createroom" >Create</Link></Button>:
+           <Button ><Link className={classes.button} to="/createroom" >Create</Link></Button>}
+          <Button >
             <Link className={classes.button} to="/initJoinRoom">Join</Link>
           </Button> 
           
@@ -105,10 +110,10 @@ export default function NavBar() {
               >
                 <MenuItem >Profile</MenuItem>
                 <MenuItem>
-               <Link className={classes.menu} to="/createchannel">CreateChannel</Link>
+               <Link className={classes.menu} to="/createChannel">CreateChannel</Link>
                </MenuItem>
-                <MenuItem  >
-                  <Link className={classes.menu}>Logout</Link>
+                <MenuItem>
+                  <Link className={classes.menu} to="/login" onClick={logout}>Logout</Link>
                 </MenuItem>
                 
               </Menu>

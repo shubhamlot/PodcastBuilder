@@ -6,7 +6,7 @@ import {  gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import AllGuests from './AllGuests'
 
-import { Icon, IconButton, makeStyles } from '@material-ui/core'
+import { Icon, IconButton, makeStyles,LinearProgress } from '@material-ui/core'
 import { PlayCircleFilledOutlined } from '@material-ui/icons';
 
 import Loading from './loading'
@@ -38,17 +38,21 @@ const useStyles = makeStyles((theme) => ({
         fontSize:"20px"
       },
       tabhead:{
-      paddingLeft:"40px",
+      paddingLeft:20,
       paddingTop:"10px",
       color:"#000000",
-      flex:1
+      
       },
       speech:{
         fontSize:"18px",
         fontWeight:"100",
+        paddingLeft:20,
+        paddingRight:20
       },
       container:{
-        display:"flex"
+        // display:"flex",
+        color:"#000000",
+
       },
       icon:{
         color:"#000000"
@@ -87,18 +91,19 @@ export default function FS(){
           <div className={classes.container}>
           <div className={classes.tabhead}>
           <AllGuests params={voice.speaker}/>
+          </div>
           <p className={classes.speech}>{voice.speech}</p>
           </div>
           <div>
-            <IconButton className={classes.icon}>
+            {/* <IconButton className={classes.icon}>
               <Icon>
                 <PlayCircleFilledOutlined/>
               </Icon>
-            </IconButton>
-        {/* <audio key={voice._id}  controls>
-           <source  src={`http://localhost:4000/Audio/${voice.file}`} type="audio/wav"></source>
-        </audio> */}
-        </div>
+            </IconButton> */}
+        <audio key={voice._id}  controls>
+           <source  src={`http://localhost:4000/audio/${voice.file}`} type="audio/wav"></source>
+        </audio>
+        {/*</div>*/}
         </div>
         </li>
         )

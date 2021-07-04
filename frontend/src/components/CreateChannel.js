@@ -8,10 +8,11 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { InputLabel, NativeSelect } from '@material-ui/core';
+import { InputLabel, NativeSelect,createMuiTheme,ThemeProvider } from '@material-ui/core';
 import {  gql, useMutation } from '@apollo/client'
 import defaultimage from '../default.jpg'
 import AuthContext from '../context/auth-context'
+import {Redirect} from 'react-router-dom'
 
 
 const CREATE_CHANNEL = gql`
@@ -58,9 +59,11 @@ const useStyles = makeStyles((theme) => ({
   form:{
     marginTop:20,
     width:"100%",
+
   },
   textfield:{
-    width:"100%"
+    width:"100%",
+
   },
   
 }));
@@ -69,10 +72,16 @@ export default function CreateChannel() {
   const auth = useContext(AuthContext)
   const classes = useStyles();
   const[createchannel] = useMutation(CREATE_CHANNEL,{
-    onCompleted: data => console.log(data),
+    onCompleted: data => setState({_issubmitted:true}),
     onError:err=>console.log(err)
   })
 
+  const theme = createMuiTheme({
+    palette: {
+      type: 'dark',
+     
+    },
+  });
 
   const[contenttype,setContenttype]=React.useState('none')
   const[country,setContry]=React.useState('none')
@@ -127,6 +136,7 @@ export default function CreateChannel() {
     if(channelname.trim() !== "" || discription.trim() !== ""){
       console.log("form submitted")
       setState({_issubmitted:true})
+      console.log(auth.userId)
       createchannel({variables:{file:filefinal,channelname,
         discription,country:countryfinal,contenttype:contenttypefinal,
         language:languagefinal,creator:auth.userId}})
@@ -135,8 +145,9 @@ export default function CreateChannel() {
 
   
 
-  // if(!state._issubmitted){
+  if(!state._issubmitted){
   return (
+    <ThemeProvider theme={theme}>
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={5}  >
@@ -222,8 +233,7 @@ export default function CreateChannel() {
 
           <Grid item xs={12}>
           <Button variant="contained" component="label">Add Cover Image
-            <input type="file" accept="image/png, image/jpeg" hidden 
-            name="file" onChange={handleChange}/>
+            <input type="file" accept="image/png, image/jpeg" hidden name="file" onChange={handleChange}/>
             </Button>
           
           </Grid>
@@ -252,9 +262,10 @@ export default function CreateChannel() {
         </div>
       </Grid>
     </Grid>
+    </ThemeProvider>
   );
-  //  }
-  //  else{
-  //    return <Redirect to="/home"/>
-  //  }
+   }
+   else{
+     return <Redirect to="/home"/>
+   }
 }

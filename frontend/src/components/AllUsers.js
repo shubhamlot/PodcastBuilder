@@ -2,51 +2,53 @@ import React from 'react'
 import {  gql, useQuery } from '@apollo/client'
 import { useParams } from 'react-router'
 import AllGuests from './AllGuests'
-import { createMuiTheme, Icon, makeStyles, ThemeProvider } from '@material-ui/core'
+import { createMuiTheme, Icon, makeStyles, ThemeProvider, Grid } from '@material-ui/core'
 import {  FaceSharp } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   container:{
-    display:"flex",
+    
+
     overflowY:"hidden"
   },
 
   avatar:{
-    flex:3,
+    width:100,
     fontSize:"20px",
     textAlign:"center",
     margin:4,
     padding:4,
-    width:40,
+    width:"100%",
     height:70,
     borderRadius:10,
     backgroundColor:"#5DB7DE",
     color:"#000000"
   },
   orangeAvatar:{
-    flex:3,
+   
     fontSize:"20px",
     textAlign:"center",
     margin:4,
     padding:4,
-    width:40,
+    width:"100%",
     height:70,
     borderRadius:10,
     backgroundColor:"#FF7F11",
     color:"#000000"
   },
   purpleAvatar:{
-    flex:3,
+   
     fontSize:"20px",
     textAlign:"center",
     margin:4,
     padding:4,
-    width:40,
+    width:"100%",
     height:70,
     borderRadius:10,
     backgroundColor:"#F08080",
     color:"#000000"
-  }
+  },
+ 
 });
 
 
@@ -82,13 +84,16 @@ export default function FS(){
     if(data){
       data.listGuests.map(guest=>{
         guestList.push(
+      <Grid item xs={6}>
         <div key={guest} className={classNameHolder[Math.floor(Math.random()*3)]} >
         <Icon>
           <FaceSharp/>
         </Icon>
         <br></br>
         <AllGuests params={guest}/><br></br>
-        </div>)
+        </div>
+      </Grid>
+      )
       })
     }
     
@@ -96,9 +101,9 @@ export default function FS(){
     return(
      <ThemeProvider theme={theme}>
        <h3>Joined Guests</h3>
-        <div className={classes.container}>
+        <Grid container spacing={3}>
         {guestList}
-         </div>
+         </Grid>
      </ThemeProvider>
     )
 }

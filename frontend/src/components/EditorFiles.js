@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor:"#ede7f6",
       marginTop:1,
       marginLeft:5,
-      fontWeight:"bold",
+      // fontWeight:"bold",
       fontSize:"15px",
       cursor:"pointer",
       width:"90%" 
@@ -75,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
       padding:5,
       margin:5,
     
+    },
+    small:{
+      fontSize:10
     }
 
 }))
@@ -87,7 +90,8 @@ function App( props ) {
   const classes = useStyles();
   const [list,setList] = useState([])
   const [check,setCheck] = useState(0)
-
+  const [combined,setCombined] =useState(false)
+  const [file,setFile]=useState('')
   function handleOnDragEnd(result) {
     if (!result.destination) return;
 
@@ -106,7 +110,12 @@ function App( props ) {
     })
 
     const [combine] = useMutation(COMBINE,{
-      onCompleted:(data)=>{console.log(data)}
+      onCompleted:(data)=>{
+        props.parentCallback(data)
+        setCombined(true)
+        setFile(data)
+
+      }
     })
 
     let audioList =[]
@@ -145,7 +154,7 @@ function App( props ) {
       audio.forEach((item)=>{temp.push(item.file)})
       
       combine({variables:{list:temp}})
-      props.parentCallback(list);
+      
       
     }
 
@@ -155,6 +164,8 @@ function App( props ) {
        </div>)
      }
      else{
+
+      if(!combined){
 
   return (
     <Paper elevation={0} >
@@ -209,7 +220,17 @@ function App( props ) {
    </Paper>
    <Button onClick={combineFunction}  variant="contained" color="secondary">combine</Button>
     </Paper>
-  );
+  )
+  }
+  
+  else{
+    
+     return(<div className={classes.tab}>
+        <div className={classes.tabhead}>{file.CombineFiles}</div>
+        <p classesName={classes.small}>your file is combined and now ready to add in episodes</p>
+      </div>)
+  }
+
     }
 
 }

@@ -6,17 +6,20 @@ const fs = require('fs')
 const mongoose = require('mongoose');
 const Room = require('./models/Room');
 const Channel = require('./models/Channel');
-
+const jwt = require('jsonwebtoken')
 const {  v4 : uuidv4 } = require("uuid");
 const User = require('./models/User');
+const Episode = require('./models/Episode')
 const bcrypt = require('bcrypt');
 const { findOne } = require('./models/User');
-
+const isAuth = require('./middleware/is-auth')
 const {dataConvertion,combineFiles} = require('./pythonBridge/files')
 // const defaultimage = require('./public/images/default.jpg')
 // const crunker = require('crunker')
 // const ffmpeg = require('fluent-ffmpeg')
 // const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
+
+
 
 function generateRandomString(length) {
     var result           = [];
@@ -42,6 +45,8 @@ const typeDefs = gql`
     _id:ID
     username:String
     email:String
+    token:String
+    tokenExpiration:String
     isGuest:Boolean
   }
 
@@ -49,6 +54,7 @@ const typeDefs = gql`
     roomID:String
     roomname:String
     creator:String
+    guestList:[String]
   }
 
   type Channel{
@@ -56,6 +62,12 @@ const typeDefs = gql`
     profileImage:String
   }
 
+  type Episode {
+    EpisodeName:String
+    discription:String
+    audioFile:String
+    img:String
+  }
 
   type Query {
     files(roomid:String): [File!]
@@ -64,6 +76,8 @@ const typeDefs = gql`
     login(email:String,password:String):User
     listGuests(roomId:String):[String]
     showChannel(userId:String):Channel
+    reviewEpisode(EpisodeID:String):Episode
+    displayEpisode(userId:String):[String]
   }
 
   type Mutation {
@@ -73,6 +87,7 @@ const typeDefs = gql`
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
     CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
+    CreateEpisodes(userId:String!,EpisodeName:String!,discription:String!,profileImage:Upload!,audioFile:String!):String
   }
 `;
 
@@ -153,12 +168,18 @@ const resolvers = {
          if(!isEqual){
            return new Error("auth failed")
          }
+         const token = jwt.sign({ userId : user.id, email: user.email }, 'secretkey!@#', {
+        expiresIn: '1h'
+      })
         //  console.log(user)
          return {
            _id:user._id,
            username:user.username,
            email:user.email,
-           isGuest:user.isGuest
+           isGuest:user.isGuest,
+           token:token,
+           tokenExpiration:1
+
          }
         })
       },
@@ -183,7 +204,29 @@ const resolvers = {
                     profileImage:data.profileImage}
           }
         })
-      }
+      },
+
+      reviewEpisode:async(parent,{EpisodeID})=>{
+        return Episode.findOne({_id:EpisodeID}).then(res=>{
+          return{
+            EpisodeName:res.EpisodeName,
+            discription:res.discription,
+            audioFile:res.audiofile,
+            img:res.profileImage
+          }
+        })
+      },
+       displayEpisode:async(parent,{userId})=>{
+
+          return await Channel.findOne({creatorID:userId}).then(async res=>{
+            return await res.episodesList
+          }).then(async list=>{
+             return list
+                
+              })
+              
+            
+       }
   },
   
   Mutation: {
@@ -194,8 +237,8 @@ const resolvers = {
     //  const {ext,name} = path.parse(filename)
      const randomName = generateRandomString(12)+".wav"
         const stream = createReadStream()
-      // console.log(filename)
-        const pathName = path.join(__dirname, `/public/Audio/${randomName}`)
+      console.log(filename)
+        const pathName = path.join(__dirname, `/public/audio/${randomName}`)
         await stream.pipe(fs.createWriteStream(pathName))
      
     // //     console.log(pathName)
@@ -204,7 +247,7 @@ const resolvers = {
     // //     // }
         
     // //   //  console.log(arg)
-      let speech = await dataConvertion(__dirname,randomName)
+      let speech = await dataConvertion(randomName)
        Room.updateOne({ roomID: roomid },{ $push: { Audio: [{speaker:speaker,file:randomName,speech:speech}] }}).then(
          room=>{
            console.log(room)
@@ -212,7 +255,7 @@ const resolvers = {
        )
       
          
-          return `http://localhost:4000/Audio/${randomName}`
+          return `http://localhost:4000/audio/${randomName}`
         
 
       //   // })
@@ -290,13 +333,20 @@ const resolvers = {
         temp.push(item)
       })
       
-      let final = combineFiles(temp)
+      let final = await combineFiles(temp)
       return final
    
   },
 
   CreateChannel:async(parent,{file,channelname,discription,language,country,contenttype,creator})=>{
     
+     User.findOne({_id:creator}).then(res=>{
+        if(res){
+          User.updateOne({_id:creator},{isGuest:false}).then(res=>{
+            console.log(res)
+          })
+        }
+     })
 
     return Channel.findOne({channelName:channelname})
     .then(data=>{
@@ -333,13 +383,43 @@ const resolvers = {
         creatorID:creator
       })
       newChannel.save()
+      console.log(newChannel)
       return "saved successfully"
     })
     
-    
-    
-  
+  },
+
+
+  CreateEpisodes:async(parent,{userId,EpisodeName,discription,profileImage,audioFile})=>{
+
+       const { createReadStream, filename, mimetype } = await profileImage
+       const {ext,name} = path.parse(filename)
+       const randomName = generateRandomString(12)+ext
+       const stream = createReadStream()
+       const pathName = path.join(__dirname,`/public/images/${randomName}`)
+       await stream.pipe(fs.createWriteStream(pathName))
+      
+
+      const newEpisode = new Episode({
+          EpisodeName:EpisodeName,
+          discription:discription,
+          audiofile:audioFile,
+          profileImage:randomName
+        })
+
+       
+        return newEpisode.save().then(data=>{
+          return Channel.updateOne({creatorID:userId},{$push:{episodesList:data._id}}).then(res=>{
+            console.log(res)
+            return data._id
+          })
+        })
+       
+
+     
+
   }
+
 }
 }
 
@@ -353,10 +433,21 @@ server.applyMiddleware({app})
 app.use(express.static('public'))
 app.use(cors())
 
+app.use((req, res, next)=>{
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Methods','POST,GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+  if(req.method == "OPTIONS"){
+    return res.sendStatus(200)
+  }
+  next()
+})
 
+app.use(isAuth);
 mongoose.connect('mongodb://localhost/PodcastBuilderdb',{useNewUrlParser: true,useUnifiedTopology: true})
 .then(
   app.listen({ port:4000 },()=>{
     console.log("server on 4000")
 })
 )
+

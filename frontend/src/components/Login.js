@@ -49,6 +49,8 @@ query login($email:String,$password:String){
       _id
       username
       email
+      token
+      tokenExpiration
       isGuest
     }
   }
@@ -65,7 +67,7 @@ export default function Login(){
         onError:(err)=>{console.log(err)},
         onCompleted:(data)=>{
           
-          auth.login(data.login._id,data.login.username,data.login.isGuest)
+          auth.login(data.login._id,data.login.username,data.login.isGuest,data.login.token,data.login.tokenExpiration)
         }
     })
  
