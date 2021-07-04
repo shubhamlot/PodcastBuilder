@@ -5,7 +5,10 @@ import Reactmic from './Reactmic';
 import Deposite from './Deposits'
 import Files from './Files'
 import Copyright from './Copyright'
-
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
+import { useParams } from 'react-router';
+import Loading from './loading'
 
 const drawerWidth = 240;
 
@@ -87,6 +90,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
+const SHOW_FILE = gql`
+query findroom($id:String){
+  findRoom(id:$id){
+    creator
+  }
+}
+`
+
 export default function Dashboard() {
   const theme = createMuiTheme({
     palette: {
@@ -95,7 +107,14 @@ export default function Dashboard() {
     },
   });
   const classes = useStyles();
-  
+    const { room } = useParams()
+ 
+  const{ loading,data} = useQuery(SHOW_FILE,{
+    variables: {id:room},
+    
+  })
+ 
+  if (loading ) return <Loading/>
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaperPortal = clsx(classes.paper, classes.fixedHeightPortal);
   
@@ -123,11 +142,11 @@ export default function Dashboard() {
               </Paper>
             </Grid>
             <Grid>
-            <Paper className={classes.recordControl}>
+             <Paper className={classes.recordControl}>
               
-              <Reactmic/>
+               <Reactmic creator={data.findRoom.creator}/>
            
-              </Paper>
+               </Paper>
             </Grid>
             </Grid>
            

@@ -67,8 +67,8 @@ export default function NavBar() {
           </Button> <Button >
             <Link className={classes.button}>Channel</Link>
           </Button> 
-          {!auth.isGuest? <Button ><Link className={classes.button} to="/createroom">Create</Link></Button>:
-           <Button disabled><Link className={classes.button} to="/createroom" >Create</Link></Button>}
+          {auth.isGuest ? <Button disabled ><Link className={classes.button} to="/createroom" >Create</Link></Button>:
+           <Button ><Link className={classes.button} to="/createroom" >Create</Link></Button>}
           <Button >
             <Link className={classes.button} to="/initJoinRoom">Join</Link>
           </Button> 
@@ -109,7 +109,7 @@ export default function NavBar() {
                <Link className={classes.menu} to="/createChannel">CreateChannel</Link>
                </MenuItem>
                 <MenuItem  >
-                  <Link className={classes.menu}>Logout</Link>
+                  <Link className={classes.menu} to="/login">Logout</Link>
                 </MenuItem>
                 
               </Menu>

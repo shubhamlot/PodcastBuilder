@@ -50,6 +50,7 @@ const typeDefs = gql`
     roomID:String
     roomname:String
     creator:String
+    guestList:[String]
   }
 
   type Channel{
@@ -329,6 +330,13 @@ const resolvers = {
 
   CreateChannel:async(parent,{file,channelname,discription,language,country,contenttype,creator})=>{
     
+     User.findOne({_id:creator}).then(res=>{
+        if(res){
+          User.updateOne({_id:creator},{isGuest:false}).then(res=>{
+            console.log(res)
+          })
+        }
+     })
 
     return Channel.findOne({channelName:channelname})
     .then(data=>{

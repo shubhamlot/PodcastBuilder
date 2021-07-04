@@ -1,5 +1,5 @@
 
-import { useContext } from 'react'
+import { useContext,useEffect } from 'react'
 import AuthContext from '../context/auth-context'
 import {gql, useMutation} from '@apollo/client'
 import { Redirect } from 'react-router'
@@ -20,22 +20,34 @@ export default function Checkbeforjoining(param){
     }
 
     const [addUser,{loading,data}] = useMutation(ADD_GUEST,{
+
         onCompleted:(data)=>{
-            // console.log(data)
+            console.log(data)
         },
         onError:(error)=>{
             console.log(error)
         },
     })
 
-    addUser({variables:{guestid:info.userid,roomid:info.room}})
+
+    useEffect(()=>{
+        addUser({variables:{guestid:info.userid,roomid:info.room}})
+    })
+
+    // const handle =(info)=>{
+        
+    // }
+
+    // handle(info) 
+    
    
     
-    if(loading || data===null){
-        console.log(data)
-     return <p>loading.........</p>
-    }
+    // if(loading || data===null){
+    //     console.log(data)
+    //  return <p>loading.........</p>
+    // }
     
+    if(loading) return <p>loading</p>
         return(<Redirect to={`roomID=${info.room}`}/>)
 
     

@@ -80,7 +80,7 @@ export default function InitJoinRoom() {
   const [findroom ,{loading,data}] = useLazyQuery(FIND_ROOM,{
         variables: {id:state.room}
       })
-      if(loading ) return <p>loading</p>
+      if(loading ) {return (<p>loading</p>)}
     
 
    

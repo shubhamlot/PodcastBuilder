@@ -54,7 +54,7 @@ export default function EpisodeDisplay(){
 
 
    if(loading) return<p>loading</p>
-    // console.log(data.displayEpisode)
+    console.log(data.displayEpisode)
 
     if(data){
     let bucket = []

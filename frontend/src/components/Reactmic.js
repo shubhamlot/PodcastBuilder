@@ -64,6 +64,10 @@ const useStyles = makeStyles((theme)=>({
   },
   iconnext:{
     color:"lightgreen"
+  },
+  donebutton:{
+    color:"#ffffff",
+    justifyItems:"center"
   }
 
 }))
@@ -77,13 +81,13 @@ const UPLOAD_FILE = gql`
   }
 `
 
-export default function Test(){
+export default function Test(param){
     const classes = useStyles();
     const auth = useContext(AuthContext)
     const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
     const recorder = new Recorder(audioContext);
         const { room } = useParams()
-
+console.log(param)
       
       const [recording,setRecording] = useState(false)
       const [file,setFile] = useState(null)
@@ -131,7 +135,7 @@ export default function Test(){
         <div className={classes.container}>
           <div className={classes.control}>
           <div className={classes.gif}>
-            
+            {recording?<Gif/>:<p/>}
           </div>
            
            
@@ -139,13 +143,15 @@ export default function Test(){
             <Button color="secondary" onClick={stopRecording}>Stop</Button>
 
 
-            <IconButton className={classes.iconnext}>
-            <Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> 
            
-              <KeyboardArrowRight/>
+
+            {(param.creator === auth.userId)? <IconButton className={classes.iconnext}><Link className={classes.donebutton} to={`roomID=${room}/editpodcast`}> <KeyboardArrowRight/>
             
-            </Link>
-          </IconButton>
+            </Link></IconButton> :<p/> }
+            
+           
+             
+         
             
 
           </div>
