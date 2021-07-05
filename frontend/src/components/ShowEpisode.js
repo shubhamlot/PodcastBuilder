@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme)=>({
     paper: {
         padding: theme.spacing(2),
         margin:20,
-        display: 'flex',
+        width:"60%",
         overflow: 'auto',
         flexDirection: 'column',
       },
@@ -23,6 +23,24 @@ const useStyles = makeStyles((theme)=>({
     },
     discription:{
       fontSize:"12"
+    },
+    container:{
+      width:"100%",
+      height:"100%",
+      display:"flex",
+      
+
+    },
+    box:{
+      flex:1,
+      padding:10
+    },
+    imgbox:{
+      flex:2,
+      padding:10
+    },
+    audio:{
+      width:"100%"
     }
 }))
 
@@ -31,12 +49,14 @@ const GET_EPISODE = gql`
     reviewEpisode(EpisodeID:$EpisodeID){
         EpisodeName
         discription
+        audioFile
         img
+        
     }
   }
 `
 
-export default function FindEpisode(param){
+export default function ShowEpisode(param){
 
   const classes = useStyles()
 
@@ -46,16 +66,32 @@ export default function FindEpisode(param){
     //   pollInterval: 500,
     })
    if(loading)return <p>loading..</p>
+
    
   if(data){
+     console.log(`http://localhost:4000/pythonAudio/${data.reviewEpisode.audioFile}`)
   return (
 
-           
+          
         
             <React.Fragment>
+            <Paper className={classes.paper}>
+            <div className={classes.container}>
+
+            <div className={classes.imgbox}>
             <img className={classes.image} src={`http://localhost:4000/images/${data.reviewEpisode.img}`} alt="pic"/>
-            <h3>{data.reviewEpisode.EpisodeName}</h3>
-            <p>{data.reviewEpisode.discription}</p>
+            </div>
+            <div className={classes.box}>
+            <h1>{data.reviewEpisode.EpisodeName}</h1>
+            <h3>{data.reviewEpisode.discription}</h3>
+            <audio controls className={classes.audio}>
+              {data.reviewEpisode.audioFile}
+              <source src={`http://localhost:4000/pythonAudio/${data.reviewEpisode.audioFile}`} type="audio/wav"></source>
+              
+            </audio>
+            </div>
+            </div>
+            </Paper>
             </React.Fragment>
   
           

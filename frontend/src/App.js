@@ -56,14 +56,14 @@ function App() {
       <AuthProvider value={{username:state.username,userId:state.userId,isGuest:state.isGuest,login:login,token:state.token,tokenExpiration:state.tokenExpiration,logout}}>
         <Switch>
 
-        {state.token && <Route path="/roomID=:room" component={PodcastPortal} />}
+        {state.token && <Route path="/roomID=:room" component={PodcastPortal} exact />}
         {state.token && <Route path="/createroom" component={CreateRoom} exact/>}
         {state.token && <Route path="/initJoinRoom" component={InitJoin} exact/>}
         {!state.token && <Route path="/" component={Signup} exact/>}
         {!state.token && <Route path="/login" component={Login} exact/>}
         {state.token && <Route path="/login/createChannel" component={CreateChannel} exact/>}
         {state.token && <Route path="/Home" component={Home} exact/>}
-        {state.token && <Route path="/roomID=:room/editpodcast" component={Editor} />}
+        <Route path="/roomID=:room/editpodcast" component={Editor} />
         {state.token && <Route path="/createchannel" component={CreateChannel} exact/>}
        
          <Route component={PageNotFound404} />
