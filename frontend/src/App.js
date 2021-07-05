@@ -12,7 +12,7 @@ import InitJoin from './components/InitJoinRoom'
 import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
 import PageNotFound404 from './components/PageNotFound404'
-
+import ChannelInfo from './components/ChannelInfo'
 const client = new ApolloClient({
   link: createUploadLink({
     uri:'http://localhost:4000/graphql',
@@ -63,8 +63,9 @@ function App() {
         {!state.token && <Route path="/login" component={Login} exact/>}
         {state.token && <Route path="/login/createChannel" component={CreateChannel} exact/>}
         {state.token && <Route path="/Home" component={Home} exact/>}
-        <Route path="/roomID=:room/editpodcast" component={Editor} />
+        {state.token && <Route path="/roomID=:room/editpodcast" component={Editor} />}
         {state.token && <Route path="/createchannel" component={CreateChannel} exact/>}
+        {state.token && <Route path="/channelinfo" component={ChannelInfo} exact/>}
        
          <Route component={PageNotFound404} />
          </Switch>

@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { InputLabel, NativeSelect,createMuiTheme,ThemeProvider } from '@material-ui/core';
-import {  gql, useMutation } from '@apollo/client'
+import {  gql, useMutation,useQuery } from '@apollo/client'
 import defaultimage from '../default.jpg'
 import AuthContext from '../context/auth-context'
 import {Redirect} from 'react-router-dom'
@@ -68,9 +68,17 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
+
+
+
 export default function CreateChannel() {
   const auth = useContext(AuthContext)
-  const classes = useStyles();
+
+   const classes = useStyles();
+  
+
+
+ 
   const[createchannel] = useMutation(CREATE_CHANNEL,{
     onCompleted: data => setState({_issubmitted:true}),
     onError:err=>console.log(err)
@@ -142,6 +150,11 @@ export default function CreateChannel() {
         language:languagefinal,creator:auth.userId}})
     }
   }
+
+
+  
+
+  if(!auth.isGuest) return <Redirect to="channelinfo"/>
 
   
 

@@ -60,6 +60,11 @@ const typeDefs = gql`
   type Channel{
     channelName:String
     profileImage:String
+    discription:String
+    language:String
+    country:String
+    contenttype:String
+    creator:String
   }
 
   type Episode {
@@ -78,6 +83,7 @@ const typeDefs = gql`
     showChannel(userId:String):Channel
     reviewEpisode(EpisodeID:String):Episode
     displayEpisode(userId:String):[String]
+    channelInfo(userId:String):Channel
   }
 
   type Mutation {
@@ -226,6 +232,20 @@ const resolvers = {
               })
               
             
+       },
+
+       channelInfo:async(parent,{userId})=>{
+        return await Channel.findOne({creatorID:userId}).then(async res=>{
+          return {
+            channelName:res.channelName,
+            discription:res.discription,
+            profileImage:res.profileImage,
+            language:res.language,
+            country:res.country,
+            contenttype:res.contenttype,
+            creator:res.creatorID
+          }
+        })
        }
   },
   
