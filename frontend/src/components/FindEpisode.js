@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme)=>({
     },
     discription:{
       fontSize:"12"
+    },
+    container:{
+      lineHeight:"50%"
     }
 }))
 
@@ -54,8 +57,10 @@ export default function FindEpisode(param){
         
             <React.Fragment>
             <img className={classes.image} src={`http://localhost:4000/images/${data.reviewEpisode.img}`} alt="pic"/>
+            <div className={classes.container}>
             <h3>{data.reviewEpisode.EpisodeName}</h3>
             <p>{data.reviewEpisode.discription}</p>
+            </div>
             </React.Fragment>
   
           

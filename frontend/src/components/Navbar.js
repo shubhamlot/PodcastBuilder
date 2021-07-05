@@ -50,6 +50,7 @@ export default function NavBar() {
 
   const logout=()=>{
     auth.logout()
+    console.log(auth)
   }
 
   const handleClose = () => {
@@ -69,7 +70,7 @@ export default function NavBar() {
           <Button >
             <Link className={classes.button} to="/home">Home</Link>
           </Button> <Button >
-            <Link className={classes.button}>Channel</Link>
+            <Link className={classes.button} to="/channelinfo">Channel</Link>
           </Button> 
           {auth.isGuest ? <Button disabled ><Link className={classes.button} to="/createroom" >Create</Link></Button>:
            <Button ><Link className={classes.button} to="/createroom" >Create</Link></Button>}
@@ -108,12 +109,16 @@ export default function NavBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem >Profile</MenuItem>
+                {/*<MenuItem >Profile</MenuItem>*/}
                 <MenuItem>
+                <Button>
                <Link className={classes.menu} to="/createChannel">CreateChannel</Link>
+                </Button>
                </MenuItem>
                 <MenuItem>
-                  <Link className={classes.menu} to="/login" onClick={logout}>Logout</Link>
+                  <Button onClick={logout}>
+                  <Link className={classes.menu} to="/login" >Logout</Link>
+                  </Button>
                 </MenuItem>
                 
               </Menu>
