@@ -47,8 +47,6 @@ const LOGIN_USER = gql`
 query login($email:String,$password:String){
     login(email:$email,password:$password){
       _id
-      username
-      email
       token
       tokenExpiration
       isGuest
@@ -67,7 +65,7 @@ export default function Login(){
         onError:(err)=>{console.log(err)},
         onCompleted:(data)=>{
           
-          auth.login(data.login._id,data.login.username,data.login.isGuest,data.login.token,data.login.tokenExpiration)
+          auth.login(data.login._id,data.login.isGuest,data.login.token,data.login.tokenExpiration)
         }
     })
  

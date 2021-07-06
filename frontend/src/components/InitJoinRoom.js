@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import clsx from 'clsx';
-import {Avatar, Button,Container,TextField, Typography, makeStyles} from '@material-ui/core';
+import {Avatar, Button,Container,TextField, Typography, makeStyles,createMuiTheme,ThemeProvider} from '@material-ui/core';
 import {  gql, useLazyQuery } from '@apollo/client'
 import NavBar from './Navbar';
 import { Mic } from '@material-ui/icons';
@@ -67,7 +67,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InitJoinRoom() {
   const classes = useStyles();
-
+  const theme = createMuiTheme({
+    palette: {
+      type: 'light',
+     
+    },
+  });
 
   let classNameHolder = [classes.orange,classes.blue,classes.yellow]
   const [state,setstate] = useState({
@@ -101,6 +106,7 @@ export default function InitJoinRoom() {
    
     <div>
     <NavBar/>
+    <ThemeProvider theme={theme}>
     <div className={classes.container}>
       <Container maxWidth="xs">
      
@@ -155,7 +161,7 @@ export default function InitJoinRoom() {
         </Container>
     </div>
     </div>
-    
+    </ThemeProvider>
 </div>
   )
     }

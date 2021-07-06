@@ -43,8 +43,6 @@ const typeDefs = gql`
 
   type User {
     _id:ID
-    username:String
-    email:String
     token:String
     tokenExpiration:String
     isGuest:Boolean
@@ -76,7 +74,7 @@ const typeDefs = gql`
 
   type Query {
     files(roomid:String): [File!]
-    finduser(id:String): User
+    finduser(id:String): String
     findRoom(id:String):Room
     login(email:String,password:String):User
     listGuests(roomId:String):[String]
@@ -144,12 +142,7 @@ const resolvers = {
        
          return await User.findOne({_id:arg.id}).then(async data=>{
           
-            return{
-            _id:data._id,
-            username:data.username,
-            email:data.email,
-            isGuest:data.isGuest
-           }
+            return data.username
           
          })
     
@@ -177,11 +170,9 @@ const resolvers = {
          const token = jwt.sign({ userId : user.id, email: user.email }, 'secretkey!@#', {
         expiresIn: '1h'
       })
-        //  console.log(user)
+         console.log(user)
          return {
            _id:user._id,
-           username:user.username,
-           email:user.email,
            isGuest:user.isGuest,
            token:token,
            tokenExpiration:1
