@@ -2,9 +2,7 @@ import { useQuery,gql } from '@apollo/client'
 
 const SHOW_USER = gql`
 query user($id:String){
-    finduser(id:$id){
-      username
-    }
+    finduser(id:$id)
   }
 `
 
@@ -16,6 +14,6 @@ export default function AllGuests(props){
      if(loading) return null
      
      else {
-       return data.finduser.username
+       return data.finduser
      }
 }

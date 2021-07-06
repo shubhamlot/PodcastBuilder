@@ -30,6 +30,7 @@ const SHOW_EPISODE = gql`
         EpisodeName
         discription
         audioFile
+        img
     }
   }
 `
@@ -46,7 +47,7 @@ export default function Review(param){
             <Grid container className={classes.root}>
                 <Grid item className={classes.item}>
                     <div>
-                    <img className={classes.img} src={logo} alt="pic"/>
+                    <img className={classes.img} src={`http://localhost:4000/images/${data.reviewEpisode.img}`} alt="pic"/>
                     </div>
                     <div>
                         <p>participants</p>

@@ -32,12 +32,13 @@ const useStyles = makeStyles((theme) => ({
 	container:{
 		padding:20,
 		width:"100%",
-		height:"100vh",
-		display:"flex"
+		height:"100%",
+		display:"flex",
+		marginTop:50
 	},
 	img:{
 		width:"100%",
-		height:"70%",
+		height:"100%",
 		},
 	box:{
 		
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChannelInfo(){
 	const auth = useContext(AuthContext)
+
 	const classes = useStyles();
 	 const{ loading,err,data} = useQuery(SHOW_CHANNEL,{
       variables: {userId:auth.userId},
@@ -59,8 +61,8 @@ export default function ChannelInfo(){
 		<React.Fragment>
 			<ThemeProvider theme={theme}>
 			<Navbar/>
-			<Container maxWidth="lg">
-			<Paper className={classes.container}>
+			<Container maxWidth="lg" minHeight="100%">
+			<Paper className={classes.container} >
 				<Grid container spacing={2}>
 				<Grid item xs={12} sm={6} md={4} lg={4}>
 				<img className={classes.img} src={`http://localhost:4000/images/${data.channelInfo.profileImage}`}/>

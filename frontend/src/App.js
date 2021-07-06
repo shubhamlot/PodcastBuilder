@@ -30,20 +30,20 @@ const client = new ApolloClient({
 function App() {
   
   let [state,setState] = useState({
-    username:'',
+   
     userId:'',
     isGuest:true,
     token:null,
     tokenExpiration:null
   })
 
-  const login =(userId,username,isGuest,token,tokenExpiration)=>{
+  const login =(userId,isGuest,token,tokenExpiration)=>{
 
-    setState({token:token,tokenExpiration:tokenExpiration,userId:userId,username:username,isGuest:isGuest})
+    setState({token:token,tokenExpiration:tokenExpiration,userId:userId,isGuest:isGuest})
     
   }
   const logout =()=>{
-   setState({userId:null,username:null,isGuest:true,token:null,tokenExpiration:null })
+   setState({userId:null,isGuest:true,token:null,tokenExpiration:null })
 
   }
 
@@ -56,7 +56,7 @@ function App() {
       
       
       <ApolloProvider client={client}>
-      <AuthProvider value={{username:state.username,userId:state.userId,isGuest:state.isGuest,login:login,token:state.token,tokenExpiration:state.tokenExpiration,logout}}>
+      <AuthProvider value={{userId:state.userId,isGuest:state.isGuest,login:login,token:state.token,tokenExpiration:state.tokenExpiration,logout:logout}}>
         <Switch>
 
         {state.token && <Route path="/roomID=:room" component={PodcastPortal} exact />}
