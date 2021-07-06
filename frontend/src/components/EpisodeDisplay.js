@@ -76,12 +76,15 @@ export default function EpisodeDisplay(){
    if(loading) return <CircularProgress/>
    
     if(data){
-    
+      if(data.displayEpisode[0] === undefined){
+        return <h1 className={classes.text}>Nothing Here to Show</h1>
+      }
+      
     
     return(
       <ThemeProvider theme={theme}>
 
-      
+       
 
       <Grid container spacing={3}>
        { data.displayEpisode.map(data=>{
@@ -95,7 +98,9 @@ export default function EpisodeDisplay(){
         </Paper>
         </Grid>
         )
+
     })}
+
 
     </Grid>
      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>

@@ -5,6 +5,7 @@ import { createMuiTheme, makeStyles, ThemeProvider,CssBaseline,Paper,Stepper,
 import EditorFiles from './EditorFiles'
 import Discription from './EditFileDiscription'
 import Review from './Review'
+import {Redirect} from 'react-router-dom'
 
 
 
@@ -85,7 +86,10 @@ function GetStepContent(step,classes) {
   const [id,setId] = React.useState()
   const handleCallback = (childData) =>{
     setListoutput(childData)
+    
 }
+
+
 
   const handleParentCallback = (childData)=>{
     console.log(childData.CreateEpisodes)

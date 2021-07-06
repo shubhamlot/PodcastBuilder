@@ -13,6 +13,8 @@ import { useState } from 'react';
 import {AuthProvider} from './context/auth-context'
 import PageNotFound404 from './components/PageNotFound404'
 import ChannelInfo from './components/ChannelInfo'
+import SuccessPage from './components/SuccessPage'
+
 const client = new ApolloClient({
   link: createUploadLink({
     uri:'http://localhost:4000/graphql',
@@ -44,6 +46,7 @@ function App() {
    setState({userId:null,username:null,isGuest:true,token:null,tokenExpiration:null })
 
   }
+
   return (
     
 
@@ -59,15 +62,15 @@ function App() {
         {state.token && <Route path="/roomID=:room" component={PodcastPortal} exact />}
         {state.token && <Route path="/createroom" component={CreateRoom} exact/>}
         {state.token && <Route path="/initJoinRoom" component={InitJoin} exact/>}
-        {!state.token && <Route path="/" component={Signup} exact/>}
+        
         {!state.token && <Route path="/login" component={Login} exact/>}
-        {state.token && <Route path="/login/createChannel" component={CreateChannel} exact/>}
         {state.token && <Route path="/Home" component={Home} exact/>}
         {state.token && <Route path="/roomID=:room/editpodcast" component={Editor} />}
         {state.token && <Route path="/createchannel" component={CreateChannel} exact/>}
         {state.token && <Route path="/channelinfo" component={ChannelInfo} exact/>}
+        {state.token && <Route path="/success" component={SuccessPage} exact/>}
+        {!state.token && <Route component={Signup} exact/>}
        
-         <Route component={PageNotFound404} />
          </Switch>
         </AuthProvider>
         </ApolloProvider>

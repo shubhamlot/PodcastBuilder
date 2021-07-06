@@ -80,7 +80,10 @@ export default function CreateChannel() {
 
  
   const[createchannel] = useMutation(CREATE_CHANNEL,{
-    onCompleted: data => setState({_issubmitted:true}),
+    onCompleted: data => {
+      setState({_issubmitted:true})
+      alert("your Channel has been creates successfully you will be redirected to login page")
+    },
     onError:err=>console.log(err)
   })
 
@@ -279,6 +282,7 @@ export default function CreateChannel() {
   );
    }
    else{
-     return <Redirect to="/home"/>
+
+     return (<Redirect to="/success"/>)
    }
 }

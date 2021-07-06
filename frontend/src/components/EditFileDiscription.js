@@ -36,9 +36,15 @@ export default function Discription(param){
         console.log(data)},
     onError:err=>console.log(err)
   })
-     const episodeNameRef = React.useRef()
+      const episodeNameRef = React.useRef()
      const discriptionRef = React.useRef()
      const audiofileRef = React.useRef()
+     console.log(param.param)
+    if(param.param === undefined){
+        return <h1>you dont have any file to combine</h1>
+    }
+    else{
+   
 
     const handleSubmit=()=>{
         const episodeName = episodeNameRef.current.value
@@ -66,4 +72,5 @@ export default function Discription(param){
             <Button onClick={handleSubmit}>Submit</Button>
         </form>
     )
+}
 }
