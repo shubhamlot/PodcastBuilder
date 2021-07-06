@@ -117,6 +117,11 @@ function App( props ) {
 
       }
     })
+    
+    if(data.files[0] === undefined){
+        return <h1>you dont have any file to combine</h1>
+    }
+    else{
 
     let audioList =[]
     if(loading) return <Loading/>
@@ -232,6 +237,7 @@ function App( props ) {
   }
 
     }
+  }
 
 }
 

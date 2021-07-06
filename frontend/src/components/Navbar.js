@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {  Menu, MenuItem, AppBar, Toolbar, Typography, Button, IconButton,makeStyles } from '@material-ui/core';
+import {  Menu, MenuItem, AppBar, Toolbar, Typography, Button, IconButton,makeStyles,ThemeProvider,createMuiTheme } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/auth-context'
@@ -24,9 +24,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   appbar:{
+    width:"100%",
     backgroundColor:"#424242"
   },
   menu:{
+    // backgroundColor:theme.palette.background.paper,
     color:"#ffffff",
     textDecoration:"none"
   }
@@ -56,9 +58,17 @@ export default function NavBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+   const theme = createMuiTheme({
+    palette: {
+      type: 'dark',
+     
+    },
+  });
  
   return (
-    // <React.Fragment className={classes.root}>
+  
+    <ThemeProvider theme={theme}>
       <AppBar className={classes.appbar} position="static">
         <Toolbar>
          
@@ -67,7 +77,7 @@ export default function NavBar() {
            
           </Typography>
 
-          <Button >
+          <Button  >
             <Link className={classes.button} to="/home">Home</Link>
           </Button> <Button >
             <Link className={classes.button} to="/channelinfo">Channel</Link>
@@ -111,12 +121,12 @@ export default function NavBar() {
               >
                 {/*<MenuItem >Profile</MenuItem>*/}
                 <MenuItem>
-                <Button>
+                <Button >
                <Link className={classes.menu} to="/createChannel">CreateChannel</Link>
                 </Button>
                </MenuItem>
                 <MenuItem>
-                  <Button onClick={logout}>
+                  <Button onClick={logout} >
                   <Link className={classes.menu} to="/login" >Logout</Link>
                   </Button>
                 </MenuItem>
@@ -126,6 +136,7 @@ export default function NavBar() {
 
         </Toolbar>
       </AppBar>
-    // </React.Fragment>
+      </ThemeProvider>
+  
   );
 }

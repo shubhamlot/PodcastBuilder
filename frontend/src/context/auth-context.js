@@ -9,7 +9,8 @@ const AuthContext = React.createContext({
     isGuest:true,
     tokenEpiration:null,
     login:(userId,username,isGuest,token,tokenEpiration)=>{},
-    logout:()=>{}
+    logout:()=>{},
+   
 })
 
 export const AuthProvider = AuthContext.Provider

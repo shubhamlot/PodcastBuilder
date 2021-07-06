@@ -49,7 +49,8 @@ export default function FindEpisode(param){
     //   pollInterval: 500,
     })
    if(loading)return <p>loading..</p>
-   
+
+
   if(data){
   return (
 
