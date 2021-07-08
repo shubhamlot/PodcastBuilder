@@ -19,7 +19,7 @@ const {dataConvertion,combineFiles} = require('./pythonBridge/files')
 // const ffmpeg = require('fluent-ffmpeg')
 // const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
 
-
+const Feed = require("feed").Feed;
 
 function generateRandomString(length) {
     var result           = [];
@@ -30,6 +30,47 @@ function generateRandomString(length) {
  charactersLength)));
    }
    return result.join('');
+}
+
+
+
+function createFeed(channel){
+
+
+const feed = new Feed({
+  title:channel.channelName ,
+  description: channel.discription,
+  language: channel.language, // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+  image: `http://localhost:4000/images/${channel.profileImage}`,
+  updated: new Date(), // optional, default = today
+  generator: "Podcast Builder", // optional, default = 'Feed for Node.js'
+  contenttype:channel.contenttype,
+    
+  
+  
+});
+
+
+// console.log(res)
+if(channel.episodesList!=[]){
+
+  channel.episodesList.forEach(post=>{
+    Episode.findOne({_id:post}).then(data=>{
+     feed.addItem({
+        title:"new",
+        link:"https://example.com/johndoe",
+        description:"dis"
+      })
+      console.log(feed)
+    })
+  })
+
+}
+
+
+
+
+
 }
 
 
@@ -87,11 +128,11 @@ const typeDefs = gql`
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
-    Signup(username:String,password:String,email:String,isGuest:Boolean):User
+    Signup(username:String,password:String,email:String,isGuest:Boolean):String
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
     CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
-    CreateEpisodes(userId:String!,EpisodeName:String!,discription:String!,profileImage:Upload!,audioFile:String!):String
+    CreateEpisodes(userId:String!,EpisodeName:String!,discription:String!,audioFile:String!):String
   }
 `;
 
@@ -307,7 +348,8 @@ const resolvers = {
               isGuest:args.isGuest
             })
             console.log(newuser)
-            return newuser.save()
+            newuser.save()
+            return "saved"
           })
           
           
@@ -394,21 +436,25 @@ const resolvers = {
         creatorID:creator
       })
       newChannel.save()
-      console.log(newChannel)
+      // console.log(newChannel)
+      return newChannel
+    }).then(res=>{
+      
+      createFeed(res)
       return "saved successfully"
     })
     
   },
 
 
-  CreateEpisodes:async(parent,{userId,EpisodeName,discription,profileImage,audioFile})=>{
+  CreateEpisodes:async(parent,{userId,EpisodeName,discription,audioFile})=>{
 
-       const { createReadStream, filename, mimetype } = await profileImage
-       const {ext,name} = path.parse(filename)
-       const randomName = generateRandomString(12)+ext
-       const stream = createReadStream()
-       const pathName = path.join(__dirname,`/public/images/${randomName}`)
-       await stream.pipe(fs.createWriteStream(pathName))
+       // const { createReadStream, filename, mimetype } = await profileImage
+       // const {ext,name} = path.parse(filename)
+       const randomName = generateRandomString(12)
+       // const stream = createReadStream()
+       // const pathName = path.join(__dirname,`/public/images/${randomName}`)
+       // await stream.pipe(fs.createWriteStream(pathName))
       
 
       const newEpisode = new Episode({
@@ -418,11 +464,21 @@ const resolvers = {
           profileImage:randomName
         })
 
+
+        console.log("this")
+
        
         return newEpisode.save().then(data=>{
           return Channel.updateOne({creatorID:userId},{$push:{episodesList:data._id}}).then(res=>{
             console.log(res)
-            return data._id
+            return data
+          }).then(episode=>{
+             Channel.findOne({creatorID:userId}).then(channel=>{
+              createFeed(channel)
+             })
+             
+             // console.log(res)
+             return episode._id
           })
         })
        
