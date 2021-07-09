@@ -26,6 +26,9 @@ const ChannelSchema = new Schema({
    contenttype:{
        type:String
    },
+   RSSLink:{
+    type:String
+   },
    creatorID:{
     type:Schema.Types.ObjectId,
     ref:User,

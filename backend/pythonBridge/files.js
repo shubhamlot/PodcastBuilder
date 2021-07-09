@@ -27,7 +27,7 @@ async function combineFiles(data){
     const python = spawn('python', [path.join(__dirname,'python/combine.py'),JSON.stringify(data)]);
      python.stdout.on('data',async function(data){
         output.value = data.toString()
-        // console.log(output.value)
+        console.log(output.value)
     })
     python.stderr.on('error',(data)=>{
        // console.log(output.value)

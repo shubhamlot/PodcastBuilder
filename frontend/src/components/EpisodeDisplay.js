@@ -58,7 +58,7 @@ export default function EpisodeDisplay(){
 
     const{ loading,data} = useQuery(EPISODEDISPLAY,{
       variables: {userId:auth.userId},
-    //   pollInterval: 500,
+      pollInterval: 500,
     })
 
       const [open, setOpen] = React.useState(false);

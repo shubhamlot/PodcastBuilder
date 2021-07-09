@@ -5,7 +5,7 @@ import { createMuiTheme, makeStyles, ThemeProvider,CssBaseline,Paper,Stepper,
 import EditorFiles from './EditorFiles'
 import Discription from './EditFileDiscription'
 import Review from './Review'
-import {Redirect} from 'react-router-dom'
+import {Redirect,Link} from 'react-router-dom'
 
 
 
@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
   },
+  btn:{
+    textDecoration:"none",
+    color:"#000000"
+  }
 }));
 
 const steps = ['Remove & Organize','Discription', 'Post or Download'];
@@ -104,6 +108,8 @@ function GetStepContent(step,classes) {
         return <Discription param={listoutput} parentCallback={handleParentCallback}/>;
     case 2:
       return <Review param={id}/>;
+    // case 3:
+    //   return <Redirect to="/home"/>
     default:
       throw new Error('Unknown step');
   }
@@ -113,13 +119,18 @@ export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   // const [listoutput,SetListoutput] = React.useState([])
-
+  const [done,setDone]=React.useState(false)
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    console.log(activeStep+1)
+    if(activeStep===2){
+      setDone(true)
+      return <Redirect to="/Home"/>
+    }
   };
 
- 
-
+console.log(done)
+if(!done){
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
@@ -158,7 +169,9 @@ export default function Checkout() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Post' : 'Next'}
+                    {activeStep === steps.length - 1 ? 
+          <Button   color="primary"><Link className={classes.btn} to="/home" >Home</Link></Button>
+                     : 'Next'}
                   </Button>
                 </div>
               </React.Fragment>
@@ -169,5 +182,6 @@ export default function Checkout() {
       </main>
       </ThemeProvider>
     </React.Fragment>
-  );
+  );}
+
 }

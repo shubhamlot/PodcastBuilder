@@ -19,7 +19,7 @@ const {dataConvertion,combineFiles} = require('./pythonBridge/files')
 // const ffmpeg = require('fluent-ffmpeg')
 // const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
 
-
+const Feed = require("feed").Feed;
 
 function generateRandomString(length) {
     var result           = [];
@@ -30,6 +30,49 @@ function generateRandomString(length) {
  charactersLength)));
    }
    return result.join('');
+}
+
+
+
+function createFeed(channel,episodeslist){
+
+
+const feed = new Feed({
+  title:channel.channelName ,
+  description: channel.discription,
+  language: channel.language, // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+  image: `http://localhost:4000/images/${channel.profileImage}`,
+  updated: new Date(), // optional, default = today
+  generator: "Podcast Builder", // optional, default = 'Feed for Node.js'
+  contenttype:channel.contenttype,
+    
+  
+  
+});
+
+if(episodeslist[0]!=undefined){
+episodeslist.forEach(epi=>{
+  feed.addItem({
+  title:epi.EpisodeName,
+  image:`http://localhost:4000/images/${epi.profileImage}`,
+  link:`http://localhost:4000/pythonAudio/${epi.audiofile}`,
+  description:epi.discription
+})
+})
+}
+
+const pathName = path.join(__dirname,`/public/RSS/${channel.channelName}.rss`)
+fs.writeFile(pathName,feed.rss2(),(err)=>{
+  console.log(err)
+})
+
+Channel.updateOne({_id:channel._id},{RSSLink:`http://localhost:4000/RSS/${channel.channelName}.rss`}).then(res=>{
+  console.log(res)
+})
+
+
+
+
 }
 
 
@@ -63,6 +106,7 @@ const typeDefs = gql`
     country:String
     contenttype:String
     creator:String
+    rss:String
   }
 
   type Episode {
@@ -87,7 +131,7 @@ const typeDefs = gql`
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
-    Signup(username:String,password:String,email:String,isGuest:Boolean):User
+    Signup(username:String,password:String,email:String,isGuest:Boolean):String
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
     CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
@@ -234,7 +278,8 @@ const resolvers = {
             language:res.language,
             country:res.country,
             contenttype:res.contenttype,
-            creator:res.creatorID
+            creator:res.creatorID,
+            rss:res.RSSLink
           }
         })
        }
@@ -307,7 +352,8 @@ const resolvers = {
               isGuest:args.isGuest
             })
             console.log(newuser)
-            return newuser.save()
+            newuser.save()
+            return "saved"
           })
           
           
@@ -394,7 +440,11 @@ const resolvers = {
         creatorID:creator
       })
       newChannel.save()
-      console.log(newChannel)
+      // console.log(newChannel)
+      return newChannel
+    }).then(res=>{
+      
+      createFeed(res,null)
       return "saved successfully"
     })
     
@@ -405,7 +455,7 @@ const resolvers = {
 
        const { createReadStream, filename, mimetype } = await profileImage
        const {ext,name} = path.parse(filename)
-       const randomName = generateRandomString(12)+ext
+       const randomName = generateRandomString(12)
        const stream = createReadStream()
        const pathName = path.join(__dirname,`/public/images/${randomName}`)
        await stream.pipe(fs.createWriteStream(pathName))
@@ -418,11 +468,34 @@ const resolvers = {
           profileImage:randomName
         })
 
+
+     
+
        
         return newEpisode.save().then(data=>{
           return Channel.updateOne({creatorID:userId},{$push:{episodesList:data._id}}).then(res=>{
             console.log(res)
-            return data._id
+            return data
+          }).then(episode=>{
+             Channel.findOne({creatorID:userId}).then(channel=>{
+              
+              return channel
+             }).then(list=>{
+              let temp=[]
+             
+              list.episodesList.forEach(res=>{
+                Episode.findOne({_id:res}).then(d=>{
+                  temp.push(d)
+                  return temp
+                }).then(f=>{
+                  createFeed(list,f)
+                })
+              })
+              
+             })
+             
+             // console.log(res)
+             return episode._id
           })
         })
        

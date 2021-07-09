@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>dfghj567</title>
+        <link>undefined</link>
+        <description>dfghjk</description>
+        <lastBuildDate>Fri, 09 Jul 2021 17:17:57 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Podcast Builder</generator>
+        <language>English</language>
+        <image>
+            <title>dfghj567</title>
+            <url>http://localhost:4000/images/default.jpg</url>
+            <link>undefined</link>
+        </image>
+        <item>
+            <title><![CDATA[newEpisode]]></title>
+            <link>http://localhost:4000/pythonAudio/combinedfile_210709_224728.wav</link>
+            <guid>http://localhost:4000/pythonAudio/combinedfile_210709_224728.wav</guid>
+            <description><![CDATA[here]]></description>
+            <enclosure url="http://localhost:4000/images/EECnxIkWnXkP" length="0" type="image//images/EECnxIkWnXkP"/>
+        </item>
+    </channel>
+</rss>
