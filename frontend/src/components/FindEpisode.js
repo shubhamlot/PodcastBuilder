@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme)=>({
       fontSize:"12"
     },
     container:{
-      lineHeight:"50%"
+      lineHeight:"100%"
     }
 }))
 

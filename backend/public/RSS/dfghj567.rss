@@ -4,7 +4,7 @@
         <title>dfghj567</title>
         <link>undefined</link>
         <description>dfghjk</description>
-        <lastBuildDate>Fri, 09 Jul 2021 06:49:05 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 09 Jul 2021 17:17:57 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Podcast Builder</generator>
         <language>English</language>
@@ -14,95 +14,11 @@
             <link>undefined</link>
         </image>
         <item>
-            <title><![CDATA[new episode]]></title>
-            <link>http://localhost:4000/pythonAudio/new episode</link>
-            <guid>http://localhost:4000/pythonAudio/new episode</guid>
-            <description><![CDATA[this is my new podcast]]></description>
-            <enclosure url="http://localhost:4000/images/e0GPrHbA1UxG" length="0" type="image//images/e0GPrHbA1UxG"/>
-        </item>
-        <item>
-            <title><![CDATA[hello]]></title>
-            <link>http://localhost:4000/pythonAudio/hello</link>
-            <guid>http://localhost:4000/pythonAudio/hello</guid>
-            <description><![CDATA[hello]]></description>
-            <enclosure url="http://localhost:4000/images/Q3KEqtnGAYZq" length="0" type="image//images/Q3KEqtnGAYZq"/>
-        </item>
-        <item>
-            <title><![CDATA[fghjkl]]></title>
-            <link>http://localhost:4000/pythonAudio/fghjkl</link>
-            <guid>http://localhost:4000/pythonAudio/fghjkl</guid>
-            <description><![CDATA[ghjkl]]></description>
-            <enclosure url="http://localhost:4000/images/oL9snTdqGiHd" length="0" type="image//images/oL9snTdqGiHd"/>
-        </item>
-        <item>
-            <title><![CDATA[tt]]></title>
-            <link>http://localhost:4000/pythonAudio/tt</link>
-            <guid>http://localhost:4000/pythonAudio/tt</guid>
-            <description><![CDATA[tt]]></description>
-            <enclosure url="http://localhost:4000/images/IWbm08bIrgVE" length="0" type="image//images/IWbm08bIrgVE"/>
-        </item>
-        <item>
-            <title><![CDATA[dfghjk]]></title>
-            <link>http://localhost:4000/pythonAudio/dfghjk</link>
-            <guid>http://localhost:4000/pythonAudio/dfghjk</guid>
-            <description><![CDATA[ertyu]]></description>
-            <enclosure url="http://localhost:4000/images/rgQVwAocGiUo" length="0" type="image//images/rgQVwAocGiUo"/>
-        </item>
-        <item>
-            <title><![CDATA[rtyu]]></title>
-            <link>http://localhost:4000/pythonAudio/rtyu</link>
-            <guid>http://localhost:4000/pythonAudio/rtyu</guid>
-            <description><![CDATA[tyukl]]></description>
-            <enclosure url="http://localhost:4000/images/AHpOBMfhNRBF" length="0" type="image//images/AHpOBMfhNRBF"/>
-        </item>
-        <item>
-            <title><![CDATA[fg]]></title>
-            <link>http://localhost:4000/pythonAudio/fg</link>
-            <guid>http://localhost:4000/pythonAudio/fg</guid>
-            <description><![CDATA[gg]]></description>
-            <enclosure url="http://localhost:4000/images/WbzaUpidoYvx" length="0" type="image//images/WbzaUpidoYvx"/>
-        </item>
-        <item>
-            <title><![CDATA[ghjk]]></title>
-            <link>http://localhost:4000/pythonAudio/ghjk</link>
-            <guid>http://localhost:4000/pythonAudio/ghjk</guid>
-            <description><![CDATA[ghj]]></description>
-            <enclosure url="http://localhost:4000/images/CmG1BjetcM5f" length="0" type="image//images/CmG1BjetcM5f"/>
-        </item>
-        <item>
-            <title><![CDATA[ghj]]></title>
-            <link>http://localhost:4000/pythonAudio/ghj</link>
-            <guid>http://localhost:4000/pythonAudio/ghj</guid>
-            <description><![CDATA[hj]]></description>
-            <enclosure url="http://localhost:4000/images/klQ8IlTECP98" length="0" type="image//images/klQ8IlTECP98"/>
-        </item>
-        <item>
-            <title><![CDATA[vbn]]></title>
-            <link>http://localhost:4000/pythonAudio/vbn</link>
-            <guid>http://localhost:4000/pythonAudio/vbn</guid>
-            <description><![CDATA[fghj]]></description>
-            <enclosure url="http://localhost:4000/images/uzvnHZJ75Qy3" length="0" type="image//images/uzvnHZJ75Qy3"/>
-        </item>
-        <item>
-            <title><![CDATA[vgbhm]]></title>
-            <link>http://localhost:4000/pythonAudio/vgbhm</link>
-            <guid>http://localhost:4000/pythonAudio/vgbhm</guid>
-            <description><![CDATA[gh]]></description>
-            <enclosure url="http://localhost:4000/images/oCroH8zlohu0" length="0" type="image//images/oCroH8zlohu0"/>
-        </item>
-        <item>
-            <title><![CDATA[ghjk]]></title>
-            <link>http://localhost:4000/pythonAudio/ghjk</link>
-            <guid>http://localhost:4000/pythonAudio/ghjk</guid>
-            <description><![CDATA[hjk]]></description>
-            <enclosure url="http://localhost:4000/images/4UWe8C0VA2F5" length="0" type="image//images/4UWe8C0VA2F5"/>
-        </item>
-        <item>
-            <title><![CDATA[fghjk]]></title>
-            <link>http://localhost:4000/pythonAudio/fghjk</link>
-            <guid>http://localhost:4000/pythonAudio/fghjk</guid>
-            <description><![CDATA[bn,]]></description>
-            <enclosure url="http://localhost:4000/images/IPmQBGonI6UU" length="0" type="image//images/IPmQBGonI6UU"/>
+            <title><![CDATA[newEpisode]]></title>
+            <link>http://localhost:4000/pythonAudio/combinedfile_210709_224728.wav</link>
+            <guid>http://localhost:4000/pythonAudio/combinedfile_210709_224728.wav</guid>
+            <description><![CDATA[here]]></description>
+            <enclosure url="http://localhost:4000/images/EECnxIkWnXkP" length="0" type="image//images/EECnxIkWnXkP"/>
         </item>
     </channel>
 </rss>

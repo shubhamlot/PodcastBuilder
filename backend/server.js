@@ -55,7 +55,7 @@ episodeslist.forEach(epi=>{
   feed.addItem({
   title:epi.EpisodeName,
   image:`http://localhost:4000/images/${epi.profileImage}`,
-  link:`http://localhost:4000/pythonAudio/${epi.EpisodeName}`,
+  link:`http://localhost:4000/pythonAudio/${epi.audiofile}`,
   description:epi.discription
 })
 })
