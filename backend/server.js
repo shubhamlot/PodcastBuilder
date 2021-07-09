@@ -34,7 +34,7 @@ function generateRandomString(length) {
 
 
 
-function createFeed(channel){
+function createFeed(channel,episodeslist){
 
 
 const feed = new Feed({
@@ -50,23 +50,25 @@ const feed = new Feed({
   
 });
 
-
-// console.log(res)
-if(channel.episodesList!=[]){
-
-  channel.episodesList.forEach(post=>{
-    Episode.findOne({_id:post}).then(data=>{
-     feed.addItem({
-        title:"new",
-        link:"https://example.com/johndoe",
-        description:"dis"
-      })
-      console.log(feed)
-    })
-  })
-
+if(episodeslist[0]!=undefined){
+episodeslist.forEach(epi=>{
+  feed.addItem({
+  title:epi.EpisodeName,
+  image:`http://localhost:4000/images/${epi.profileImage}`,
+  link:`http://localhost:4000/pythonAudio/${epi.EpisodeName}`,
+  description:epi.discription
+})
+})
 }
 
+const pathName = path.join(__dirname,`/public/RSS/${channel.channelName}.rss`)
+fs.writeFile(pathName,feed.rss2(),(err)=>{
+  console.log(err)
+})
+
+Channel.updateOne({_id:channel._id},{RSSLink:`http://localhost:4000/RSS/${channel.channelName}.rss`}).then(res=>{
+  console.log(res)
+})
 
 
 
@@ -104,6 +106,7 @@ const typeDefs = gql`
     country:String
     contenttype:String
     creator:String
+    rss:String
   }
 
   type Episode {
@@ -132,7 +135,7 @@ const typeDefs = gql`
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
     CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
-    CreateEpisodes(userId:String!,EpisodeName:String!,discription:String!,audioFile:String!):String
+    CreateEpisodes(userId:String!,EpisodeName:String!,discription:String!,profileImage:Upload!,audioFile:String!):String
   }
 `;
 
@@ -275,7 +278,8 @@ const resolvers = {
             language:res.language,
             country:res.country,
             contenttype:res.contenttype,
-            creator:res.creatorID
+            creator:res.creatorID,
+            rss:res.RSSLink
           }
         })
        }
@@ -440,21 +444,21 @@ const resolvers = {
       return newChannel
     }).then(res=>{
       
-      createFeed(res)
+      createFeed(res,null)
       return "saved successfully"
     })
     
   },
 
 
-  CreateEpisodes:async(parent,{userId,EpisodeName,discription,audioFile})=>{
+  CreateEpisodes:async(parent,{userId,EpisodeName,discription,profileImage,audioFile})=>{
 
-       // const { createReadStream, filename, mimetype } = await profileImage
-       // const {ext,name} = path.parse(filename)
+       const { createReadStream, filename, mimetype } = await profileImage
+       const {ext,name} = path.parse(filename)
        const randomName = generateRandomString(12)
-       // const stream = createReadStream()
-       // const pathName = path.join(__dirname,`/public/images/${randomName}`)
-       // await stream.pipe(fs.createWriteStream(pathName))
+       const stream = createReadStream()
+       const pathName = path.join(__dirname,`/public/images/${randomName}`)
+       await stream.pipe(fs.createWriteStream(pathName))
       
 
       const newEpisode = new Episode({
@@ -465,7 +469,7 @@ const resolvers = {
         })
 
 
-        console.log("this")
+     
 
        
         return newEpisode.save().then(data=>{
@@ -474,7 +478,20 @@ const resolvers = {
             return data
           }).then(episode=>{
              Channel.findOne({creatorID:userId}).then(channel=>{
-              createFeed(channel)
+              
+              return channel
+             }).then(list=>{
+              let temp=[]
+             
+              list.episodesList.forEach(res=>{
+                Episode.findOne({_id:res}).then(d=>{
+                  temp.push(d)
+                  return temp
+                }).then(f=>{
+                  createFeed(list,f)
+                })
+              })
+              
              })
              
              // console.log(res)

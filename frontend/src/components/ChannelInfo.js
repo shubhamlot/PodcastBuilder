@@ -23,6 +23,7 @@ const SHOW_CHANNEL = gql`
        country
        contenttype
        creator
+       rss
       }
   }
 `
@@ -78,6 +79,7 @@ export default function ChannelInfo(){
 				<Grid item xs={12} sm={6} md={4} lg={4}>
 					<h1><AllGuests params={data.channelInfo.creator}/></h1>
 					<h2>Created on</h2>
+					<h4>{data.channelInfo.rss}</h4>
 				</Grid>
 				</Grid>
 			</Paper>
