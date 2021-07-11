@@ -15,7 +15,7 @@ childPython.stderr.on('error', (data) => {
     console.log(data.toString())
 });
 
-await snooze(20000)//delay of 20s
+await snooze(30000)//delay of 20s
 return dataToSend.text
 }
 
@@ -30,10 +30,10 @@ async function combineFiles(data){
         console.log(output.value)
     })
     python.stderr.on('error',(data)=>{
-       // console.log(output.value)
+       console.log(data)
     }) 
   
-    await snooze(10000)//delay of 20s
+    await snooze(5000)//delay of 20s
     
     return output.value
 }
