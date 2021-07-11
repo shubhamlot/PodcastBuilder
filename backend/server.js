@@ -61,12 +61,14 @@ episodeslist.forEach(epi=>{
 })
 }
 
-const pathName = path.join(__dirname,`/public/RSS/${channel.channelName}.rss`)
+ch = channel.channelName.replace(/ +/g, "");
+
+const pathName = path.join(__dirname,`/public/RSS/${ch}.rss`)
 fs.writeFile(pathName,feed.rss2(),(err)=>{
   console.log(err)
 })
 
-Channel.updateOne({_id:channel._id},{RSSLink:`http://localhost:4000/RSS/${channel.channelName}.rss`}).then(res=>{
+Channel.updateOne({_id:channel._id},{RSSLink:`http://localhost:4000/RSS/${ch}.rss`}).then(res=>{
   console.log(res)
 })
 
@@ -271,6 +273,7 @@ const resolvers = {
 
        channelInfo:async(parent,{userId})=>{
         return await Channel.findOne({creatorID:userId}).then(async res=>{
+          // console.log(res)
           return {
             channelName:res.channelName,
             discription:res.discription,
@@ -437,7 +440,8 @@ const resolvers = {
         profileImage:filename,
         language:language,
         contenttype:contenttype,
-        creatorID:creator
+        creatorID:creator,
+        country:country
       })
       newChannel.save()
       // console.log(newChannel)

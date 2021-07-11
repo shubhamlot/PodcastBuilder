@@ -138,9 +138,10 @@ console.log(param)
             {recording?<Gif/>:<p/>}
           </div>
            
-           
-            <Button color="" onClick={startRecording}>Record</Button>
-            <Button color="secondary" onClick={stopRecording}>Stop</Button>
+           <Button variant="contained" onClick={startRecording} >Record</Button>
+      <Button variant="contained" color="secondary" onClick={stopRecording}>Stop</Button>
+            {/*<Button varient="contained"  onClick={startRecording}>Record</Button>
+            <Button color="secondary" onClick={stopRecording}>Stop</Button>*/}
 
 
            

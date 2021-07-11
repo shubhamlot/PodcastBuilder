@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
 	box:{
 		
 		padding:20
+	},
+	dis:{
+		height:"10px",
+		overFlowY:"hidden"
 	}
 }))
 
@@ -53,9 +57,12 @@ export default function ChannelInfo(){
 	const classes = useStyles();
 	 const{ loading,err,data} = useQuery(SHOW_CHANNEL,{
       variables: {userId:auth.userId},
+      // pollingIntrval:100
     })
 
+
 	 if(loading)return<p>loading</p>
+	 	console.log(data)
 
 	 if(auth.isGuest) return <Redirect to="createchannel"/>
 	return (
@@ -68,18 +75,21 @@ export default function ChannelInfo(){
 				<Grid item xs={12} sm={6} md={4} lg={4}>
 				<img className={classes.img} src={`http://localhost:4000/images/${data.channelInfo.profileImage}`}/>
 				</Grid>
-				<Grid item xs={12} sm={6} md={4} lg={4}>
-					<h1>{data.channelInfo.channelName}</h1>
-					<h3>{data.channelInfo.discription}</h3>
-					<h3>{data.channelInfo.country}</h3>
-					<h3>{data.channelInfo.language}</h3>
-					<h3>{data.channelInfo.contenttype}</h3>
-
+				<Grid item xs={12} sm={6} md={4} lg={6}>
+					<h2>Channel Name:{data.channelInfo.channelName}</h2>
+					<div className={classes.dis}>
+					<h3>Discription:</h3><p>{data.channelInfo.discription}</p>
+					</div>
 				</Grid>
-				<Grid item xs={12} sm={6} md={4} lg={4}>
-					<h1><AllGuests params={data.channelInfo.creator}/></h1>
-					<h2>Created on</h2>
-					<h4>{data.channelInfo.rss}</h4>
+				<Grid item xs={12} >
+					<h3>Country: {data.channelInfo.country}</h3>
+					<h3>Language: {data.channelInfo.language}</h3>
+					<h3>Content Type: {data.channelInfo.contenttype}</h3>
+					<h1>Owner:<AllGuests params={data.channelInfo.creator}/></h1>
+					{/*<h2>Created on</h2>*/}
+					
+					
+						<h4>RSSLink: {data.channelInfo.rss}</h4>
 				</Grid>
 				</Grid>
 			</Paper>
