@@ -149,7 +149,7 @@ export default function InitJoinRoom() {
         <Copyright />
       </Box> */}
 
-<div className={classes.sidepanel}>
+{/*<div className={classes.sidepanel}>
         <Container maxWidth="xs">
           <h4>Created Rooms</h4>
           <ul>
@@ -159,7 +159,7 @@ export default function InitJoinRoom() {
           <li className={clsx(classes.list, classNameHolder[Math.floor(Math.random()*3)])}>aee04343-1c85-41cb-b375-2493a8efa2b0</li>
           </ul>
         </Container>
-    </div>
+    </div>*/}
     </div>
     </ThemeProvider>
 </div>

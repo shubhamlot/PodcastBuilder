@@ -171,7 +171,7 @@ if(!done){
                   >
                     {activeStep === steps.length - 1 ? 
           <Link className={classes.btn} to="/home" >
-          <Button   color="primary">Home</Button></Link>
+          <Button className={classes.btn}  color="primary">Home</Button></Link>
                      : 'Next'}
                   </Button>
                 </div>
