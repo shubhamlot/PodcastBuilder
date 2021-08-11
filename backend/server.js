@@ -133,7 +133,7 @@ const typeDefs = gql`
   type Mutation {
     UploadFile(file: Upload!,roomid:String,speaker:String): String!
     createRoom(roomname:String,creator:String):Room!
-    Signup(username:String,password:String,email:String,isGuest:Boolean):String
+    Signup(firstname:String,lastname:String,password:String,email:String,isGuest:Boolean):String
     addToRoom(guestid:String,roomid:String):String
     CombineFiles(list:[String]):String
     CreateChannel(file:Upload!,channelname:String,discription:String,country:String,language:String,contenttype:String,creator:String): String!
@@ -188,7 +188,7 @@ const resolvers = {
        
          return await User.findOne({_id:arg.id}).then(async data=>{
           
-            return data.username
+            return data.firstname
           
          })
     
@@ -341,7 +341,7 @@ const resolvers = {
       },
       Signup:async (parent,args)=>{
       console.log("in")
-        return User.findOne({email:args.email,username:args.username})
+        return User.findOne({email:args.email})
         .then(user=>{
           if(user){
             return new Error("user already exists")
@@ -349,7 +349,8 @@ const resolvers = {
           return hashedpassword=bcrypt.hash(args.password,12)})
           .then((hashedpassword)=>{
             const newuser = new User({
-              username:args.username,
+              firstname:args.firstname,
+              lastname:args.lastname,
               email:args.email,
               password:hashedpassword,
               isGuest:args.isGuest

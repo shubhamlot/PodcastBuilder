@@ -49,9 +49,7 @@ export default function Review(param){
                     <div>
                     <img className={classes.img} src={`http://localhost:4000/images/${data.reviewEpisode.img}`} alt="pic"/>
                     </div>
-                    <div>
-                        <p>participants</p>
-                    </div>
+                    
                 </Grid>
                 <Grid item className={classes.item}>
                     <div>

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft:10,
     paddingRight:10,
     fontSize:14,
-    opacity:0.5
+    opacity:0.9
   },
   container:{
     display:"flex"
@@ -103,8 +103,9 @@ export default function Deposits() {
         }}
       >
         <Typography  className={classes.typography}>
-          <p className={classes.header}>created by <AllGuests params={data.findRoom.creator}/></p>
-          <p>on 15 jan 2021</p>
+          <p className={classes.header} style={{color:"cyan"}}>created by <AllGuests params={data.findRoom.creator}/></p>
+          {/*<p>on 15 jan 2021</p>*/}
+          <h3>Room ID</h3>
           <p>{room}</p>
         </Typography>
       </Popover>

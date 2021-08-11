@@ -33,7 +33,7 @@ async function combineFiles(data){
        console.log(data)
     }) 
   
-    await snooze(5000)//delay of 20s
+    await snooze(10000)//delay of 20s
     
     return output.value
 }
